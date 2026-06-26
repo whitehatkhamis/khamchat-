@@ -3,178 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Aboki AI</title>
+<title>Khamchat Reel</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-tap-highlight-color:transparent}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-tap-highlight-color:transparent}
 :root{
---bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a24;--hover:#1f1f2b;--border:#22222e;
---accent:#7c3aed;--gradient:linear-gradient(135deg,#7c3aed 0%,#a855f7 50%,#ec4899 100%);
---text:#f4f4f5;--text2:#a1a1aa;--green:#22c55e;--blue:#3b82f6;
---me:linear-gradient(135deg,#7c3aed,#a855f7);--other:#1e1e2a;
+--bg:#0a0a14;--bg2:#13131f;--bg3:#1a1a2e;--hover:#22223b;--border:#2a2a3e;
+--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+--me:linear-gradient(135deg,#667eea,#764ba2);
+--text:#ffffff;--text2:#8a8aa3;--green:#22c55e;--blue:#3b82f6;
 }
-body.light{--bg:#ffffff;--bg2:#f8fafc;--bg3:#f1f5f9;--hover:#e2e8f0;--border:#e2e8f0;--text:#0f172a;--text2:#64748b;--other:#f1f5f9}
-html,body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;overflow:hidden;display:flex;width:100%}
+body.light{
+--bg:#f8fafc;--bg2:#ffffff;--bg3:#f1f5f9;--hover:#e2e8f0;--border:#e2e8f0;
+--text:#0f172a;--text2:#64748b;
+}
+html,body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;overflow:hidden;display:flex;width:100%;transition:0.3s}
 
 #login{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100}
-#loginBox{background:var(--bg2);padding:40px;border-radius:20px;border:1px solid var(--border);width:90%;max-width:380px;text-align:center}
+#loginBox{background:var(--bg2);padding:40px;border-radius:24px;border:1px solid var(--border);width:90%;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(102,126,234,0.3)}
 #loginBox h1{font-size:36px;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
 #loginBox p{color:var(--text2);margin-bottom:20px;font-size:14px}
-#loginBox input{width:100%;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;margin-bottom:12px}
+#loginBox input{width:100%;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;margin-bottom:12px;outline:none}
+#loginBox input:focus{border-color:#667eea}
 #loginBox button{width:100%;padding:14px;background:var(--gradient);border:none;border-radius:12px;color:#fff;font-weight:700;cursor:pointer;font-size:16px;margin-bottom:8px}
 
 #app{display:none;width:100%;height:100vh;height:100dvh}
-#side{width:260px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px}
-.profile{display:flex;align-items:center;gap:12px;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:20px}
-.profile img{width:50px;height:50px;border-radius:50%;background:var(--gradient)}
-.profile div h3{font-size:16px;margin-bottom:3px}
-.profile div p{font-size:12px;color:var(--text2)}
-
-.menu{display:flex;flex-direction:column;gap:4px}
-.item{padding:12px;display:flex;align-items:center;gap:12px;border-radius:10px;cursor:pointer;color:var(--text2);font-size:15px}
-.item:hover,.item.active{background:var(--hover);color:var(--text)}
+#side{width:80px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:24px 0;gap:28px}
+.botAvatar{width:56px;height:56px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid var(--bg3)}
+.sideMenu{display:flex;flex-direction:column;gap:20px}
+.sideItem{width:50px;height:50px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;color:var(--text2);position:relative}
+.sideItem.active,.sideItem:hover{background:var(--hover);color:var(--text)}
+.badge{position:absolute;top:-4px;right:-4px;background:red;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;font-weight:700}
 
 #contacts{width:360px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column}
-.head{padding:24px;background:var(--bg2);border-bottom:1px solid var(--border)}
-.head h2{font-size:24px;font-weight:700;margin-bottom:16px}
-.list{flex:1;overflow-y:auto;padding:8px}
-.person{padding:12px;display:flex;gap:12px;border-radius:12px;cursor:pointer}
+.head{padding:24px 24px 16px}
+.head h2{font-size:26px;font-weight:700;margin-bottom:16px}
+.searchBox{position:relative;margin-bottom:16px}
+.searchBox input{width:100%;padding:12px 16px 12px 42px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;outline:none}
+.searchBox::before{content:'🔍';position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text2)}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{padding:8px 16px;border-radius:20px;background:var(--bg3);color:var(--text2);font-size:13px;cursor:pointer;border:none}
+.tab.active{background:var(--gradient);color:#fff;font-weight:600}
+
+.list{flex:1;overflow-y:auto;padding:8px 16px}
+.person{padding:12px;display:flex;gap:12px;border-radius:16px;cursor:pointer;transition:0.2s}
 .person:hover{background:var(--hover)}
-.avatar{width:48px;height:48px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700;position:relative;font-size:18px}
-.avatar.on::after{content:'';position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:var(--green);border:2px solid var(--bg);border-radius:50%}
-.info{flex:1;overflow:hidden}
-.name{font-size:15px;font-weight:600;margin-bottom:4px}
-.status-text{font-size:12px;color:var(--text2)}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700;position:relative;font-size:20px;flex-shrink:0}
+.avatar.on::after{content:'';position:absolute;bottom:2px;right:2px;width:14px;height:14px;background:var(--green);border:3px solid var(--bg);border-radius:50%}
+.info{flex:1;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.topRow{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.name{font-size:15px;font-weight:600}
+.time{font-size:12px;color:var(--text2)}
+.lastMsg{font-size:13px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.unread{width:20px;height:20px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700}
 
-#chat{flex:1;display:none;flex-direction:column;background:var(--bg);width:100%}
-.chatHead{padding:16px 24px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.backBtn{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer;padding:4px}
+#chat{flex:1;display:none;flex-direction:column;background:var(--bg)}
+.chatHead{padding:18px 28px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px}
+.backBtn{display:none;background:none;border:none;color:var(--text);font-size:26px;cursor:pointer}
 .chatInfo{flex:1}
-.chatName{font-size:16px;font-weight:600;display:flex;align-items:center;gap:6px}
-.status{font-size:12px;color:var(--green);display:flex;align-items:center;gap:4px}
-.status::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%}
-.status.offline{color:var(--text2)}
-.status.offline::before{background:var(--text2)}
+.chatName{font-size:18px;font-weight:700;display:flex;align-items:center;gap:6px}
+.verified{color:var(--blue);font-size:16px}
+.status{font-size:13px;color:var(--green);display:flex;align-items:center;gap:5px}
+.status::before{content:'';width:7px;height:7px;background:var(--green);border-radius:50%}
+.chatActions{display:flex;gap:8px}
+.chatActions button{width:40px;height:40px;border-radius:12px;background:var(--bg3);border:none;color:var(--text2);cursor:pointer;font-size:18px}
 
-.msgs{flex:1;overflow-y:auto;padding:24px;background:var(--bg)}
-.date{text-align:center;color:var(--text2);font-size:13px;margin:20px 0}
-.row{display:flex;gap:10px;margin:12px 0}
+.msgs{flex:1;overflow-y:auto;padding:28px;background:var(--bg)}
+.date{text-align:center;color:var(--text2);font-size:12px;margin:20px 0;font-weight:500}
+.row{display:flex;gap:12px;margin:12px 0}
 .row.me{justify-content:flex-end}
-.bubble{max-width:65%;padding:12px 16px;border-radius:18px}
-.row.other.bubble{background:var(--other);border-bottom-left-radius:4px}
-.row.me.bubble{background:var(--me);color:#fff;border-bottom-right-radius:4px}
-.btext{font-size:15px;line-height:22px;word-wrap:break-word}
-.btime{font-size:11px;color:var(--text2);margin-top:4px;display:flex;gap:4px;align-items:center}
-.row.me.btime{justify-content:flex-end}
-.audio-player{width:200px;height:40px}
+.bubble{max-width:55%;padding:12px 16px;border-radius:18px;position:relative;font-size:14px;line-height:22px}
+.row.other.bubble{background:var(--bg3);border-bottom-left-radius:6px}
+.row.me.bubble{background:var(--me);color:#fff;border-bottom-right-radius:6px}
+.btime{font-size:11px;color:var(--text2);margin-top:6px;display:flex;gap:4px;align-items:center;justify-content:space-between}
+.row.me.btime{color:rgba(255,255,255,0.7)}
+.tick{color:#4ade80}
+.audio-player{width:220px;height:42px;border-radius:12px}
 
-.input{padding:16px 24px;background:var(--bg2);border-top:1px solid var(--border);display:flex;gap:10px;align-items:center}
-.attach{display:flex;gap:8px}
-.attach button{width:40px;height:40px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center}
-.input input{flex:1;padding:14px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:24px;color:var(--text);font-size:16px;outline:none}
-.send{width:48px;height:48px;border-radius:50%;background:var(--gradient);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.send.recording{background:red}
+.input{padding:16px 28px;background:var(--bg2);border-top:1px solid var(--border);display:flex;gap:12px;align-items:center}
+.inputBox{flex:1;display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:24px;padding:0 16px}
+.inputBox button{background:none;border:none;color:var(--text2);cursor:pointer;font-size:20px;padding:12px 4px}
+.inputBox input{flex:1;padding:14px 8px;background:transparent;border:none;color:var(--text);font-size:15px;outline:none}
+.send{width:48px;height:48px;border-radius:50%;background:var(--gradient);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px}
 
-#ai{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;z-index:200}
-.aiHead{padding:20px 24px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.aiHead h3{flex:1;text-align:center;font-size:18px;font-weight:700}
-.aiHead button{background:none;border:none;color:var(--text2);font-size:28px;cursor:pointer}
-.aiMsgs{flex:1;overflow-y:auto;padding:24px}
-.aiInput{padding:16px 24px;background:var(--bg2);border-top:1px solid var(--border);display:flex;gap:10px}
-
-#fileInput{display:none}
-#cameraInput{display:none}
+#settings{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;z-index:200}
+.setHead{padding:22px 28px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px}
+.setHead h3{flex:1;text-align:center;font-size:20px;font-weight:700}
+.setHead button{background:none;border:none;color:var(--text2);font-size:30px;cursor:pointer}
+.setBody{flex:1;overflow-y:auto;padding:28px}
+.setGroup{margin-bottom:32px}
+.setGroup h4{font-size:13px;color:var(--text2);margin-bottom:12px;text-transform:uppercase}
+.setItem{display:flex;justify-content:space-between;align-items:center;padding:16px;background:var(--bg2);border-radius:14px;margin-bottom:8px}
+.setItem select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px}
 
 @media(max-width:768px){
-#side{position:fixed;bottom:0;left:0;width:100%;height:70px;flex-direction:row;padding:8px 0;border-top:1px solid var(--border);z-index:100}
-.profile{display:none}
-.menu{flex-direction:row;width:100%;justify-content:space-around}
-.item{flex-direction:column;font-size:10px;gap:4px;padding:6px 4px}
+#side{position:fixed;bottom:0;left:0;width:100%;height:70px;flex-direction:row;padding:0;z-index:100;border-top:1px solid var(--border)}
+.botAvatar{display:none}
+.sideMenu{flex-direction:row;width:100%;justify-content:space-around;gap:0}
+.sideItem{width:auto;height:auto;padding:12px;border-radius:12px}
 #contacts{width:100%;height:calc(100vh - 70px);height:calc(100dvh - 70px);border-right:none}
 #chat{width:100%;height:calc(100vh - 70px);height:calc(100dvh - 70px)}
 #chat.fullscreen{position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;z-index:150}
 .backBtn{display:block!important}
-.bubble{max-width:78%}
-.input{padding:10px 12px;gap:8px}
-.attach button{width:38px;height:38px}
-.input input{padding:12px 16px;font-size:16px}
-.send{width:44px;height:44px}
-.audio-player{width:150px}
+.bubble{max-width:75%}
+.input{padding:12px 16px}
 </style>
 </head>
 <body>
 
 <div id="login">
 <div id="loginBox">
-<h1>Aboki AI</h1>
-<p>Sign in or create account</p>
-<input type="email" id="email" placeholder="Email address">
+<h1>Khamchat Reel</h1>
+<p id="loginText">Sign in to continue</p>
+<input type="text" id="username" placeholder="Username" style="display:none">
+<input type="email" id="email" placeholder="Email">
 <input type="password" id="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<button onclick="register()" style="background:#444">Create Account</button>
+<button onclick="login()" id="loginBtn">Login</button>
+<button onclick="showRegister()" id="regBtn" style="background:var(--bg3)">Create Account</button>
+<button onclick="register()" id="doRegBtn" style="display:none">Register</button>
+<button onclick="hideRegister()" id="backBtn" style="display:none;background:var(--bg3)">Back</button>
 </div>
 </div>
 
 <div id="app">
 <div id="side">
-<div class="profile">
-<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50' y='60' font-size='40' text-anchor='middle' fill='white'%3EAI%3C/text%3E%3C/svg%3E">
-<div>
-<h3 id="sname">User</h3>
-<p id="myStatus">Online</p>
-</div>
-</div>
-<div class="menu">
-<div class="item active" onclick="showChat()">Chats</div>
-<div class="item" onclick="showContacts()">Contacts</div>
-<div class="item" onclick="openAI()">Khamis AI</div>
-<div class="item" onclick="logout()">Logout</div>
+<div class="botAvatar">🤖</div>
+<div class="sideMenu">
+<div class="sideItem active" onclick="showContacts()">💬<span class="badge" id="chatBadge">0</span></div>
+<div class="sideItem" onclick="alert('Contacts')">👤</div>
+<div class="sideItem" onclick="alert('Bots')">🤖</div>
+<div class="sideItem" onclick="alert('Saved')">📌</div>
+<div class="sideItem" onclick="openSettings()">⚙️</div>
+<div class="sideItem" onclick="alert('Analytics')">📊</div>
+<div class="sideItem" onclick="alert('Upgrade')">💎</div>
 </div>
 </div>
 
 <div id="contacts">
 <div class="head">
-<h2>Contacts</h2>
+<h2 id="contactsTitle">Contacts</h2>
+<div class="searchBox">
+<input type="text" id="search" placeholder="Search contacts..." onkeyup="searchContacts()">
 </div>
-<div class="list" id="list">Loading contacts...</div>
+<div class="tabs">
+<button class="tab active" onclick="filterTab('all',this)">All <span id="allCount">0</span></button>
+<button class="tab" onclick="filterTab('online',this)">Online <span id="onlineCount">0</span></button>
+<button class="tab" onclick="filterTab('groups',this)">Groups 0</button>
+</div>
+</div>
+<div class="list" id="list">Loading...</div>
 </div>
 
 <div id="chat">
 <div class="chatHead">
 <button class="backBtn" onclick="back()">←</button>
-<div class="avatar on" id="cavatar">AI</div>
+<div class="avatar on" id="cavatar">🤖</div>
 <div class="chatInfo">
-<div class="chatName" id="cname">Khamis AI</div>
+<div class="chatName" id="cname">Aboki AI <span class="verified">✓</span></div>
 <div class="status" id="cstatus">Online</div>
+</div>
+<div class="chatActions">
+<button>🔍</button>
+<button>📞</button>
+<button>📹</button>
+<button>⋮</button>
 </div>
 </div>
 <div class="msgs" id="msgs"><div class="date">Today</div></div>
 <div class="input">
-<div class="attach">
-<button onclick="document.getElementById('fileInput').click()">📎</button>
-<button onclick="toggleRecording()" id="recBtn">🎤</button>
-<button onclick="document.getElementById('cameraInput').click()">📷</button>
-</div>
+<div class="inputBox">
+<button onclick="uploadFile()">📎</button>
 <input type="text" id="inp" placeholder="Type your message..." onkeyup="if(event.key==='Enter') sendMessage()">
+<button>😊</button>
+</div>
 <button class="send" onclick="sendMessage()">➤</button>
 </div>
 </div>
 </div>
 
-<div id="ai">
-<div class="aiHead">
-<button onclick="closeAI()">←</button>
-<h3>Khamis AI</h3>
-<button onclick="clearAI()">🗑️</button>
+<div id="settings">
+<div class="setHead">
+<button onclick="closeSettings()">←</button>
+<h3 id="setTitle">Settings</h3>
 </div>
-<div class="aiMsgs" id="aiMsgs"><div style="text-align:center;color:var(--text2);margin-top:100px">Ask Khamis AI anything...</div></div>
-<div class="aiInput">
-<input type="text" id="aiInp" placeholder="Ask Khamis AI..." onkeyup="if(event.key==='Enter') sendAI()">
-<button class="send" onclick="sendAI()">➤</button>
+<div class="setBody">
+<div class="setGroup">
+<h4 id="themeTitle">Appearance</h4>
+<div class="setItem">
+<span id="themeLabel">Theme Mode</span>
+<select id="themeMode" onchange="changeTheme()">
+<option value="dark">Dark</option>
+<option value="light">Light</option>
+<option value="auto">System</option>
+</select>
+</div>
+</div>
+<div class="setGroup">
+<h4 id="langTitle">Language</h4>
+<div class="setItem">
+<span id="langLabel">App Language</span>
+<select id="langMode" onchange="changeLanguage()">
+<option value="en">English</option>
+<option value="ha">Hausa</option>
+</select>
+</div>
+</div>
 </div>
 </div>
 
 <input type="file" id="fileInput" accept="image/*,video/*,.pdf,.doc,.docx">
-<input type="file" id="cameraInput" accept="image/*" capture="environment">
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -182,7 +218,6 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, on
 import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, getDoc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
-// YOUR FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyAsFeKfeYTIGzP221hwPlFBHPiYyy-TLqE",
   authDomain: "khamchat-1d5a4.firebaseapp.com",
@@ -200,166 +235,192 @@ const storage = getStorage(app);
 
 let currentUser = null;
 let currentChatId = null;
-let currentChatUser = null;
-let unsubscribeMessages = null;
-let mediaRecorder = null;
-let audioChunks = [];
-let isRecording = false;
+let allUsers = [];
+let lang = 'en';
 
-// AUTH FUNCTIONS
-window.login = async function(){
-const email = document.getElementById('email').value;
-const password = document.getElementById('password').value;
-try{
-await signInWithEmailAndPassword(auth, email, password);
-}catch(e){alert(e.message)}
+const translations = {
+en: {
+loginText:"Sign in to continue",loginBtn:"Login",regBtn:"Create Account",doRegBtn:"Register",backBtn:"Back",
+contactsTitle:"Contacts",search:"Search contacts...",inp:"Type your message...",
+setTitle:"Settings",themeTitle:"Appearance",themeLabel:"Theme Mode",langTitle:"Language",langLabel:"App Language",
+online:"Online",offline:"Last seen recently"
+},
+ha: {
+loginText:"Shiga don ci gaba",loginBtn:"Shiga",regBtn:"Ƙirƙiri Account",doRegBtn:"Yi Register",backBtn:"Koma baya",
+contactsTitle:"Contacts",search:"Bincika contacts...",inp:"Rubuta saƙonka...",
+setTitle:"Saituna",themeTitle:"Siffar App",themeLabel:"Yanayin Launi",langTitle:"Harshe",langLabel:"Zaɓin Harshe",
+online:"Yana online",offline:"An ga shi a baya"
+}
+};
+
+window.showRegister = () => {
+document.getElementById('username').style.display = 'block';
+document.getElementById('doRegBtn').style.display = 'block';
+document.getElementById('backBtn').style.display = 'block';
+document.getElementById('loginBtn').style.display = 'none';
+document.getElementById('regBtn').style.display = 'none';
+}
+window.hideRegister = () => {
+document.getElementById('username').style.display = 'none';
+document.getElementById('doRegBtn').style.display = 'none';
+document.getElementById('backBtn').style.display = 'none';
+document.getElementById('loginBtn').style.display = 'block';
+document.getElementById('regBtn').style.display = 'block';
 }
 
-window.register = async function(){
+window.register = async () => {
+const username = document.getElementById('username').value.trim().toLowerCase();
 const email = document.getElementById('email').value;
 const password = document.getElementById('password').value;
-const name = email.split('@')[0];
+if(!username) return alert(lang==='ha'?'Saka username':'Enter username');
 try{
 const userCred = await createUserWithEmailAndPassword(auth, email, password);
 await setDoc(doc(db, 'users', userCred.user.uid), {
-name: name,
-email: email,
-online: true,
-lastSeen: serverTimestamp(),
-createdAt: serverTimestamp()
+username, email, online: true, lastSeen: serverTimestamp(), createdAt: serverTimestamp()
 });
+alert(lang==='ha'?'Account ya yi! Yanzu shiga':'Account created! Now login');
+hideRegister();
 }catch(e){alert(e.message)}
 }
 
-window.logout = async () => {
-await updateDoc(doc(db, 'users', currentUser.uid), {online: false, lastSeen: serverTimestamp()});
-signOut(auth);
+window.login = async () => {
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+try{await signInWithEmailAndPassword(auth, email, password)}catch(e){alert(e.message)}
 }
 
-// AUTH STATE CHECKER
 onAuthStateChanged(auth, async (user) => {
 if(user){
 currentUser = user;
-document.getElementById('sname').innerText = user.email.split('@')[0];
 document.getElementById('login').style.display = 'none';
 document.getElementById('app').style.display = 'flex';
 await updateDoc(doc(db, 'users', user.uid), {online: true});
 loadContacts();
-openChat('Khamis AI', 'bot');
-window.addEventListener('beforeunload', () => updateDoc(doc(db, 'users', user.uid), {online: false, lastSeen: serverTimestamp()}));
+openChat('Aboki AI', 'bot');
+loadSettings();
+window.addEventListener('beforeunload', () => updateDoc(doc(db, 'users', user.uid), {online: false}));
 }else{
 document.getElementById('login').style.display = 'flex';
 document.getElementById('app').style.display = 'none';
 }
 });
 
-// LOAD CONTACTS WITH ONLINE STATUS
+function loadSettings(){
+const savedTheme = localStorage.getItem('theme') || 'dark';
+const savedLang = localStorage.getItem('lang') || 'en';
+document.getElementById('themeMode').value = savedTheme;
+document.getElementById('langMode').value = savedLang;
+lang = savedLang;
+changeTheme();
+updateTexts();
+}
+
+function updateTexts(){
+const t = translations[lang];
+Object.keys(t).forEach(key => {
+const el = document.getElementById(key);
+if(el) el.innerText = t[key];
+});
+document.getElementById('search').placeholder = t.search;
+document.getElementById('inp').placeholder = t.inp;
+}
+
+window.changeTheme = () => {
+const mode = document.getElementById('themeMode').value;
+localStorage.setItem('theme', mode);
+if(mode === 'light') document.body.classList.add('light');
+else if(mode === 'dark') document.body.classList.remove('light');
+else document.body.classList.toggle('light', window.matchMedia('(prefers-color-scheme: light)').matches);
+}
+
+window.changeLanguage = () => {
+lang = document.getElementById('langMode').value;
+localStorage.setItem('lang', lang);
+updateTexts();
+}
+
 async function loadContacts(){
 const q = query(collection(db, 'users'), where('__name__', '!=', currentUser.uid));
 onSnapshot(q, (snapshot) => {
+allUsers = [];
 let html = '';
+let online = 0;
 snapshot.forEach(docSnap => {
 const u = docSnap.data();
-const statusClass = u.online? 'on' : '';
-const statusText = u.online? 'Online' : 'Offline';
-html += `<div class="person" onclick="openChat('${u.name}', '${docSnap.id}')"><div class="avatar ${statusClass}">${u.name.charAt(0).toUpperCase()}</div><div class="info"><div class="name">${u.name}</div><div class="status-text">${statusText}</div></div></div>`;
+allUsers.push(u);
+if(u.online) online++;
+html += `<div class="person" data-username="${u.username}" data-online="${u.online}" onclick="openChat('${u.username}', '${docSnap.id}')"><div class="avatar ${u.online?'on':''}">${u.username.charAt(0).toUpperCase()}</div><div class="info"><div class="topRow"><div class="name">@${u.username}</div><div class="time">now</div></div><div class="lastMsg">${u.email}</div></div></div>`;
 });
-html += `<div class="person" onclick="openChat('Khamis AI', 'bot')"><div class="avatar">AI</div><div class="info"><div class="name">Khamis AI</div><div class="status-text">Online</div></div></div>`;
+html += `<div class="person" data-username="aboki_ai" data-online="true" onclick="openChat('Aboki AI', 'bot')"><div class="avatar on">🤖</div><div class="info"><div class="topRow"><div class="name">Aboki AI</div><div class="time">10:30 AM</div></div><div class="lastMsg">${lang==='ha'?'Mataimakin AI naka':'Your AI Assistant'}</div></div><div class="unread">2</div></div>`;
 document.getElementById('list').innerHTML = html;
+document.getElementById('allCount').innerText = allUsers.length;
+document.getElementById('onlineCount').innerText = online;
+document.getElementById('chatBadge').innerText = allUsers.length + 1;
 });
 }
 
-// OPEN CHAT
-window.openChat = function(name, uid){
-currentChatUser = uid;
+window.filterTab = (tab, btn) => {
+document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+btn.classList.add('active');
+document.querySelectorAll('.person').forEach(p => {
+if(tab === 'all') p.style.display = 'flex';
+else if(tab === 'online') p.style.display = p.dataset.online === 'true'? 'flex' : 'none';
+else p.style.display = 'none';
+});
+}
+
+window.searchContacts = () => {
+const val = document.getElementById('search').value.toLowerCase();
+document.querySelectorAll('.person').forEach(p => {
+p.style.display = p.dataset.username.includes(val)? 'flex' : 'none';
+});
+}
+
+window.openChat = (name, uid) => {
 currentChatId = uid === 'bot'? 'bot' : [currentUser.uid, uid].sort().join('_');
-document.getElementById('cname').innerText = name;
-document.getElementById('cavatar').innerText = name.charAt(0);
+document.getElementById('cname').innerHTML = name + (name==='Aboki AI'?'<span class="verified">✓</span>':'');
+document.getElementById('cavatar').innerText = name==='Aboki AI'?'🤖':name.charAt(0).toUpperCase();
 document.getElementById('contacts').style.display = 'none';
 document.getElementById('chat').style.display = 'flex';
 document.getElementById('chat').classList.add('fullscreen');
 
-if(unsubscribeMessages) unsubscribeMessages();
-
 if(uid === 'bot'){
-document.getElementById('msgs').innerHTML = `<div class="date">Today</div><div class="row other"><div class="avatar">AI</div><div class="bubble"><div class="btext">Hello! I am Khamis AI. How can I help you today?</div></div></div>`;
-return;
+document.getElementById('msgs').innerHTML = `<div class="date">Today</div>
+<div class="row other"><div class="avatar">🤖</div><div class="bubble">${lang==='ha'?'Assalamu alaikum Dan Allah 👋<br>Ni Aboki AI, ta yaya zan taimaka maka?':'Assalamu alaikum Dan Allah 👋<br>I am Aboki AI, how can I help you?'}<div class="btime">10:30 AM</div></div></div>
+<div class="row me"><div class="bubble">${lang==='ha'?'Wa alaikum salam Aboki, ina lafiya':'Wa alaikum salam Aboki, I am fine'}<div class="btime">10:31 AM <span class="tick">✓</span></div></div></div>`;
 }
-
-// WATCH USER STATUS
-onSnapshot(doc(db, 'users', uid), (snap) => {
-const u = snap.data();
-document.getElementById('cstatus').innerText = u.online? 'Online' : 'Last seen recently';
-document.getElementById('cstatus').className = u.online? 'status' : 'status offline';
-});
-
-// WATCH MESSAGES
 const q = query(collection(db, 'chats', currentChatId, 'messages'), orderBy('timestamp'));
-unsubscribeMessages = onSnapshot(q, (snapshot) => {
+onSnapshot(q, (snapshot) => {
 let html = '<div class="date">Today</div>';
 snapshot.forEach(docSnap => {
 const m = docSnap.data();
 const isMe = m.sender === currentUser.uid;
 let content = '';
-if(m.type === 'text') content = `<div class="btext">${m.text}</div>`;
-else if(m.type === 'audio') content = `<audio controls class="audio-player" src="${m.url}"></audio>`;
-else if(m.type === 'image') content = `<img src="${m.url}" style="max-width:250px;border-radius:12px">`;
-else if(m.type === 'file') content = `<a href="${m.url}" target="_blank" style="color:inherit">📎 ${m.fileName}</a>`;
-
-html += `<div class="row ${isMe?'me':''}"><div class="bubble">${content}<div class="btime">${m.timestamp? new Date(m.timestamp.toDate()).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : ''}</div></div></div>`;
+if(m.type === 'text') content = m.text;
+else if(m.type === 'file') content = `📎 <a href="${m.url}" target="_blank">${m.fileName}</a>`;
+else if(m.type === 'image') content = `<img src="${m.url}" style="max-width:240px;border-radius:12px">`;
+html += `<div class="row ${isMe?'me':''}"><div class="bubble">${content}<div class="btime">${m.timestamp? new Date(m.timestamp.toDate()).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : ''} ${isMe?'<span class="tick">✓</span>':''}</div></div></div>`;
 });
 document.getElementById('msgs').innerHTML = html;
 document.getElementById('msgs').scrollTop = document.getElementById('msgs').scrollHeight;
 });
 }
 
-// SEND TEXT MESSAGE
-window.sendMessage = async function(){
+window.sendMessage = async () => {
 const inp = document.getElementById('inp');
 const text = inp.value.trim();
 if(!text || currentChatId === 'bot') return;
 await addDoc(collection(db, 'chats', currentChatId, 'messages'), {
-text: text,
-type: 'text',
-sender: currentUser.uid,
-timestamp: serverTimestamp()
+text, type: 'text', sender: currentUser.uid, timestamp: serverTimestamp()
 });
 inp.value = '';
 }
 
-// VOICE RECORDING
-window.toggleRecording = async function(){
-const btn = document.getElementById('recBtn');
-if(!isRecording){
-const stream = await navigator.mediaDevices.getUserMedia({audio: true});
-mediaRecorder = new MediaRecorder(stream);
-audioChunks = [];
-mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-mediaRecorder.onstop = async () => {
-const audioBlob = new Blob(audioChunks, {type: 'audio/webm'});
-const storageRef = ref(storage, `audio/${currentChatId}/${Date.now()}.webm`);
-await uploadBytes(storageRef, audioBlob);
-const url = await getDownloadURL(storageRef);
-await addDoc(collection(db, 'chats', currentChatId, 'messages'), {
-type: 'audio',
-url: url,
-sender: currentUser.uid,
-timestamp: serverTimestamp()
-});
-}
-mediaRecorder.start();
-isRecording = true;
-btn.classList.add('recording');
-btn.innerText = '⏹️';
-}else{
-mediaRecorder.stop();
-isRecording = false;
-btn.classList.remove('recording');
-btn.innerText = '🎤';
-}
+window.uploadFile = () => {
+if(currentChatId === 'bot') return alert(lang==='ha'?'Kawai a cikin chat na mutane zaka iya upload':'Upload only in people chat');
+document.getElementById('fileInput').click();
 }
 
-// UPLOAD FILE
 document.getElementById('fileInput').onchange = async (e) => {
 const file = e.target.files[0];
 if(!file) return;
@@ -367,49 +428,22 @@ const storageRef = ref(storage, `files/${currentChatId}/${Date.now()}_${file.nam
 await uploadBytes(storageRef, file);
 const url = await getDownloadURL(storageRef);
 await addDoc(collection(db, 'chats', currentChatId, 'messages'), {
-type: 'file',
-url: url,
-fileName: file.name,
-sender: currentUser.uid,
-timestamp: serverTimestamp()
+type: file.type.startsWith('image/')?'image':'file', url, fileName: file.name, sender: currentUser.uid, timestamp: serverTimestamp()
 });
 }
 
-// CAMERA PHOTO
-document.getElementById('cameraInput').onchange = async (e) => {
-const file = e.target.files[0];
-if(!file) return;
-const storageRef = ref(storage, `images/${currentChatId}/${Date.now()}.jpg`);
-await uploadBytes(storageRef, file);
-const url = await getDownloadURL(storageRef);
-await addDoc(collection(db, 'chats', currentChatId, 'messages'), {
-type: 'image',
-url: url,
-sender: currentUser.uid,
-timestamp: serverTimestamp()
-});
-}
-
-// NAVIGATION
-window.back = function(){
+window.back = () => {
 document.getElementById('chat').classList.remove('fullscreen');
 document.getElementById('chat').style.display='none';
 document.getElementById('contacts').style.display='flex';
-if(unsubscribeMessages) unsubscribeMessages();
 }
-window.showChat = function(){document.getElementById('chat').style.display='none';document.getElementById('contacts').style.display='flex';document.getElementById('chat').classList.remove('fullscreen')}
-window.showContacts = function(){}
-window.openAI = function(){document.getElementById('ai').style.display='flex'}
-window.closeAI = function(){document.getElementById('ai').style.display='none'}
-window.sendAI = function(){
-const inp = document.getElementById('aiInp');
-const text = inp.value.trim();
-if(!text) return;
-document.getElementById('aiMsgs').innerHTML += `<div class="row me"><div class="bubble"><div class="btext">${text}</div></div></div>`;
-inp.value = '';
-setTimeout(()=>{document.getElementById('aiMsgs').innerHTML += `<div class="row other"><div class="avatar">AI</div><div class="bubble"><div class="btext">I understand. How can I help you further?</div></div></div>`},800);
+window.showContacts = () => {
+document.getElementById('chat').style.display='none';
+document.getElementById('contacts').style.display='flex';
+document.getElementById('chat').classList.remove('fullscreen');
 }
-window.clearAI = function(){document.getElementById('aiMsgs').innerHTML = '<div style="text-align:center;color:var(--text2);margin-top:100px">Ask Khamis AI anything...</div>'}
+window.openSettings = () => document.getElementById('settings').style.display='flex';
+window.closeSettings = () => document.getElementById('settings').style.display='none';
 </script>
 </body>
 </html>
