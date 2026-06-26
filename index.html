@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<title>Aboki AI Chat UI</title>
+</head>
+
+<body class="bg-[#020617] text-white font-sans">
+
+<div class="flex h-screen p-4 gap-4 bg-gradient-to-br from-[#050816] via-[#09001d] to-[#0a0015]">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="w-[250px] rounded-[30px] bg-[#0B1023] border border-[#20253f] p-6 flex flex-col justify-between">
+
+        <div>
+            <div class="flex flex-col items-center mb-10">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+                     class="w-20 h-20 rounded-full" />
+                <h1 class="text-3xl font-bold mt-4">Aboki AI</h1>
+                <p class="text-gray-400 text-sm">Your AI Assistant</p>
+            </div>
+
+            <nav class="space-y-4">
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-2xl flex items-center gap-4">
+                    <span>💬</span>
+                    <span>Chats</span>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 hover:bg-[#151a30] rounded-2xl">
+                    <span>👤</span>
+                    <span>Contacts</span>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 hover:bg-[#151a30] rounded-2xl">
+                    <span>🤖</span>
+                    <span>Bots</span>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 hover:bg-[#151a30] rounded-2xl">
+                    <span>🔖</span>
+                    <span>Saved</span>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 hover:bg-[#151a30] rounded-2xl">
+                    <span>⚙️</span>
+                    <span>Settings</span>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 hover:bg-[#151a30] rounded-2xl">
+                    <span>📊</span>
+                    <span>Analytics</span>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 hover:bg-[#151a30] rounded-2xl">
+                    <span>⬆️</span>
+                    <span>Upgrade</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Upgrade Box -->
+        <div class="bg-[#111827] rounded-3xl p-5 border border-purple-600">
+            <h3 class="text-xl font-bold">👑 Aboki Pro</h3>
+            <p class="text-gray-400 text-sm mt-2">Unlock all features</p>
+            <button class="w-full mt-4 bg-gradient-to-r from-blue-600 to-purple-600 py-3 rounded-xl">
+                Upgrade Now
+            </button>
+        </div>
+
+    </div>
+
+    <!-- CONTACTS PANEL -->
+    <div class="w-[420px] rounded-[30px] bg-[#0B1023] border border-[#20253f] p-6">
+
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold">Contacts</h2>
+            <button class="w-12 h-12 rounded-xl bg-purple-600 text-2xl">+</button>
+        </div>
+
+        <input type="text"
+               placeholder="Search contacts..."
+               class="w-full bg-[#111827] rounded-2xl p-4 outline-none mb-6" />
+
+        <!-- Tabs -->
+        <div class="flex gap-4 mb-6">
+            <button class="px-5 py-2 bg-purple-600 rounded-xl">All</button>
+            <button class="px-5 py-2 bg-[#111827] rounded-xl">Online</button>
+            <button class="px-5 py-2 bg-[#111827] rounded-xl">Groups</button>
+        </div>
+
+        <!-- Contacts -->
+        <div class="space-y-4">
+
+            <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 p-4 rounded-2xl flex items-center gap-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+                     class="w-14 h-14 rounded-full"/>
+                <div>
+                    <h4 class="font-bold">Aboki AI</h4>
+                    <p class="text-green-400 text-sm">● Online</p>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-[#111827] flex items-center gap-4">
+                <img src="https://i.pravatar.cc/100?img=5" class="w-14 h-14 rounded-full"/>
+                <div>
+                    <h4>Hafsa Usman</h4>
+                    <p class="text-gray-400">Nagode sosai 🙏</p>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-[#111827] flex items-center gap-4">
+                <img src="https://i.pravatar.cc/100?img=8" class="w-14 h-14 rounded-full"/>
+                <div>
+                    <h4>Ibrahim Lawal</h4>
+                    <p class="text-gray-400">Za mu hadu gobe.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN CHAT -->
+    <div class="flex-1 rounded-[30px] bg-[#0B1023] border border-[#20253f] flex flex-col">
+
+        <!-- HEADER -->
+        <div class="p-6 border-b border-[#20253f] flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+                     class="w-14 h-14 rounded-full"/>
+                <div>
+                    <h2 class="text-2xl font-bold">Aboki AI</h2>
+                    <p class="text-green-400">● Online</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4 text-2xl">
+                <button>🔍</button>
+                <button>📞</button>
+                <button>📹</button>
+                <button>⋮</button>
+            </div>
+        </div>
+
+        <!-- CHAT BODY -->
+        <div class="flex-1 p-8 space-y-8 overflow-y-auto">
+
+            <div class="flex items-start gap-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+                     class="w-12 h-12 rounded-full"/>
+                <div class="bg-[#111827] p-5 rounded-3xl max-w-md">
+                    Assalamu alaikum Dan Allah 👋<br/>
+                    Ni Aboki AI, ta yaya zan taimaka maka?
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-5 rounded-3xl max-w-md">
+                    Wa alaikum salam Aboki, ta yaya kake?
+                </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+                     class="w-12 h-12 rounded-full"/>
+                <div class="bg-[#111827] p-5 rounded-3xl max-w-md">
+                    Alhamdulillah, ina cikin koshin lafiya 😊
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-5 rounded-3xl max-w-md">
+                    Ina bukatar ka bani bayani kan yadda zan koyi programming.
+                </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+                     class="w-12 h-12 rounded-full"/>
+                <div class="bg-[#111827] p-5 rounded-3xl max-w-lg">
+                    Tabbas zan taimaka! 😊 <br/><br/>
+                    1. Zabi yaren programming (Python yana da sauki)<br/>
+                    2. Koyi fundamentals<br/>
+                    3. Yi practice akai-akai<br/>
+                    4. Gina kananan projects
+                </div>
+            </div>
+
+        </div>
+
+        <!-- INPUT -->
+        <div class="p-6 border-t border-[#20253f]">
+            <div class="bg-[#111827] rounded-3xl flex items-center px-6 py-4">
+                <button class="text-2xl mr-4">📎</button>
+                <input type="text"
+                       placeholder="Type your message..."
+                       class="flex-1 bg-transparent outline-none"/>
+                <button class="text-2xl mr-4">😊</button>
+                <button class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 rounded-2xl">
+                    ➤
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
