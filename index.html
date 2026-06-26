@@ -5,176 +5,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Khamchat</title>
 <style>
-/* ====== META AI + WHATSAPP FULLSCREEN ====== */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
-:root{
---bg:#0b141a;--sidebar:#111b21;--panel:#202c33;--hover:#2a3942;--border:#233138;
---green:#00a884;--text:#e9edef;--text2:#8696a0;--lock:#f59e0b;
-}
-body.light{
---bg:#f0f2f5;--sidebar:#ffffff;--panel:#ffffff;--hover:#f5f6f6;--border:#e9edef;
---text:#111b21;--text2:#667781;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+:root{--bg:#0b141a;--sidebar:#111b21;--panel:#202c33;--hover:#2a3942;--border:#233138;--green:#00a884;--text:#e9edef;--text2:#8696a0;--lock:#f59e0b;}
+body.light{--bg:#f0f2f5;--sidebar:#fff;--panel:#fff;--hover:#f5f6f6;--border:#e9edef;--text:#111b21;--text2:#667781;}
 html,body{background:var(--bg);color:var(--text);height:100dvh;width:100vw;overflow:hidden}
-
-/* ====== LOCK OVERLAY ====== */
-#lockOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center}
+#lockOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center}
 #lockBox{background:var(--panel);padding:24px;border-radius:16px;width:90%;max-width:360px;text-align:center;border:2px solid var(--lock)}
 #lockBox h2{color:var(--lock);margin-bottom:8px}
 #lockBox p{color:var(--text2);font-size:14px;margin-bottom:16px}
-
-/* ====== MAIN LAYOUT ====== */
 #app{height:100dvh;width:100vw;display:grid;grid-template-columns:400px 1fr}
 @media(max-width:900px){#app{grid-template-columns:1fr}}
-
-/* ====== SIDEBAR CONTACTS ====== */
 .sidebar{background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100dvh}
-.sideHead{padding:10px 16px;background:var(--panel);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
+.sideHead{padding:10px 16px;background:var(--panel);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
 .profilePic{width:40px;height:40px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;overflow:hidden;position:relative}
 .profilePic img{width:100%;height:100%;object-fit:cover}
 .badge{position:absolute;bottom:-2px;right:-2px;background:var(--lock);color:#000;font-size:9px;padding:2px 4px;border-radius:4px;font-weight:900}
 .sideActions{display:flex;gap:18px;color:var(--text2);font-size:22px;cursor:pointer}
-.search{padding:8px 12px;flex-shrink:0}
-.search input{width:100%;padding:10px 14px;background:var(--bg);border:none;border-radius:8px;color:var(--text);outline:none;font-size:14px}
-.moneyBox{padding:12px;margin:8px 12px;background:var(--panel);border-radius:10px;text-align:center;flex-shrink:0}
+.search{padding:8px 12px}
+.search input{width:100%;padding:10px 14px;background:var(--bg);border:none;border-radius:8px;color:var(--text);outline:none}
+.moneyBox{padding:12px;margin:8px 12px;background:var(--panel);border-radius:10px;text-align:center}
 .moneyBox h4{color:var(--green);font-size:13px;margin-bottom:4px}
 .contactsList{flex:1;overflow-y:auto}
 .contact{padding:12px 16px;display:flex;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);align-items:center}
 .contact:hover,.contact.active{background:var(--hover)}
-.contactPic{width:48px;height:48px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden;position:relative;flex-shrink:0}
+.contactPic{width:48px;height:48px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden;position:relative}
 .onlineDot{position:absolute;bottom:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--green);border:3px solid var(--sidebar)}
-.contactInfo{flex:1;overflow:hidden}
-.contactName{font-weight:600;margin-bottom:3px;font-size:15px}
-.contactLast{font-size:13px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* ====== CHAT AREA ====== */
 .chat{display:flex;flex-direction:column;background:var(--bg);height:100dvh}
-.chatHead{padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0}
-.chatHead.contactPic{width:40px;height:40px}
-.chatName{font-weight:600;font-size:16px}
-.chatStatus{font-size:12px;color:var(--text2)}
-.messages{flex:1;overflow-y:auto;padding:20px;background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" opacity="0.02"><text x="20" y="100" font-size="40">💬</text></svg>')}
+.chatHead{padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.messages{flex:1;overflow-y:auto;padding:20px}
 .msgRow{display:flex;margin-bottom:10px}
 .msgRow.me{justify-content:flex-end}
-.msgBubble{max-width:75%;padding:8px 12px;border-radius:8px;background:var(--panel);position:relative;font-size:14.5px;line-height:20px;box-shadow:0 1px 0.5px rgba(0,0,0,0.13)}
-.msgRow.me.msgBubble{background:#005c4b;color:#fff;border-top-right-radius:0}
-.msgRow:not(.me).msgBubble{border-top-left-radius:0}
-.msgTime{font-size:11px;color:var(--text2);margin-top:4px;text-align:right;display:flex;align-items:center;gap:4px;justify-content:flex-end}
-.inputArea{padding:10px 16px;background:var(--panel);display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
-.inputArea input{flex:1;padding:12px 16px;background:var(--bg);border:none;border-radius:24px;color:var(--text);outline:none;font-size:15px;max-height:120px}
-.iconBtn{width:44px;height:44px;border-radius:50%;background:transparent;border:none;color:var(--text2);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.sendBtn{width:48px;height:48px;border-radius:50%;background:var(--green);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.msgBubble{max-width:75%;padding:8px 12px;border-radius:8px;background:var(--panel);font-size:14.5px}
+.msgRow.me.msgBubble{background:#005c4b;color:#fff}
+.inputArea{padding:10px 16px;background:var(--panel);display:flex;gap:8px;align-items:flex-end}
+.inputArea input{flex:1;padding:12px 16px;background:var(--bg);border:none;border-radius:24px;color:var(--text);outline:none}
+.iconBtn{width:44px;height:44px;border-radius:50%;background:transparent;border:none;color:var(--text2);font-size:22px;cursor:pointer}
+.sendBtn{width:48px;height:48px;border-radius:50%;background:var(--green);border:none;color:#fff;font-size:20px;cursor:pointer}
 .sendBtn:disabled{background:var(--text2);cursor:not-allowed}
-
-/* ====== SETTINGS MODAL ====== */
 #settingsModal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:2000}
 #settingsBox{background:var(--panel);width:95%;max-width:420px;border-radius:16px;padding:20px;max-height:90dvh;overflow-y:auto}
-#settingsBox h3{margin-bottom:16px;font-size:18px}
 .setItem{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:10px}
-.setItem input,.setItem select{background:var(--bg);color:var(--text);border:1px solid var(--border);padding:10px;border-radius:8px;width:100%;outline:none}
-.btn{width:100%;padding:12px;margin-top:8px;background:var(--green);border:none;border-radius:10px;color:#fff;font-weight:700;cursor:pointer;font-size:15px}
+.setItem input,.setItem select{background:var(--bg);color:var(--text);border:1px solid var(--border);padding:10px;border-radius:8px;width:100%}
+.btn{width:100%;padding:12px;margin-top:8px;background:var(--green);border:none;border-radius:10px;color:#fff;font-weight:700;cursor:pointer}
 .btn.red{background:#e74c3c}
 .btn.gray{background:var(--hover)}
 hr{margin:16px 0;border:none;border-top:1px solid var(--border)}
 .small{font-size:12px;color:var(--text2)}
-
-/* ====== RECORDING ====== */
-.recording{color:#e74c3c;font-size:13px;display:none;align-items:center;gap:6px}
-.recording.dot{width:8px;height:8px;border-radius:50%;background:#e74c3c;animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-audio{max-width:200px;height:40px}
 </style>
 </head>
 <body>
 
-<!-- 1. LOCK SCREEN - BA TARE DA ACCOUNT BA BAZAKA AIKA BA -->
 <div id="lockOverlay">
 <div id="lockBox">
 <h2>🔒 Locked</h2>
-<p id="lockText">Open Settings ⚙️ and create account with Username + Email + Password to start chatting</p>
-<button class="btn" onclick="closeLock()">Open Settings</button>
+<p id="lockText">Open Settings and create account to start chatting</p>
+<button class="btn" id="openSetBtn">Open Settings</button>
 </div>
 </div>
 
-<!-- 2. APP FULLSCREEN -->
 <div id="app">
-<!-- SIDEBAR -->
 <div class="sidebar">
 <div class="sideHead">
-<div class="profilePic" onclick="document.getElementById('picInput').click()">
-<img id="myPic" src="" style="display:none">
-<span id="myPicText">K</span>
+<div class="profilePic" id="picBtn">
+<img id="myPic" src="" style="display:none"><span id="myPicText">K</span>
 <span class="badge" id="guestBadge">!</span>
 </div>
-<div class="sideActions">
-<span onclick="openSettings()">⚙️</span>
+<div class="sideActions"><span id="setBtn">⚙️</span></div>
 </div>
-</div>
-<div class="search"><input type="text" id="search" placeholder="Search or start new chat"></div>
+<div class="search"><input type="text" placeholder="Search"></div>
 <div class="moneyBox">
 <h4>💰 Earned Money</h4>
 <div id="balance">$0.00</div>
-<input type="text" id="monetagKey" placeholder="Monetag API Key" style="width:100%;margin-top:8px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:12px">
-<button onclick="saveKey()" class="btn" style="padding:8px;margin-top:6px;font-size:13px">Save Key</button>
+<input type="text" id="monetagKey" placeholder="Monetag Key" style="width:100%;margin-top:8px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text)">
+<button onclick="saveKey()" class="btn" style="padding:8px;margin-top:6px">Save Key</button>
 </div>
 <div class="contactsList" id="contactsList"></div>
 </div>
 
-<!-- CHAT -->
 <div class="chat">
 <div class="chatHead">
 <div class="contactPic" id="chatPic">K</div>
-<div>
-<div class="chatName" id="chatName">Khamis AI</div>
-<div class="chatStatus" id="chatStatus">Online</div>
+<div><div id="chatName">Khamis AI</div><div style="font-size:12px;color:var(--text2)">Online</div></div>
 </div>
-</div>
-<div class="messages" id="messages">
-<div style="text-align:center;color:var(--text2);margin-top:40px">Create account in Settings to start</div>
-</div>
+<div class="messages" id="messages"><div style="text-align:center;color:var(--text2);margin-top:40px">Create account in Settings</div></div>
 <div class="inputArea">
-<button class="iconBtn" id="camBtn" onclick="document.getElementById('camInput').click()">📷</button>
+<button class="iconBtn" id="camBtn">📷</button>
 <button class="iconBtn" id="micBtn">🎤</button>
-<div class="recording" id="recording"><span class="dot"></span>Recording...</div>
-<input type="text" id="inp" placeholder="Message" onkeyup="if(event.key==='Enter') sendMsg()">
-<button class="sendBtn" id="sendBtn" onclick="sendMsg()">➤</button>
+<input type="text" id="inp" placeholder="Message" disabled>
+<button class="sendBtn" id="sendBtn" disabled>➤</button>
 </div>
 </div>
 </div>
 
-<!-- SETTINGS -->
 <div id="settingsModal">
 <div id="settingsBox">
-<h3>Settings / Saituna</h3>
-
-<div class="setItem">
-<span>Language / Harshe</span>
-<select id="lang" onchange="changeLang()">
-<option value="en">English</option>
-<option value="ha">Hausa</option>
-</select>
-</div>
-<div class="setItem">
-<span>Mode / Yanayi</span>
-<select id="theme" onchange="changeTheme()">
-<option value="dark">Dark</option>
-<option value="light">Light</option>
-<option value="auto">System / Na Asali</option>
-</select>
-</div>
-
+<h3>Settings</h3>
+<div class="setItem"><span>Language</span><select id="lang"><option value="en">English</option><option value="ha">Hausa</option></select></div>
+<div class="setItem"><span>Mode</span><select id="theme"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">System</option></select></div>
 <hr>
-<h4 id="accountTitle">Account - REQUIRED</h4>
-<p class="small" id="accountNote">You must create account to unlock chat</p>
-
+<h4>Account - REQUIRED</h4>
+<p class="small">You must create account to unlock</p>
 <div class="setItem"><input type="text" id="newUser" placeholder="Username"></div>
 <div class="setItem"><input type="email" id="newEmail" placeholder="Email"></div>
 <div class="setItem"><input type="password" id="newPass" placeholder="Password"></div>
-<button class="btn" onclick="createAccount()">Create Account / Yi Account</button>
-<button class="btn gray" onclick="loginAccount()">Login / Shiga</button>
-<button class="btn red" id="logoutBtn" style="display:none" onclick="logout()">Logout / Fita</button>
-
-<button class="btn gray" onclick="closeSettings()">Close / Rufe</button>
+<button class="btn" id="createBtn">Create Account</button>
+<button class="btn gray" id="loginBtn">Login</button>
+<button class="btn red" id="logoutBtn" style="display:none">Logout</button>
+<button class="btn gray" id="closeSetBtn">Close</button>
 </div>
 </div>
 
@@ -202,9 +139,21 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 let currentUser = null, currentChatId = 'khamis_ai', myUsername = '', lang = 'en', balance = 0;
-let mediaRecorder, audioChunks = [];
 
-// ====== 1. ON LOAD - KOWA YA GA KOMAI AMMA LOCKED ======
+// ====== GYARA: MUKA SANYA DUKKAN BUTTON A JS MAIJI ======
+document.getElementById('openSetBtn').onclick = () => {document.getElementById('lockOverlay').style.display='none'; document.getElementById('settingsModal').style.display='flex';}
+document.getElementById('setBtn').onclick = () => document.getElementById('settingsModal').style.display='flex';
+document.getElementById('closeSetBtn').onclick = () => document.getElementById('settingsModal').style.display='none';
+document.getElementById('picBtn').onclick = () => document.getElementById('picInput').click();
+document.getElementById('camBtn').onclick = () => document.getElementById('camInput').click();
+document.getElementById('createBtn').onclick = createAccount;
+document.getElementById('loginBtn').onclick = loginAccount;
+document.getElementById('logoutBtn').onclick = logout;
+document.getElementById('sendBtn').onclick = sendMsg;
+document.getElementById('lang').onchange = changeLang;
+document.getElementById('theme').onchange = changeTheme;
+
+// ====== AUTH ======
 onAuthStateChanged(auth, async (user) => {
 if(user){
 currentUser = user;
@@ -216,7 +165,9 @@ document.getElementById('balance').innerText = `$${balance.toFixed(2)}`;
 document.getElementById('myPicText').innerText = myUsername.charAt(0).toUpperCase();
 document.getElementById('guestBadge').style.display = 'none';
 document.getElementById('logoutBtn').style.display = 'block';
-document.getElementById('lockOverlay').style.display = 'none'; // BUDE LOCK
+document.getElementById('lockOverlay').style.display = 'none';
+document.getElementById('inp').disabled = false;
+document.getElementById('sendBtn').disabled = false;
 if(myDoc.data().pic){
 document.getElementById('myPic').src = myDoc.data().pic;
 document.getElementById('myPic').style.display = 'block';
@@ -225,113 +176,73 @@ document.getElementById('myPicText').style.display = 'none';
 loadContacts();
 openChat('Khamis AI', 'khamis_ai');
 }
-}else{
-document.getElementById('lockOverlay').style.display = 'flex'; // KULLE
-document.getElementById('sendBtn').disabled = true;
-}
 });
 
-// ====== 2. ACCOUNT REQUIRED ======
-window.createAccount = async () => {
+// ====== ACCOUNT ======
+async function createAccount(){
 const u = document.getElementById('newUser').value.trim();
 const e = document.getElementById('newEmail').value.trim();
 const p = document.getElementById('newPass').value.trim();
-if(!u ||!e ||!p) return alert(lang==='ha'?'Cika dukkan filaye':'Fill all fields');
+if(!u ||!e ||!p) return alert('Fill all fields');
 if(u.length < 3) return alert('Username 3+ letters');
-
 const userRef = doc(db, 'usernames', u.toLowerCase());
-if((await getDoc(userRef)).exists()) return alert(lang==='ha'?'Suna an kwace':'Username taken');
-
+if((await getDoc(userRef)).exists()) return alert('Username taken');
 try{
 const cred = await createUserWithEmailAndPassword(auth, e, p);
 await setDoc(doc(db,'users',cred.user.uid), {username: u, email: e, balance: 0, pic: ''});
 await setDoc(userRef, {uid: cred.user.uid});
-alert(lang==='ha'?'An yi account. An bude chat':'Account created. Chat unlocked');
+alert('Account created. Chat unlocked');
 }catch(e){alert(e.message)}
 }
-
-window.loginAccount = async () => {
+async function loginAccount(){
 const e = document.getElementById('newEmail').value.trim();
 const p = document.getElementById('newPass').value.trim();
 if(!e ||!p) return alert('Fill email + password');
 try{await signInWithEmailAndPassword(auth, e, p);}catch(e){alert('Wrong email or password')}
 }
+async function logout(){await signOut(auth); location.reload();}
 
-window.logout = async () => {
-await signOut(auth);
-location.reload();
-}
-
-// ====== 3. CONTACTS + KHAMIS AI BOT ======
+// ====== CONTACTS + CHAT ======
 async function loadContacts(){
 const q = query(collection(db, 'users'));
 onSnapshot(q, (snap) => {
-let html = `<div class="contact active" onclick="openChat('Khamis AI','khamis_ai')"><div class="contactPic">K<span class="onlineDot"></span></div><div class="contactInfo"><div class="contactName">Khamis AI</div><div class="contactLast">${lang==='ha'?'AI Mai Taimako':'AI Assistant'}</div></div></div>`;
+let html = `<div class="contact active" onclick="openChat('Khamis AI','khamis_ai')"><div class="contactPic">K<span class="onlineDot"></span></div><div><div>Khamis AI</div><div style="font-size:12px;color:var(--text2)">AI Assistant</div></div></div>`;
 snap.forEach(d=>{
 if(d.id === currentUser?.uid) return;
 const u=d.data();
 html+=`<div class="contact" onclick="openChat('${u.username}','${d.id}','${u.pic||''}')">
 <div class="contactPic">${u.pic?`<img src="${u.pic}">`:`${u.username.charAt(0).toUpperCase()}`}<span class="onlineDot"></span></div>
-<div class="contactInfo"><div class="contactName">@${u.username}</div><div class="contactLast">Online</div></div>
+<div><div>@${u.username}</div><div style="font-size:12px;color:var(--text2)">Online</div></div>
 </div>`;
 });
 document.getElementById('contactsList').innerHTML=html;
 });
 
-// ====== 4. PROFILE PIC + CAMERA UPLOAD ======
-document.getElementById('picInput').onchange = async (e) => {
-const file = e.target.files[0]; if(!file) return;
-const sRef = ref(storage, `pics/${currentUser.uid}.jpg`);
-await uploadBytes(sRef, file);
-const url = await getDownloadURL(sRef);
-await setDoc(doc(db,'users',currentUser.uid), {pic: url}, {merge: true});
-document.getElementById('myPic').src = url;
-document.getElementById('myPic').style.display = 'block';
-document.getElementById('myPicText').style.display = 'none';
-}
-
-document.getElementById('camInput').onchange = async (e) => {
-const file = e.target.files[0]; if(!file) return;
-const sRef = ref(storage, `uploads/${currentUser.uid}/${Date.now()}`);
-await uploadBytes(sRef, file);
-const url = await getDownloadURL(sRef);
-await addDoc(collection(db,'chats',currentChatId,'messages'), {
-type: file.type.startsWith('image')?'image':'video',
-url, sender: currentUser.uid, timestamp: serverTimestamp()
-});
-}
-
-// ====== 5. REAL CHAT + VOICE NOTE ======
 window.openChat = (name,uid,pic='') => {
 currentChatId = uid==='khamis_ai'? 'khamis_ai' : [currentUser.uid,uid].sort().join('_');
 document.getElementById('chatName').innerText = name;
 document.getElementById('chatPic').innerHTML = pic? `<img src="${pic}">` : name.charAt(0).toUpperCase();
-document.getElementById('chatStatus').innerText = uid==='khamis_ai'?'Online':'Online';
-
 const q = query(collection(db,'chats',currentChatId,'messages'), orderBy('timestamp'));
 onSnapshot(q, (snap) => {
 let html = '';
 snap.forEach(d=>{
 const m = d.data();
 const isMe = m.sender === currentUser.uid;
-if(m.type==='image') html += `<div class="msgRow ${isMe?'me':''}"><div class="msgBubble"><img src="${m.url}" style="max-width:200px;border-radius:8px"></div></div>`;
-else if(m.type==='audio') html += `<div class="msgRow ${isMe?'me':''}"><div class="msgBubble"><audio controls src="${m.url}"></audio></div></div>`;
-else html += `<div class="msgRow ${isMe?'me':''}"><div class="msgBubble">${m.text}<div class="msgTime">Now</div></div></div>`;
+html += `<div class="msgRow ${isMe?'me':''}"><div class="msgBubble">${m.text}</div></div>`;
 });
 document.getElementById('messages').innerHTML = html;
 document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
 });
 }
 
-window.sendMsg = async () => {
-if(!currentUser) return;
+async function sendMsg(){
 const inp = document.getElementById('inp');
 const text = inp.value.trim();
 if(!text) return;
 if(currentChatId === 'khamis_ai'){
 await addDoc(collection(db,'chats',currentChatId,'messages'), {text, sender: currentUser.uid, timestamp: serverTimestamp()});
 setTimeout(async ()=>{
-let reply = lang==='ha'? `Ni ne Khamis AI. Na karba: ${text}` : `I am Khamis AI. Got: ${text}`;
+let reply = `I am Khamis AI. Got: ${text}`;
 await addDoc(collection(db,'chats',currentChatId,'messages'), {text: reply, sender: 'khamis_ai', timestamp: serverTimestamp()});
 balance += 0.01;
 document.getElementById('balance').innerText = `$${balance.toFixed(2)}`;
@@ -343,45 +254,18 @@ await addDoc(collection(db,'chats',currentChatId,'messages'), {text, sender: cur
 inp.value = '';
 }
 
-// ====== VOICE NOTE ======
-document.getElementById('micBtn').onmousedown = async () => {
-if(!currentUser) return;
-const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-mediaRecorder = new MediaRecorder(stream);
-audioChunks = [];
-mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-mediaRecorder.onstop = async () => {
-const blob = new Blob(audioChunks, {type:'audio/webm'});
-const sRef = ref(storage, `voice/${currentUser.uid}/${Date.now()}.webm`);
-await uploadBytes(sRef, blob);
-const url = await getDownloadURL(sRef);
-await addDoc(collection(db,'chats',currentChatId,'messages'), {type:'audio', url, sender: currentUser.uid, timestamp: serverTimestamp()});
-}
-mediaRecorder.start();
-document.getElementById('recording').style.display = 'flex';
-}
-document.getElementById('micBtn').onmouseup = () => {
-if(mediaRecorder) mediaRecorder.stop();
-document.getElementById('recording').style.display = 'none';
-}
-
-// ====== 6. MONETAG + SETTINGS ======
+// ====== OTHER ======
 window.saveKey = async () => {
 const key = document.getElementById('monetagKey').value.trim();
 if(!key) return alert('Paste key first');
 await setDoc(doc(db,'users',currentUser.uid), {monetagKey: key}, {merge: true});
 alert('Saved');
 }
-window.openSettings = () => document.getElementById('settingsModal').style.display = 'flex';
-window.closeSettings = () => document.getElementById('settingsModal').style.display = 'none';
-window.closeLock = () => {document.getElementById('lockOverlay').style.display='none'; openSettings();}
-window.changeLang = () => {
+function changeLang(){
 lang = document.getElementById('lang').value;
 document.getElementById('inp').placeholder = lang==='ha'?'Sako...':'Message';
-document.getElementById('lockText').innerText = lang==='ha'?'Bude Settings ⚙️ ka yi account da Username + Email + Password don fara chat':'Open Settings ⚙️ and create account with Username + Email + Password to start chatting';
-document.getElementById('accountTitle').innerText = lang==='ha'?'Account - DOLE NE':'Account - REQUIRED';
 }
-window.changeTheme = () => {
+function changeTheme(){
 const m = document.getElementById('theme').value;
 if(m==='light') document.body.classList.add('light');
 else if(m==='dark') document.body.classList.remove('light');
