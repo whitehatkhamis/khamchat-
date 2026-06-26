@@ -15,15 +15,13 @@
 body.light{--bg:#ffffff;--bg2:#f8fafc;--bg3:#f1f5f9;--hover:#e2e8f0;--border:#e2e8f0;--text:#0f172a;--text2:#64748b;--other:#f1f5f9}
 html,body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;overflow:hidden;display:flex;width:100%}
 
-/* Login Screen */
 #login{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100}
 #loginBox{background:var(--bg2);padding:40px;border-radius:20px;border:1px solid var(--border);width:90%;max-width:380px;text-align:center}
 #loginBox h1{font-size:36px;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
 #loginBox p{color:var(--text2);margin-bottom:20px;font-size:14px}
 #loginBox input{width:100%;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;margin-bottom:12px}
-#loginBox button{width:100%;padding:14px;background:var(--gradient);border:none;border-radius:12px;color:#fff;font-weight:700;cursor:pointer;font-size:16px}
+#loginBox button{width:100%;padding:14px;background:var(--gradient);border:none;border-radius:12px;color:#fff;font-weight:700;cursor:pointer;font-size:16px;margin-bottom:8px}
 
-/* Layout */
 #app{display:none;width:100%;height:100vh;height:100dvh}
 #side{width:260px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px}
 .profile{display:flex;align-items:center;gap:12px;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:20px}
@@ -34,49 +32,28 @@ html,body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;over
 .menu{display:flex;flex-direction:column;gap:4px}
 .item{padding:12px;display:flex;align-items:center;gap:12px;border-radius:10px;cursor:pointer;color:var(--text2);font-size:15px}
 .item:hover,.item.active{background:var(--hover);color:var(--text)}
-.item svg{width:20px;height:20px}
 
-.footer{margin-top:auto;padding-top:20px;border-top:1px solid var(--border)}
-.pro{background:var(--bg3);padding:16px;border-radius:12px;text-align:center}
-.pro h4{font-size:14px;color:#fbbf24;margin-bottom:8px}
-.pro p{font-size:12px;color:var(--text2);margin-bottom:12px}
-.pro button{width:100%;padding:10px;background:var(--gradient);border:none;border-radius:8px;color:#fff;font-weight:600;cursor:pointer;font-size:13px}
-
-/* Contacts */
 #contacts{width:360px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column}
 .head{padding:24px;background:var(--bg2);border-bottom:1px solid var(--border)}
-.headTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.headTop h2{font-size:24px;font-weight:700}
-.add{width:36px;height:36px;border-radius:10px;background:var(--accent);border:none;color:#fff;font-size:20px;cursor:pointer}
-.search{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;margin-bottom:16px}
-.search input{flex:1;background:transparent;border:none;color:var(--text);outline:none;font-size:16px}
-.filters{display:flex;gap:8px}
-.fbtn{padding:6px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;font-size:13px;color:var(--text2);cursor:pointer}
-.fbtn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.head h2{font-size:24px;font-weight:700;margin-bottom:16px}
 .list{flex:1;overflow-y:auto;padding:8px}
 .person{padding:12px;display:flex;gap:12px;border-radius:12px;cursor:pointer}
 .person:hover{background:var(--hover)}
 .avatar{width:48px;height:48px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700;position:relative;font-size:18px}
 .avatar.on::after{content:'';position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:var(--green);border:2px solid var(--bg);border-radius:50%}
 .info{flex:1;overflow:hidden}
-.top{display:flex;justify-content:space-between;margin-bottom:4px}
-.name{font-size:15px;font-weight:600}
-.time{font-size:12px;color:var(--text2)}
-.msg{font-size:13px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.badge{width:20px;height:20px;background:var(--accent);border-radius:50%;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:600}
+.name{font-size:15px;font-weight:600;margin-bottom:4px}
+.status-text{font-size:12px;color:var(--text2)}
 
-/* Chat - FULL SCREEN */
 #chat{flex:1;display:none;flex-direction:column;background:var(--bg);width:100%}
 .chatHead{padding:16px 24px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
 .backBtn{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer;padding:4px}
 .chatInfo{flex:1}
 .chatName{font-size:16px;font-weight:600;display:flex;align-items:center;gap:6px}
-.tick{color:var(--blue)}
 .status{font-size:12px;color:var(--green);display:flex;align-items:center;gap:4px}
 .status::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%}
-.icons{display:flex;gap:8px}
-.icons button{width:36px;height:36px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center}
-.icons button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.status.offline{color:var(--text2)}
+.status.offline::before{background:var(--text2)}
 
 .msgs{flex:1;overflow-y:auto;padding:24px;background:var(--bg)}
 .date{text-align:center;color:var(--text2);font-size:13px;margin:20px 0}
@@ -86,16 +63,17 @@ html,body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;over
 .row.other.bubble{background:var(--other);border-bottom-left-radius:4px}
 .row.me.bubble{background:var(--me);color:#fff;border-bottom-right-radius:4px}
 .btext{font-size:15px;line-height:22px;word-wrap:break-word}
-.btime{font-size:11px;color:var(--text2);margin-top:4px;display:flex;gap:4px}
+.btime{font-size:11px;color:var(--text2);margin-top:4px;display:flex;gap:4px;align-items:center}
 .row.me.btime{justify-content:flex-end}
+.audio-player{width:200px;height:40px}
 
 .input{padding:16px 24px;background:var(--bg2);border-top:1px solid var(--border);display:flex;gap:10px;align-items:center}
 .attach{display:flex;gap:8px}
 .attach button{width:40px;height:40px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .input input{flex:1;padding:14px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:24px;color:var(--text);font-size:16px;outline:none}
-.send{width:48px;height:48px;border-radius:50%;background:var(--gradient);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.send{width:48px;height:48px;border-radius:50%;background:var(--gradient);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.send.recording{background:red}
 
-/* AI Modal Fullscreen */
 #ai{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;z-index:200}
 .aiHead{padding:20px 24px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
 .aiHead h3{flex:1;text-align:center;font-size:18px;font-weight:700}
@@ -103,299 +81,333 @@ html,body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;over
 .aiMsgs{flex:1;overflow-y:auto;padding:24px}
 .aiInput{padding:16px 24px;background:var(--bg2);border-top:1px solid var(--border);display:flex;gap:10px}
 
-/* Settings Modal */
-#set{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:300;backdrop-filter:blur(5px)}
-#setBox{background:var(--bg2);padding:28px;border-radius:20px;border:1px solid var(--border);width:90%;max-width:380px}
-#setBox h3{color:var(--accent);font-size:20px;margin-bottom:20px}
-#setBox label{display:block;margin-top:16px;margin-bottom:8px;color:var(--text2);font-size:13px;font-weight:600}
-#setBox select{width:100%;padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px}
-#setBox button{width:100%;padding:14px;background:var(--gradient);border:none;border-radius:12px;color:#fff;font-weight:700;margin-top:20px;cursor:pointer;font-size:16px}
+#fileInput{display:none}
+#cameraInput{display:none}
 
-/* MOBILE FULL SCREEN FIX */
 @media(max-width:768px){
-html,body{height:100vh;height:100dvh;overflow:hidden}
-#app{height:100vh;height:100dvh}
-#side{position:fixed;bottom:0;left:0;width:100%;height:70px;flex-direction:row;padding:8px 0;border-right:none;border-top:1px solid var(--border);z-index:100;background:var(--bg2)}
+#side{position:fixed;bottom:0;left:0;width:100%;height:70px;flex-direction:row;padding:8px 0;border-top:1px solid var(--border);z-index:100}
 .profile{display:none}
 .menu{flex-direction:row;width:100%;justify-content:space-around}
 .item{flex-direction:column;font-size:10px;gap:4px;padding:6px 4px}
-.item svg{width:20px;height:20px}
-.footer{display:none}
-#contacts{width:100%;height:calc(100vh - 70px);height:calc(100dvh - 70px);border-right:none;padding-bottom:0}
-#chat{width:100%;height:calc(100vh - 70px);height:calc(100dvh - 70px);padding-bottom:0}
+#contacts{width:100%;height:calc(100vh - 70px);height:calc(100dvh - 70px);border-right:none}
+#chat{width:100%;height:calc(100vh - 70px);height:calc(100dvh - 70px)}
 #chat.fullscreen{position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;z-index:150}
 .backBtn{display:block!important}
-.chatHead{padding:12px 16px}
-.msgs{padding:16px 12px}
-.bubble{max-width:78%;padding:10px 14px;font-size:15px;border-radius:16px}
-.btext{font-size:15px;line-height:21px}
+.bubble{max-width:78%}
 .input{padding:10px 12px;gap:8px}
 .attach button{width:38px;height:38px}
-.input input{padding:12px 16px;font-size:16px;border-radius:20px}
+.input input{padding:12px 16px;font-size:16px}
 .send{width:44px;height:44px}
+.audio-player{width:150px}
 </style>
 </head>
 <body>
 
-<!-- Login Screen -->
 <div id="login">
 <div id="loginBox">
 <h1>Aboki AI</h1>
-<p>Enter your name to start</p>
-<input type="text" id="uname" placeholder="Your name..." maxlength="20">
-<button onclick="start()">Start Chat</button>
+<p>Sign in or create account</p>
+<input type="email" id="email" placeholder="Email address">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="register()" style="background:#444">Create Account</button>
 </div>
 </div>
 
-<!-- Main App -->
 <div id="app">
-<!-- Sidebar -->
 <div id="side">
 <div class="profile">
 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50' y='60' font-size='40' text-anchor='middle' fill='white'%3EAI%3C/text%3E%3C/svg%3E">
 <div>
 <h3 id="sname">User</h3>
-<p>Online</p>
+<p id="myStatus">Online</p>
 </div>
 </div>
-
 <div class="menu">
-<div class="item active" onclick="showChat()"><svg fill="currentColor" viewBox="0 0 20 20"><path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/></svg><span>Chats</span></div>
-<div class="item" onclick="showContacts()"><svg fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/></svg><span>Contacts</span></div>
-<div class="item" onclick="openAI()"><svg fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9 4a1 1 0 10-2 0v6a1 1 0 102 0V9z" clip-rule="evenodd"/></svg><span>Bots</span></div>
-<div class="item" onclick="alert('Saved messages')"><svg fill="currentColor" viewBox="0 0 20 20"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"/></svg><span>Saved</span></div>
-<div class="item" onclick="openSet()"><svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg><span>Settings</span></div>
-<div class="item" onclick="alert('Analytics coming soon')"><svg fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg><span>Analytics</span></div>
-<div class="item" onclick="alert('Upgrade to Pro')"><svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><span>Upgrade</span></div>
-</div>
-
-<div class="footer">
-<div class="pro">
-<h4>Aboki Pro</h4>
-<p>Unlock all features</p>
-<button>Upgrade Now</button>
-</div>
+<div class="item active" onclick="showChat()">Chats</div>
+<div class="item" onclick="showContacts()">Contacts</div>
+<div class="item" onclick="openAI()">Khamis AI</div>
+<div class="item" onclick="logout()">Logout</div>
 </div>
 </div>
 
-<!-- Contacts -->
 <div id="contacts">
 <div class="head">
-<div class="headTop">
 <h2>Contacts</h2>
-<button class="add" onclick="alert('Add Contact')">+</button>
 </div>
-<div class="search">
-<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-<input type="text" id="search" placeholder="Search contacts..." oninput="search()">
-</div>
-<div class="filters">
-<button class="fbtn active" onclick="setFilter(this)">All 24</button>
-<button class="fbtn" onclick="setFilter(this)">Online 8</button>
-<button class="fbtn" onclick="setFilter(this)">Groups 3</button>
-</div>
-</div>
-<div class="list" id="list"></div>
+<div class="list" id="list">Loading contacts...</div>
 </div>
 
-<!-- Chat -->
 <div id="chat">
 <div class="chatHead">
 <button class="backBtn" onclick="back()">←</button>
 <div class="avatar on" id="cavatar">AI</div>
 <div class="chatInfo">
-<div class="chatName" id="cname">Khamis AI <span class="tick">✓</span></div>
-<div class="status">Online</div>
-</div>
-<div class="icons">
-<button onclick="alert('Search')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
-<button onclick="alert('Voice call')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></button>
-<button onclick="alert('Video call')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></button>
-<button onclick="alert('More options')"><svg fill="currentColor" viewBox="0 0 20 20" width="20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/></svg></button>
+<div class="chatName" id="cname">Khamis AI</div>
+<div class="status" id="cstatus">Online</div>
 </div>
 </div>
-<div class="msgs" id="msgs">
-<div class="date">Today</div>
-</div>
+<div class="msgs" id="msgs"><div class="date">Today</div></div>
 <div class="input">
 <div class="attach">
-<button onclick="alert('Attach file')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg></button>
-<button onclick="alert('Record voice message')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg></button>
-<button onclick="alert('Open camera')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></button>
-<button onclick="alert('Emoji picker')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></button>
+<button onclick="document.getElementById('fileInput').click()">📎</button>
+<button onclick="toggleRecording()" id="recBtn">🎤</button>
+<button onclick="document.getElementById('cameraInput').click()">📷</button>
 </div>
-<input type="text" id="inp" placeholder="Type your message..." onkeyup="if(event.key==='Enter') send()">
-<button class="send" onclick="send()"><svg fill="currentColor" viewBox="0 0 20 20" width="20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg></button>
+<input type="text" id="inp" placeholder="Type your message..." onkeyup="if(event.key==='Enter') sendMessage()">
+<button class="send" onclick="sendMessage()">➤</button>
 </div>
 </div>
 </div>
 
-<!-- Khamis AI Fullscreen -->
 <div id="ai">
 <div class="aiHead">
 <button onclick="closeAI()">←</button>
 <h3>Khamis AI</h3>
 <button onclick="clearAI()">🗑️</button>
 </div>
-<div class="aiMsgs" id="aiMsgs">
-<div style="text-align:center;color:var(--text2);margin-top:100px;font-size:20px">Good morning, <span id="uname2">User</span></div>
-<div style="text-align:center;color:var(--text2);margin-top:12px">Ask Khamis AI anything...</div>
-</div>
+<div class="aiMsgs" id="aiMsgs"><div style="text-align:center;color:var(--text2);margin-top:100px">Ask Khamis AI anything...</div></div>
 <div class="aiInput">
-<input type="text" id="aiInp" placeholder="Ask Khamis AI..." onkeyup="if(event.key==='Enter') sendAI()" style="flex:1;padding:14px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:24px;color:var(--text);font-size:16px;outline:none">
-<button class="send" onclick="sendAI()"><svg fill="currentColor" viewBox="0 0 20 20" width="20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg></button>
+<input type="text" id="aiInp" placeholder="Ask Khamis AI..." onkeyup="if(event.key==='Enter') sendAI()">
+<button class="send" onclick="sendAI()">➤</button>
 </div>
 </div>
 
-<!-- Settings -->
-<div id="set" onclick="if(event.target.id==='set') closeSet()">
-<div id="setBox" onclick="event.stopPropagation()">
-<h3>Settings</h3>
-<label>Language</label>
-<select id="lang" onchange="changeLang()">
-<option value="en">English</option>
-<option value="ha">Hausa</option>
-</select>
-<label>Theme Mode</label>
-<select id="theme" onchange="changeTheme()">
-<option value="auto">System Default</option>
-<option value="dark">Dark Mode</option>
-<option value="light">Light Mode</option>
-</select>
-<button onclick="closeSet()">Save and Close</button>
-</div>
-</div>
+<input type="file" id="fileInput" accept="image/*,video/*,.pdf,.doc,.docx">
+<input type="file" id="cameraInput" accept="image/*" capture="environment">
 
-<script>
-let user = '';
-let currentChat = 'Khamis AI';
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, getDoc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
-function start(){
-user = document.getElementById('uname').value.trim();
-if(user.length < 2) return alert('Please enter a name with 2 or more letters');
-localStorage.setItem('aboki_user', user);
-document.getElementById('sname').innerText = user;
-document.getElementById('uname2').innerText = user;
-document.getElementById('login').style.display = 'none';
-document.getElementById('app').style.display = 'flex';
-loadList();
-openChat('Khamis AI');
+// 🔥 KAI KA SA FIREBASE KEY NAKA ANAN KAWAI 🔥
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY_HERE",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+let currentUser = null;
+let currentChatId = null;
+let currentChatUser = null;
+let unsubscribeMessages = null;
+let mediaRecorder = null;
+let audioChunks = [];
+let isRecording = false;
+
+// AUTH
+window.login = async function(){
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+try{
+await signInWithEmailAndPassword(auth, email, password);
+}catch(e){alert(e.message)}
 }
 
-window.onload = () => {
-const saved = localStorage.getItem('aboki_user');
-if(saved){
-user = saved;
-document.getElementById('sname').innerText = user;
-document.getElementById('uname2').innerText = user;
-document.getElementById('login').style.display = 'none';
-document.getElementById('app').style.display = 'flex';
-loadList();
-openChat('Khamis AI');
-}
-}
-
-function loadList(){
-const data = [
-{name:'Khamis AI', msg:'Hello! I am here to help you', time:'10:30 AM', on:true, badge:2},
-{name:'Hafsa Usman', msg:'Thank you so much', time:'9:45 AM', on:true, badge:0},
-{name:'Ibrahim Lawal', msg:'See you tomorrow', time:'8:20 AM', on:false, badge:0},
-{name:'Maryam Musa', msg:'Okay, I understand', time:'Yesterday', on:true, badge:0},
-{name:'Sani Abba', msg:'Thanks', time:'Yesterday', on:false, badge:1}
-];
-let html = '';
-data.forEach(p => {
-html += `<div class="person" onclick="openChat('${p.name}')"><div class="avatar ${p.on?'on':''}">${p.name.charAt(0)}</div><div class="info"><div class="top"><div class="name">${p.name}</div><div class="time">${p.time}</div></div><div class="top"><div class="msg">${p.msg}</div>${p.badge>0?`<div class="badge">${p.badge}</div>`:''}</div></div></div>`;
+window.register = async function(){
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+const name = email.split('@')[0];
+try{
+const userCred = await createUserWithEmailAndPassword(auth, email, password);
+await setDoc(doc(db, 'users', userCred.user.uid), {
+name: name,
+email: email,
+online: true,
+lastSeen: serverTimestamp(),
+createdAt: serverTimestamp()
 });
-document.getElementById('list').innerHTML = html;
+}catch(e){alert(e.message)}
 }
 
-function openChat(name){
-currentChat = name;
-document.getElementById('cname').innerHTML = name + ' <span class="tick">✓</span>';
+window.logout = async () => {
+await updateDoc(doc(db, 'users', currentUser.uid), {online: false, lastSeen: serverTimestamp()});
+signOut(auth);
+}
+
+// ONLINE STATUS
+onAuthStateChanged(auth, async (user) => {
+if(user){
+currentUser = user;
+document.getElementById('sname').innerText = user.email.split('@')[0];
+document.getElementById('login').style.display = 'none';
+document.getElementById('app').style.display = 'flex';
+await updateDoc(doc(db, 'users', user.uid), {online: true});
+loadContacts();
+openChat('Khamis AI', 'bot');
+window.addEventListener('beforeunload', () => updateDoc(doc(db, 'users', user.uid), {online: false, lastSeen: serverTimestamp()}));
+}else{
+document.getElementById('login').style.display = 'flex';
+document.getElementById('app').style.display = 'none';
+}
+});
+
+// LOAD CONTACTS WITH ONLINE STATUS
+async function loadContacts(){
+const q = query(collection(db, 'users'), where('__name__', '!=', currentUser.uid));
+onSnapshot(q, (snapshot) => {
+let html = '';
+snapshot.forEach(docSnap => {
+const u = docSnap.data();
+const statusClass = u.online? 'on' : '';
+const statusText = u.online? 'Online' : 'Offline';
+html += `<div class="person" onclick="openChat('${u.name}', '${docSnap.id}')"><div class="avatar ${statusClass}">${u.name.charAt(0).toUpperCase()}</div><div class="info"><div class="name">${u.name}</div><div class="status-text">${statusText}</div></div></div>`;
+});
+html += `<div class="person" onclick="openChat('Khamis AI', 'bot')"><div class="avatar">AI</div><div class="info"><div class="name">Khamis AI</div><div class="status-text">Online</div></div></div>`;
+document.getElementById('list').innerHTML = html;
+});
+}
+
+// OPEN CHAT
+window.openChat = function(name, uid){
+currentChatUser = uid;
+currentChatId = uid === 'bot'? 'bot' : [currentUser.uid, uid].sort().join('_');
+document.getElementById('cname').innerText = name;
 document.getElementById('cavatar').innerText = name.charAt(0);
 document.getElementById('contacts').style.display = 'none';
 document.getElementById('chat').style.display = 'flex';
 document.getElementById('chat').classList.add('fullscreen');
 
-if(name === 'Khamis AI'){
-document.getElementById('msgs').innerHTML = `<div class="date">Today</div><div class="row other"><div class="avatar">AI</div><div class="bubble"><div class="btext">Hello ${user}! I am Khamis AI. How can I help you today?</div><div class="btime">10:30 AM</div></div></div>`;
-} else {
-document.getElementById('msgs').innerHTML = `<div class="date">Today</div>`;
-}
+if(unsubscribeMessages) unsubscribeMessages();
+
+if(uid === 'bot'){
+document.getElementById('msgs').innerHTML = `<div class="date">Today</div><div class="row other"><div class="avatar">AI</div><div class="bubble"><div class="btext">Hello! I am Khamis AI. How can I help you today?</div></div></div>`;
+return;
 }
 
-function showChat(){
-document.querySelectorAll('.item').forEach(i=>i.classList.remove('active'));
-document.querySelector('.item[onclick="showChat()"]').classList.add('active');
-document.getElementById('chat').style.display='none';
-document.getElementById('contacts').style.display='flex';
-document.getElementById('chat').classList.remove('fullscreen');
+// WATCH USER STATUS
+onSnapshot(doc(db, 'users', uid), (snap) => {
+const u = snap.data();
+document.getElementById('cstatus').innerText = u.online? 'Online' : 'Last seen recently';
+document.getElementById('cstatus').className = u.online? 'status' : 'status offline';
+});
+
+// WATCH MESSAGES
+const q = query(collection(db, 'chats', currentChatId, 'messages'), orderBy('timestamp'));
+unsubscribeMessages = onSnapshot(q, (snapshot) => {
+let html = '<div class="date">Today</div>';
+snapshot.forEach(docSnap => {
+const m = docSnap.data();
+const isMe = m.sender === currentUser.uid;
+let content = '';
+if(m.type === 'text') content = `<div class="btext">${m.text}</div>`;
+else if(m.type === 'audio') content = `<audio controls class="audio-player" src="${m.url}"></audio>`;
+else if(m.type === 'image') content = `<img src="${m.url}" style="max-width:250px;border-radius:12px">`;
+else if(m.type === 'file') content = `<a href="${m.url}" target="_blank" style="color:inherit">📎 ${m.fileName}</a>`;
+
+html += `<div class="row ${isMe?'me':''}"><div class="bubble">${content}<div class="btime">${new Date(m.timestamp?.toDate()).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div></div></div>`;
+});
+document.getElementById('msgs').innerHTML = html;
+document.getElementById('msgs').scrollTop = document.getElementById('msgs').scrollHeight;
+});
 }
 
-function showContacts(){
-document.querySelectorAll('.item').forEach(i=>i.classList.remove('active'));
-document.querySelector('.item[onclick="showContacts()"]').classList.add('active');
-}
-
-function back(){
-document.getElementById('chat').classList.remove('fullscreen');
-document.getElementById('chat').style.display='none';
-document.getElementById('contacts').style.display='flex';
-}
-
-function send(){
+// SEND TEXT
+window.sendMessage = async function(){
 const inp = document.getElementById('inp');
 const text = inp.value.trim();
-if(!text) return;
-document.getElementById('msgs').innerHTML += `<div class="row me"><div class="bubble"><div class="btext">${text}</div><div class="btime">10:31 AM ✓✓</div></div></div>`;
+if(!text || currentChatId === 'bot') return;
+await addDoc(collection(db, 'chats', currentChatId, 'messages'), {
+text: text,
+type: 'text',
+sender: currentUser.uid,
+timestamp: serverTimestamp()
+});
 inp.value = '';
-document.getElementById('msgs').scrollTop = document.getElementById('msgs').scrollHeight;
 }
 
-function setFilter(btn){
-document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
+// VOICE RECORDING
+window.toggleRecording = async function(){
+const btn = document.getElementById('recBtn');
+if(!isRecording){
+const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+mediaRecorder = new MediaRecorder(stream);
+audioChunks = [];
+mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+mediaRecorder.onstop = async () => {
+const audioBlob = new Blob(audioChunks, {type: 'audio/webm'});
+const storageRef = ref(storage, `audio/${currentChatId}/${Date.now()}.webm`);
+await uploadBytes(storageRef, audioBlob);
+const url = await getDownloadURL(storageRef);
+await addDoc(collection(db, 'chats', currentChatId, 'messages'), {
+type: 'audio',
+url: url,
+sender: currentUser.uid,
+timestamp: serverTimestamp()
+});
+}
+mediaRecorder.start();
+isRecording = true;
+btn.classList.add('recording');
+btn.innerText = '⏹️';
+}else{
+mediaRecorder.stop();
+isRecording = false;
+btn.classList.remove('recording');
+btn.innerText = '🎤';
+}
 }
 
-function openAI(){document.getElementById('ai').style.display='flex'}
-function closeAI(){document.getElementById('ai').style.display='none'}
-function sendAI(){
+// UPLOAD FILE & CAMERA
+document.getElementById('fileInput').onchange = async (e) => {
+const file = e.target.files[0];
+if(!file) return;
+const storageRef = ref(storage, `files/${currentChatId}/${Date.now()}_${file.name}`);
+await uploadBytes(storageRef, file);
+const url = await getDownloadURL(storageRef);
+await addDoc(collection(db, 'chats', currentChatId, 'messages'), {
+type: 'file',
+url: url,
+fileName: file.name,
+sender: currentUser.uid,
+timestamp: serverTimestamp()
+});
+}
+
+document.getElementById('cameraInput').onchange = async (e) => {
+const file = e.target.files[0];
+if(!file) return;
+const storageRef = ref(storage, `images/${currentChatId}/${Date.now()}.jpg`);
+await uploadBytes(storageRef, file);
+const url = await getDownloadURL(storageRef);
+await addDoc(collection(db, 'chats', currentChatId, 'messages'), {
+type: 'image',
+url: url,
+sender: currentUser.uid,
+timestamp: serverTimestamp()
+});
+}
+
+// NAVIGATION
+window.back = function(){
+document.getElementById('chat').classList.remove('fullscreen');
+document.getElementById('chat').style.display='none';
+document.getElementById('contacts').style.display='flex';
+if(unsubscribeMessages) unsubscribeMessages();
+}
+window.showChat = function(){document.getElementById('chat').style.display='none';document.getElementById('contacts').style.display='flex';document.getElementById('chat').classList.remove('fullscreen')}
+window.showContacts = function(){}
+window.openAI = function(){document.getElementById('ai').style.display='flex'}
+window.closeAI = function(){document.getElementById('ai').style.display='none'}
+window.sendAI = function(){
 const inp = document.getElementById('aiInp');
 const text = inp.value.trim();
 if(!text) return;
 document.getElementById('aiMsgs').innerHTML += `<div class="row me"><div class="bubble"><div class="btext">${text}</div></div></div>`;
 inp.value = '';
-document.getElementById('aiMsgs').scrollTop = document.getElementById('aiMsgs').scrollHeight;
-setTimeout(()=>{document.getElementById('aiMsgs').innerHTML += `<div class="row other"><div class="avatar">AI</div><div class="bubble"><div class="btext">I understand ${user}. I will help you with that. Is there anything else?</div></div></div>`;document.getElementById('aiMsgs').scrollTop = document.getElementById('aiMsgs').scrollHeight;},800);
+setTimeout(()=>{document.getElementById('aiMsgs').innerHTML += `<div class="row other"><div class="avatar">AI</div><div class="bubble"><div class="btext">I understand. How can I help you further?</div></div></div>`},800);
 }
-
-function clearAI(){
-document.getElementById('aiMsgs').innerHTML = `<div style="text-align:center;color:var(--text2);margin-top:100px;font-size:20px">Good morning, ${user}</div><div style="text-align:center;color:var(--text2);margin-top:12px">Ask Khamis AI anything...</div>`;
-}
-
-function openSet(){
-document.getElementById('set').style.display = 'flex';
-}
-
-function closeSet(){
-document.getElementById('set').style.display = 'none';
-}
-
-function changeTheme(){
-const t = document.getElementById('theme').value;
-if(t==='light') document.body.classList.add('light');
-else if(t==='dark') document.body.classList.remove('light');
-else if(window.matchMedia('(prefers-color-scheme: light)').matches) document.body.classList.add('light');
-else document.body.classList.remove('light');
-localStorage.setItem('theme', t);
-}
-
-function changeLang(){
-const l = document.getElementById('lang').value;
-localStorage.setItem('lang', l);
-alert('Language set to '+l+'. Firebase will save this setting.');
-}
+window.clearAI = function(){document.getElementById('aiMsgs').innerHTML = '<div style="text-align:center;color:var(--text2);margin-top:100px">Ask Khamis AI anything...</div>'}
 </script>
 </body>
 </html>
