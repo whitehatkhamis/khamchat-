@@ -9,10 +9,6 @@
 :root{--bg:#0b141a;--sidebar:#111b21;--panel:#202c33;--hover:#2a3942;--border:#233138;--green:#00a884;--text:#e9edef;--text2:#8696a0;--lock:#f59e0b;}
 body.light{--bg:#f0f2f5;--sidebar:#fff;--panel:#fff;--hover:#f5f6f6;--border:#e9edef;--text:#111b21;--text2:#667781;}
 html,body{background:var(--bg);color:var(--text);height:100dvh;width:100vw;overflow:hidden}
-#lockOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center}
-#lockBox{background:var(--panel);padding:24px;border-radius:16px;width:90%;max-width:360px;text-align:center;border:2px solid var(--lock)}
-#lockBox h2{color:var(--lock);margin-bottom:8px}
-#lockBox p{color:var(--text2);font-size:14px;margin-bottom:16px}
 #app{height:100dvh;width:100vw;display:grid;grid-template-columns:400px 1fr}
 @media(max-width:900px){#app{grid-template-columns:1fr}}
 .sidebar{background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100dvh}
@@ -41,7 +37,6 @@ html,body{background:var(--bg);color:var(--text);height:100dvh;width:100vw;overf
 .inputArea input{flex:1;padding:12px 16px;background:var(--bg);border:none;border-radius:24px;color:var(--text);outline:none}
 .iconBtn{width:44px;height:44px;border-radius:50%;background:transparent;border:none;color:var(--text2);font-size:22px;cursor:pointer}
 .sendBtn{width:48px;height:48px;border-radius:50%;background:var(--green);border:none;color:#fff;font-size:20px;cursor:pointer}
-.sendBtn:disabled{background:var(--text2);cursor:not-allowed}
 #settingsModal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:2000}
 #settingsBox{background:var(--panel);width:95%;max-width:420px;border-radius:16px;padding:20px;max-height:90dvh;overflow-y:auto}
 .setItem{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:10px}
@@ -51,23 +46,16 @@ html,body{background:var(--bg);color:var(--text);height:100dvh;width:100vw;overf
 .btn.gray{background:var(--hover)}
 hr{margin:16px 0;border:none;border-top:1px solid var(--border)}
 .small{font-size:12px;color:var(--text2)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:12px 20px;border-radius:24px;z-index:3000;display:none}
 </style>
 </head>
 <body>
-
-<div id="lockOverlay">
-<div id="lockBox">
-<h2>🔒 Locked</h2>
-<p id="lockText">Open Settings and create account to start chatting</p>
-<button class="btn" id="openSetBtn">Open Settings</button>
-</div>
-</div>
 
 <div id="app">
 <div class="sidebar">
 <div class="sideHead">
 <div class="profilePic" id="picBtn">
-<img id="myPic" src="" style="display:none"><span id="myPicText">K</span>
+<img id="myPic" src="" style="display:none"><span id="myPicText">G</span>
 <span class="badge" id="guestBadge">!</span>
 </div>
 <div class="sideActions"><span id="setBtn">⚙️</span></div>
@@ -79,7 +67,9 @@ hr{margin:16px 0;border:none;border-top:1px solid var(--border)}
 <input type="text" id="monetagKey" placeholder="Monetag Key" style="width:100%;margin-top:8px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text)">
 <button onclick="saveKey()" class="btn" style="padding:8px;margin-top:6px">Save Key</button>
 </div>
-<div class="contactsList" id="contactsList"></div>
+<div class="contactsList" id="contactsList">
+<div class="contact active"><div class="contactPic">K<span class="onlineDot"></span></div><div><div>Khamis AI</div><div style="font-size:12px;color:var(--text2)">AI Assistant</div></div></div>
+</div>
 </div>
 
 <div class="chat">
@@ -87,41 +77,44 @@ hr{margin:16px 0;border:none;border-top:1px solid var(--border)}
 <div class="contactPic" id="chatPic">K</div>
 <div><div id="chatName">Khamis AI</div><div style="font-size:12px;color:var(--text2)">Online</div></div>
 </div>
-<div class="messages" id="messages"><div style="text-align:center;color:var(--text2);margin-top:40px">Create account in Settings</div></div>
+<div class="messages" id="messages">
+<div style="text-align:center;color:var(--text2);margin-top:40px">Click Settings ⚙️ to create account and chat</div>
+</div>
 <div class="inputArea">
 <button class="iconBtn" id="camBtn">📷</button>
 <button class="iconBtn" id="micBtn">🎤</button>
-<input type="text" id="inp" placeholder="Message" disabled>
-<button class="sendBtn" id="sendBtn" disabled>➤</button>
+<input type="text" id="inp" placeholder="Message">
+<button class="sendBtn" id="sendBtn">➤</button>
 </div>
 </div>
 </div>
 
 <div id="settingsModal">
 <div id="settingsBox">
-<h3>Settings</h3>
-<div class="setItem"><span>Language</span><select id="lang"><option value="en">English</option><option value="ha">Hausa</option></select></div>
-<div class="setItem"><span>Mode</span><select id="theme"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">System</option></select></div>
+<h3>Settings / Saituna</h3>
+<div class="setItem"><span>Language / Harshe</span><select id="lang"><option value="en">English</option><option value="ha">Hausa</option></select></div>
+<div class="setItem"><span>Mode / Yanayi</span><select id="theme"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">System</option></select></div>
 <hr>
-<h4>Account - REQUIRED</h4>
-<p class="small">You must create account to unlock</p>
+<h4 id="accTitle">Account - REQUIRED to Chat</h4>
+<p class="small" id="accNote">Create Username + Email + Password</p>
 <div class="setItem"><input type="text" id="newUser" placeholder="Username"></div>
 <div class="setItem"><input type="email" id="newEmail" placeholder="Email"></div>
 <div class="setItem"><input type="password" id="newPass" placeholder="Password"></div>
-<button class="btn" id="createBtn">Create Account</button>
-<button class="btn gray" id="loginBtn">Login</button>
-<button class="btn red" id="logoutBtn" style="display:none">Logout</button>
-<button class="btn gray" id="closeSetBtn">Close</button>
+<button class="btn" id="createBtn">Create Account / Yi Account</button>
+<button class="btn gray" id="loginBtn">Login / Shiga</button>
+<button class="btn red" id="logoutBtn" style="display:none">Logout / Fita</button>
+<button class="btn gray" id="closeSetBtn">Close / Rufe</button>
 </div>
 </div>
 
+<div class="toast" id="toast"></div>
 <input type="file" id="picInput" accept="image/*" style="display:none">
 <input type="file" id="camInput" accept="image/*,video/*" capture="environment" style="display:none">
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
 const firebaseConfig = {
@@ -138,22 +131,9 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-let currentUser = null, currentChatId = 'khamis_ai', myUsername = '', lang = 'en', balance = 0;
+let currentUser = null, currentChatId = 'khamis_ai', myUsername = 'Guest', lang = 'en', balance = 0;
 
-// ====== GYARA: MUKA SANYA DUKKAN BUTTON A JS MAIJI ======
-document.getElementById('openSetBtn').onclick = () => {document.getElementById('lockOverlay').style.display='none'; document.getElementById('settingsModal').style.display='flex';}
-document.getElementById('setBtn').onclick = () => document.getElementById('settingsModal').style.display='flex';
-document.getElementById('closeSetBtn').onclick = () => document.getElementById('settingsModal').style.display='none';
-document.getElementById('picBtn').onclick = () => document.getElementById('picInput').click();
-document.getElementById('camBtn').onclick = () => document.getElementById('camInput').click();
-document.getElementById('createBtn').onclick = createAccount;
-document.getElementById('loginBtn').onclick = loginAccount;
-document.getElementById('logoutBtn').onclick = logout;
-document.getElementById('sendBtn').onclick = sendMsg;
-document.getElementById('lang').onchange = changeLang;
-document.getElementById('theme').onchange = changeTheme;
-
-// ====== AUTH ======
+// ====== 1. BUDE SITE DIRECT BA LOCK BA ======
 onAuthStateChanged(auth, async (user) => {
 if(user){
 currentUser = user;
@@ -165,40 +145,52 @@ document.getElementById('balance').innerText = `$${balance.toFixed(2)}`;
 document.getElementById('myPicText').innerText = myUsername.charAt(0).toUpperCase();
 document.getElementById('guestBadge').style.display = 'none';
 document.getElementById('logoutBtn').style.display = 'block';
-document.getElementById('lockOverlay').style.display = 'none';
-document.getElementById('inp').disabled = false;
-document.getElementById('sendBtn').disabled = false;
 if(myDoc.data().pic){
 document.getElementById('myPic').src = myDoc.data().pic;
 document.getElementById('myPic').style.display = 'block';
 document.getElementById('myPicText').style.display = 'none';
 }
+}else{
+document.getElementById('guestBadge').style.display = 'block'; // Nuna cewa Guest ne
+}
 loadContacts();
 openChat('Khamis AI', 'khamis_ai');
-}
-});
+
+// ====== BUTTONS ======
+document.getElementById('setBtn').onclick = () => document.getElementById('settingsModal').style.display='flex';
+document.getElementById('closeSetBtn').onclick = () => document.getElementById('settingsModal').style.display='none';
+document.getElementById('picBtn').onclick = () => currentUser ? document.getElementById('picInput').click() : showToast(lang==='ha'?'Dole ka yi account':'Create account first');
+document.getElementById('camBtn').onclick = () => currentUser ? document.getElementById('camInput').click() : showToast(lang==='ha'?'Dole ka yi account':'Create account first');
+document.getElementById('createBtn').onclick = createAccount;
+document.getElementById('loginBtn').onclick = loginAccount;
+document.getElementById('logoutBtn').onclick = logout;
+document.getElementById('sendBtn').onclick = sendMsg;
+document.getElementById('inp').onkeyup = e => {if(e.key==='Enter') sendMsg();}
+document.getElementById('lang').onchange = changeLang;
+document.getElementById('theme').onchange = changeTheme;
 
 // ====== ACCOUNT ======
 async function createAccount(){
 const u = document.getElementById('newUser').value.trim();
 const e = document.getElementById('newEmail').value.trim();
 const p = document.getElementById('newPass').value.trim();
-if(!u ||!e ||!p) return alert('Fill all fields');
-if(u.length < 3) return alert('Username 3+ letters');
+if(!u ||!e ||!p) return showToast('Fill all fields');
+if(u.length < 3) return showToast('Username 3+ letters');
 const userRef = doc(db, 'usernames', u.toLowerCase());
-if((await getDoc(userRef)).exists()) return alert('Username taken');
+if((await getDoc(userRef)).exists()) return showToast('Username taken');
 try{
 const cred = await createUserWithEmailAndPassword(auth, e, p);
 await setDoc(doc(db,'users',cred.user.uid), {username: u, email: e, balance: 0, pic: ''});
 await setDoc(userRef, {uid: cred.user.uid});
-alert('Account created. Chat unlocked');
-}catch(e){alert(e.message)}
+showToast(lang==='ha'?'An yi account':'Account created');
+document.getElementById('settingsModal').style.display='none';
+}catch(e){showToast(e.message)}
 }
 async function loginAccount(){
 const e = document.getElementById('newEmail').value.trim();
 const p = document.getElementById('newPass').value.trim();
-if(!e ||!p) return alert('Fill email + password');
-try{await signInWithEmailAndPassword(auth, e, p);}catch(e){alert('Wrong email or password')}
+if(!e ||!p) return showToast('Fill email + password');
+try{await signInWithEmailAndPassword(auth, e, p); showToast('Welcome'); document.getElementById('settingsModal').style.display='none';}catch(e){showToast('Wrong email or password')}
 }
 async function logout(){await signOut(auth); location.reload();}
 
@@ -206,19 +198,17 @@ async function logout(){await signOut(auth); location.reload();}
 async function loadContacts(){
 const q = query(collection(db, 'users'));
 onSnapshot(q, (snap) => {
-let html = `<div class="contact active" onclick="openChat('Khamis AI','khamis_ai')"><div class="contactPic">K<span class="onlineDot"></span></div><div><div>Khamis AI</div><div style="font-size:12px;color:var(--text2)">AI Assistant</div></div></div>`;
+let html = `<div class="contact active"><div class="contactPic">K<span class="onlineDot"></span></div><div><div>Khamis AI</div><div style="font-size:12px;color:var(--text2)">AI</div></div></div>`;
 snap.forEach(d=>{
-if(d.id === currentUser?.uid) return;
+if(!currentUser || d.id === currentUser.uid) return;
 const u=d.data();
-html+=`<div class="contact" onclick="openChat('${u.username}','${d.id}','${u.pic||''}')">
-<div class="contactPic">${u.pic?`<img src="${u.pic}">`:`${u.username.charAt(0).toUpperCase()}`}<span class="onlineDot"></span></div>
-<div><div>@${u.username}</div><div style="font-size:12px;color:var(--text2)">Online</div></div>
-</div>`;
+html+=`<div class="contact"><div class="contactPic">${u.pic?`<img src="${u.pic}">`:`${u.username.charAt(0).toUpperCase()}`}<span class="onlineDot"></span></div><div><div>@${u.username}</div><div style="font-size:12px;color:var(--text2)">Online</div></div></div>`;
 });
 document.getElementById('contactsList').innerHTML=html;
 });
 
 window.openChat = (name,uid,pic='') => {
+if(!currentUser){return showToast(lang==='ha'?'Dole ka yi account da Email + Password':'Create account with Email + Password first');}
 currentChatId = uid==='khamis_ai'? 'khamis_ai' : [currentUser.uid,uid].sort().join('_');
 document.getElementById('chatName').innerText = name;
 document.getElementById('chatPic').innerHTML = pic? `<img src="${pic}">` : name.charAt(0).toUpperCase();
@@ -236,13 +226,14 @@ document.getElementById('messages').scrollTop = document.getElementById('message
 }
 
 async function sendMsg(){
+if(!currentUser){return showToast(lang==='ha'?'Dole ka yi account da Email + Password':'Create account with Email + Password first');}
 const inp = document.getElementById('inp');
 const text = inp.value.trim();
 if(!text) return;
 if(currentChatId === 'khamis_ai'){
 await addDoc(collection(db,'chats',currentChatId,'messages'), {text, sender: currentUser.uid, timestamp: serverTimestamp()});
 setTimeout(async ()=>{
-let reply = `I am Khamis AI. Got: ${text}`;
+let reply = lang==='ha'? `Ni ne Khamis AI. Na karba: ${text}` : `I am Khamis AI. Got: ${text}`;
 await addDoc(collection(db,'chats',currentChatId,'messages'), {text: reply, sender: 'khamis_ai', timestamp: serverTimestamp()});
 balance += 0.01;
 document.getElementById('balance').innerText = `$${balance.toFixed(2)}`;
@@ -256,20 +247,27 @@ inp.value = '';
 
 // ====== OTHER ======
 window.saveKey = async () => {
+if(!currentUser) return showToast('Login first');
 const key = document.getElementById('monetagKey').value.trim();
-if(!key) return alert('Paste key first');
+if(!key) return showToast('Paste key first');
 await setDoc(doc(db,'users',currentUser.uid), {monetagKey: key}, {merge: true});
-alert('Saved');
+showToast('Saved');
 }
 function changeLang(){
 lang = document.getElementById('lang').value;
 document.getElementById('inp').placeholder = lang==='ha'?'Sako...':'Message';
+document.getElementById('accTitle').innerText = lang==='ha'?'Account - DOLE NE don Chat':'Account - REQUIRED to Chat';
 }
 function changeTheme(){
 const m = document.getElementById('theme').value;
 if(m==='light') document.body.classList.add('light');
 else if(m==='dark') document.body.classList.remove('light');
 else document.body.classList.toggle('light', window.matchMedia('(prefers-color-scheme: light)').matches);
+}
+function showToast(msg){
+const t = document.getElementById('toast');
+t.innerText = msg; t.style.display = 'block';
+setTimeout(()=>t.style.display='none', 3000);
 }
 </script>
 </body>
