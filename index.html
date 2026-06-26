@@ -182,14 +182,15 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, on
 import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, getDoc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
-// 🔥 KAI KA SA FIREBASE KEY NAKA ANAN KAWAI 🔥
+// YOUR FIREBASE CONFIG
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY_HERE",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAsFeKfeYTIGzP221hwPlFBHPiYyy-TLqE",
+  authDomain: "khamchat-1d5a4.firebaseapp.com",
+  projectId: "khamchat-1d5a4",
+  storageBucket: "khamchat-1d5a4.firebasestorage.app",
+  messagingSenderId: "515176934851",
+  appId: "1:515176934851:web:4ec261196d1ff497666176",
+  measurementId: "G-P7JRRZ3M2M"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -205,7 +206,7 @@ let mediaRecorder = null;
 let audioChunks = [];
 let isRecording = false;
 
-// AUTH
+// AUTH FUNCTIONS
 window.login = async function(){
 const email = document.getElementById('email').value;
 const password = document.getElementById('password').value;
@@ -235,7 +236,7 @@ await updateDoc(doc(db, 'users', currentUser.uid), {online: false, lastSeen: ser
 signOut(auth);
 }
 
-// ONLINE STATUS
+// AUTH STATE CHECKER
 onAuthStateChanged(auth, async (user) => {
 if(user){
 currentUser = user;
@@ -305,14 +306,14 @@ else if(m.type === 'audio') content = `<audio controls class="audio-player" src=
 else if(m.type === 'image') content = `<img src="${m.url}" style="max-width:250px;border-radius:12px">`;
 else if(m.type === 'file') content = `<a href="${m.url}" target="_blank" style="color:inherit">📎 ${m.fileName}</a>`;
 
-html += `<div class="row ${isMe?'me':''}"><div class="bubble">${content}<div class="btime">${new Date(m.timestamp?.toDate()).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div></div></div>`;
+html += `<div class="row ${isMe?'me':''}"><div class="bubble">${content}<div class="btime">${m.timestamp? new Date(m.timestamp.toDate()).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : ''}</div></div></div>`;
 });
 document.getElementById('msgs').innerHTML = html;
 document.getElementById('msgs').scrollTop = document.getElementById('msgs').scrollHeight;
 });
 }
 
-// SEND TEXT
+// SEND TEXT MESSAGE
 window.sendMessage = async function(){
 const inp = document.getElementById('inp');
 const text = inp.value.trim();
@@ -358,7 +359,7 @@ btn.innerText = '🎤';
 }
 }
 
-// UPLOAD FILE & CAMERA
+// UPLOAD FILE
 document.getElementById('fileInput').onchange = async (e) => {
 const file = e.target.files[0];
 if(!file) return;
@@ -374,6 +375,7 @@ timestamp: serverTimestamp()
 });
 }
 
+// CAMERA PHOTO
 document.getElementById('cameraInput').onchange = async (e) => {
 const file = e.target.files[0];
 if(!file) return;
