@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Khamchat Reel</title>
 <style>
+/* ====== STYLE MAI BALANCE KAMAR HOTONKA ====== */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
 :root{
 --bg:#0a0a0f;--sidebar:#111119;--panel:#1a1a24;--hover:#222232;--border:#25253a;
@@ -16,22 +17,32 @@ body.light{
 --bg:#f5f7fb;--sidebar:#ffffff;--panel:#ffffff;--hover:#f1f5f9;--border:#e2e8f0;
 --text:#0f172a;--text2:#64748b;
 }
-html,body{background:var(--bg);color:var(--text);width:100vw;height:100vh;overflow:hidden}
+html,body{background:var(--bg);color:var(--text);width:100vw;height:100vh;height:100dvh;overflow:hidden}
+
+/* ====== LOGIN - BAZAI HANABA ====== */
 #login{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
 #loginBox{background:var(--panel);padding:40px;border-radius:24px;border:1px solid var(--border);width:90%;max-width:380px;text-align:center}
-#loginBox .botIcon{width:80px;height:80px;margin:0 auto 16px;border-radius:24px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:40px}
+#loginBox.botIcon{width:80px;height:80px;margin:0 auto 16px;border-radius:24px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:40px}
 #loginBox h1{font-size:28px;font-weight:800;margin-bottom:8px}
 #loginBox input{width:100%;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:15px;margin-bottom:12px;outline:none}
 #loginBox button{width:100%;padding:14px;background:var(--gradient);border:none;border-radius:12px;color:#fff;font-weight:700;cursor:pointer;font-size:15px}
-#app{display:none;width:100vw;height:100vh;grid-template-columns:280px 320px 1fr}
+
+/* ====== MAIN 3-COLUMN LAYOUT ====== */
+#app{display:none;width:100vw;height:100vh;height:100dvh;grid-template-columns:280px 320px 1fr}
+
+/* ====== SIDEBAR LEFT - BOT ICON KASA ====== */
 .sidebar{background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px}
+.botProfile{text-align:center;margin-bottom:24px}
 .botIconLg{width:80px;height:80px;margin:0 auto 12px;border-radius:24px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:40px}
-.navItem{padding:12px 16px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;color:var(--text2);font-weight:600;margin-bottom:4px}
+.nav{flex:1;display:flex;flex-direction:column;gap:4px}
+.navItem{padding:12px 16px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;color:var(--text2);font-weight:600}
 .navItem.active,.navItem:hover{background:var(--hover);color:var(--text)}
 .userCard{padding:12px;background:var(--panel);border-radius:16px;border:1px solid var(--border);display:flex;gap:12px;align-items:center;margin-top:auto}
 .userAvatar{width:48px;height:48px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700}
 .userStatus{font-size:12px;color:var(--green);display:flex;align-items:center;gap:6px}
 .userStatus::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--green)}
+
+/* ====== CONTACTS MIDDLE ====== */
 .contacts{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column}
 .contactsHead{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .searchBox{padding:16px 20px;position:relative}
@@ -42,6 +53,8 @@ html,body{background:var(--bg);color:var(--text);width:100vw;height:100vh;overfl
 .contact:hover,.contact.active{background:var(--hover)}
 .contactAvatar{width:50px;height:50px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700;position:relative}
 .onlineDot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;border-radius:50%;background:var(--green);border:2px solid var(--panel)}
+
+/* ====== CHAT RIGHT ====== */
 .chat{display:flex;flex-direction:column;background:var(--bg)}
 .chatHead{padding:16px 20px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
 .chatAvatar{width:44px;height:44px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:24px;position:relative}
@@ -49,60 +62,82 @@ html,body{background:var(--bg);color:var(--text);width:100vw;height:100vh;overfl
 .msgRow{display:flex;gap:10px}
 .msgRow.me{justify-content:flex-end}
 .msgBubble{max-width:60%;padding:12px 16px;border-radius:18px;font-size:14px;line-height:20px}
-.msgRow.other .msgBubble{background:var(--panel);border-bottom-left-radius:4px}
-.msgRow.me .msgBubble{background:var(--me);color:#fff;border-bottom-right-radius:4px}
+.msgRow.other.msgBubble{background:var(--panel);border-bottom-left-radius:4px}
+.msgRow.me.msgBubble{background:var(--me);color:#fff;border-bottom-right-radius:4px}
 .inputBar{padding:16px 20px;background:var(--panel);border-top:1px solid var(--border);display:flex;gap:12px;align-items:center}
 .inputWrap{flex:1;display:flex;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:24px;padding:0 16px}
 .inputWrap input{flex:1;padding:12px 8px;background:transparent;border:none;color:var(--text);font-size:14px;outline:none}
 .sendBtn{width:46px;height:46px;border-radius:50%;background:var(--gradient);border:none;color:#fff;cursor:pointer;font-size:20px}
+
+/* ====== SETTINGS/REELS MODAL - MENU A GEFE SAMA ====== */
 #settingsModal{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:500}
-#settingsBox{background:var(--panel);width:90%;max-width:500px;border-radius:24px;border:1px solid var(--border);padding:20px}
+#settingsBox{background:var(--panel);width:90%;max-width:600px;height:80vh;border-radius:24px;border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.settingsHead{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.settingsTabs{display:flex;border-bottom:1px solid var(--border)}
+.sTab{flex:1;padding:14px;text-align:center;cursor:pointer;color:var(--text2);font-weight:600}
+.sTab.active{color:var(--text);border-bottom:2px solid var(--purple)}
+.settingsBody{flex:1;overflow-y:auto;padding:20px}
 .settingItem{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
 select{background:var(--bg);color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:8px}
+.reelsGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.reelCard{background:var(--bg);border-radius:12px;aspect-ratio:9/16;position:relative;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;border:2px dashed var(--border)}
+
 @media(max-width:1024px){.sidebar{display:none}#app{grid-template-columns:320px 1fr}}
-@media(max-width:768px){#app{grid-template-columns:1fr}.contacts{display:none}#app.show-chat .chat{display:flex}#app.show-chat .contacts{display:none}}
+@media(max-width:768px){#app{grid-template-columns:1fr}.contacts{display:none}#app.show-chat.chat{display:flex}#app.show-chat.contacts{display:none}}
 .chat{display:flex}
 </style>
 </head>
 <body>
 
+<!-- 1. LOGIN - SAUKI, BAZAI HANABA -->
 <div id="login">
 <div id="loginBox">
 <div class="botIcon">🤖</div>
 <h1>Aboki AI</h1>
-<input type="text" id="username" placeholder="Enter username">
+<p>Enter username to start</p>
+<input type="text" id="username" placeholder="Your username" maxlength="15">
 <button onclick="joinChat()">Join Chat</button>
 </div>
 </div>
 
+<!-- 2. APP -->
 <div id="app">
+<!-- SIDEBAR LEFT -->
 <div class="sidebar">
-<div style="text-align:center;margin-bottom:24px">
+<div class="botProfile">
 <div class="botIconLg">🤖</div>
 <h2>Aboki AI</h2>
 </div>
-<div>
+<div class="nav">
 <div class="navItem active">💬 Chats</div>
 <div class="navItem" onclick="openSettings()">⚙️ Settings</div>
 </div>
+<!-- BOT ICON KASA HAGU + USERNAME -->
 <div class="userCard">
 <div class="userAvatar" id="myAvatar">A</div>
-<div><div id="myName">User</div><div class="userStatus">Online</div></div>
+<div>
+<div id="myName">User</div>
+<div class="userStatus">Online</div>
+</div>
 </div>
 </div>
 
+<!-- CONTACTS MIDDLE -->
 <div class="contacts">
 <div class="contactsHead"><h2>Contacts</h2></div>
+<!-- SEARCH BAR -->
 <div class="searchBox"><input type="text" id="search" placeholder="Search contacts..." onkeyup="searchContacts()"></div>
 <div class="list" id="contactsList"></div>
 </div>
 
+<!-- CHAT RIGHT -->
 <div class="chat">
 <div class="chatHead">
 <div class="chatAvatar">🤖<span class="onlineDot"></span></div>
 <div><div>Aboki AI ✓</div><div style="font-size:12px;color:var(--green)">Online</div></div>
 </div>
 <div class="msgs" id="msgs"><div style="text-align:center;color:var(--text2)">Today</div></div>
+<!-- VOICE + CAMERA + INPUT -->
 <div class="inputBar">
 <div class="inputWrap">
 <button onclick="document.getElementById('fileInput').click()">📎</button>
@@ -114,29 +149,25 @@ select{background:var(--bg);color:var(--text);border:1px solid var(--border);pad
 </div>
 </div>
 
+<!-- 3. SETTINGS/REELS MODAL -->
 <div id="settingsModal">
 <div id="settingsBox">
-<h3 style="margin-bottom:16px">Settings</h3>
-<div class="settingItem">
-<span>Theme</span>
-<select id="themeMode" onchange="changeTheme()">
-<option value="dark">Dark</option>
-<option value="light">Light</option>
-<option value="auto">System</option>
-</select>
+<div class="settingsHead">
+<h3>Settings</h3>
+<button onclick="closeSettings()" style="background:none;border:none;color:var(--text);font-size:24px">×</button>
 </div>
-<div class="settingItem">
-<span>Language</span>
-<select id="langMode" onchange="changeLang()">
-<option value="en">English</option>
-<option value="ha">Hausa</option>
-</select>
+<div class="settingsTabs">
+<div class="sTab active" onclick="showTab('appearance')">Appearance</div>
+<div class="sTab" onclick="showTab('language')">Language</div>
+<div class="sTab" onclick="showTab('reels')">Reels</div>
 </div>
-<button onclick="closeSettings()" style="width:100%;padding:12px;margin-top:16px;background:var(--gradient);border:none;border-radius:12px;color:#fff">Close</button>
+<div class="settingsBody" id="settingsBody">
+<!-- Za'a cika da JS -->
+</div>
 </div>
 </div>
 
-<input type="file" id="fileInput" accept="image/*,video/*">
+<input type="file" id="fileInput" accept="image/*,video/*,.pdf">
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -164,31 +195,33 @@ let myUsername = '';
 let mediaRecorder = null;
 let audioChunks = [];
 let isRecording = false;
-let lang = 'en';
+let lang = 'en'; // en = English, ha = Hausa
 
+// ====== 1. LOGIN - BABU WANDA ZAI HANABA ======
 window.joinChat = async () => {
 myUsername = document.getElementById('username').value.trim();
 if(!myUsername) return alert('Enter username');
 try{
-await signInAnonymously(auth);
+await signInAnonymously(auth); // Anonymous = BAZAI NEMAN EMAIL BA
 const user = auth.currentUser;
 currentUser = user;
-await setDoc(doc(db, 'users', user.uid), {username: myUsername, online: true});
+await setDoc(doc(db, 'users', user.uid), {username: myUsername, online: true, lastSeen: serverTimestamp()});
 document.getElementById('myName').innerText = myUsername;
 document.getElementById('myAvatar').innerText = myUsername.charAt(0).toUpperCase();
 document.getElementById('login').style.display = 'none';
 document.getElementById('app').style.display = 'grid';
 loadContacts();
 openChat('Aboki AI','bot');
-}catch(e){alert('Error: '+e.message)}
+}catch(e){alert('Login Error: '+e.message)}
 }
 
+// ====== 2. CONTACTS + ONLINE STATUS ======
 async function loadContacts(){
 const q = query(collection(db, 'users'), where('__name__','!=',currentUser.uid));
 onSnapshot(q, (snap) => {
 let html = `<div class="contact active" onclick="openChat('Aboki AI','bot')">
 <div class="contactAvatar">🤖<span class="onlineDot"></span></div>
-<div><div>Aboki AI</div><div style="font-size:12px;color:var(--text2)">AI Assistant</div></div>
+<div><div>Aboki AI</div><div style="font-size:12px;color:var(--text2)">${lang==='ha'?'AI Mai Taimako':'AI Assistant'}</div></div>
 </div>`;
 snap.forEach(d=>{
 const u=d.data();
@@ -208,12 +241,13 @@ c.style.display=c.innerText.toLowerCase().includes(v)?'flex':'none';
 });
 }
 
+// ====== 3. CHAT + VOICE + CAMERA ======
 window.openChat = (name,uid)=>{
 currentChatId=uid==='bot'?'bot':[currentUser.uid,uid].sort().join('_');
 if(window.innerWidth<768){document.getElementById('app').classList.add('show-chat')}
 if(uid==='bot'){
 document.getElementById('msgs').innerHTML=`<div style="text-align:center;color:var(--text2)">Today</div>
-<div class="msgRow other"><div class="msgBubble">Hello @${myUsername}! I am Aboki AI 🤖</div></div>`;
+<div class="msgRow other"><div class="msgBubble">${lang==='ha'?`Sannu @${myUsername}! Ni Aboki AI ne 🤖`:`Hello @${myUsername}! I am Aboki AI 🤖`}</div></div>`;
 }
 const q=query(collection(db,'chats',currentChatId,'messages'),orderBy('timestamp'));
 onSnapshot(q,(snap)=>{
@@ -242,6 +276,7 @@ await addDoc(collection(db,'chats',currentChatId,'messages'),{text,type:'text',s
 inp.value='';
 }
 
+// VOICE NOTE
 window.toggleRecording=async()=>{
 const btn=document.getElementById('recBtn');
 if(!isRecording){
@@ -257,6 +292,7 @@ mediaRecorder.start();isRecording=true;btn.innerText='⏹️';
 }else{mediaRecorder.stop();isRecording=false;btn.innerText='🎤';}
 }
 
+// CAMERA/FILE UPLOAD
 document.getElementById('fileInput').onchange=async(e)=>{
 const file=e.target.files[0];if(!file)return;
 const sRef=ref(storage,`files/${currentChatId}/${Date.now()}_${file.name}`);
@@ -264,8 +300,49 @@ await uploadBytes(sRef,file);const url=await getDownloadURL(sRef);
 await addDoc(collection(db,'chats',currentChatId,'messages'),{type:'file',url,fileName:file.name,sender:currentUser.uid,timestamp:serverTimestamp()});
 }
 
-window.openSettings=()=>document.getElementById('settingsModal').style.display='flex';
+// ====== 4. SETTINGS MODAL - MENU A GEFE SAMA ======
+window.openSettings=()=>{
+document.getElementById('settingsModal').style.display='flex';
+showTab('appearance');
+}
 window.closeSettings=()=>document.getElementById('settingsModal').style.display='none';
+
+window.showTab=(tab)=>{
+document.querySelectorAll('.sTab').forEach(t=>t.classList.remove('active'));
+event.target.classList.add('active');
+
+if(tab==='appearance'){
+document.getElementById('settingsBody').innerHTML=`
+<div class="settingItem">
+<span>${lang==='ha'?'Yanayi':'Theme Mode'}</span>
+<select id="themeMode" onchange="changeTheme()">
+<option value="dark">Dark</option>
+<option value="light">Light</option>
+<option value="auto">${lang==='ha'?'Na Asali':'System'}</option>
+</select>
+</div>`;
+}else if(tab==='language'){
+document.getElementById('settingsBody').innerHTML=`
+<div class="settingItem">
+<span>${lang==='ha'?'Harshe':'Language'}</span>
+<select id="langMode" onchange="changeLang()">
+<option value="en">English</option>
+<option value="ha">Hausa</option>
+</select>
+</div>`;
+}else if(tab==='reels'){
+document.getElementById('settingsBody').innerHTML=`
+<h4 style="margin-bottom:12px">${lang==='ha'?'Bidiyoyin Takaitacce':'Short Videos'}</h4>
+<div class="reelsGrid">
+<div class="reelCard" onclick="alert('Upload Reel')">
+<div style="font-size:32px">+</div>
+<div>${lang==='ha'?'Upload':'Upload'}</div>
+</div>
+</div>`;
+}
+}
+
+// ====== 5. THEME + LANGUAGE ======
 window.changeTheme=()=>{
 const m=document.getElementById('themeMode').value;
 if(m==='light')document.body.classList.add('light');
@@ -274,7 +351,8 @@ else document.body.classList.toggle('light',window.matchMedia('(prefers-color-sc
 }
 window.changeLang=()=>{
 lang=document.getElementById('langMode').value;
-document.getElementById('inp').placeholder=lang==='ha'?'Rubuta...':'Type your message...';
+document.getElementById('inp').placeholder=lang==='ha'?'Rubuta sakonka...':'Type your message...';
+document.getElementById('search').placeholder=lang==='ha'?'Bincika...':'Search contacts...';
 }
 </script>
 </body>
