@@ -9,7 +9,7 @@
 :root{
 --bg1:#0a0a1f;--bg2:#1a0f2e;--bg3:#2d1b4e;
 --panel:rgba(26,15,46,0.7);--panel2:rgba(45,27,78,0.5);
---accent:#8b5cf6;--accent2:#a855f7;--green:#10b981;
+--accent:#8b5cf6;--accent2:#a855f7;--green:#10b981;--gold:#fbbf24;
 --text:#f3f4f6;--text2:#a1a1aa;--border:rgba(139,92,246,0.2);
 }
 body.light{
@@ -28,11 +28,13 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 #chatArea{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
 .message{background:var(--panel2);padding:10px 14px;border-radius:18px;max-width:75%;font-size:15px;border-bottom-left-radius:6px;align-self:flex-start;word-break:break-word}
 .message.me{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-bottom-left-radius:18px;border-bottom-right-radius:6px;align-self:flex-end}
+.message.bot{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000;border:1px solid var(--gold)} /* === NEW CODE: BOT COLOR === */
 .message b{display:block;font-size:13px;margin-bottom:4px;opacity:0.8}
 .message img{max-width:200px;border-radius:12px;margin-top:8px;display:block}
 .small{font-size:11px;opacity:0.7;margin-top:4px;display:flex;gap:6px}
 .msgBtn{background:transparent;border:none;color:var(--text2);font-size:11px;cursor:pointer;padding:2px 4px}
-.bottom{display:flex;gap:10px;padding:12px 16px;background:var(--panel);border-top:1px solid var(--border)}
+.bottom{display:none;gap:10px;padding:12px 16px;background:var(--panel);border-top:1px solid var(--border)}
+.bottom.show{display:flex}
 .bottom input{flex:1;padding:14px 18px;background:var(--panel2);border:none;border-radius:24px;color:var(--text);outline:none;font-size:15px}
 .bottom button{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;font-size:20px;cursor:pointer}
 .iconBtn{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--text2);cursor:pointer}
@@ -44,6 +46,22 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 .setItem select{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:8px}
 #typing{padding:0 16px;font-size:12px;color:var(--text2);height:20px}
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:12px 20px;border-radius:24px;z-index:3000;display:none}
+.userItem{background:var(--panel2);padding:14px;border-radius:12px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.userItem:hover{background:var(--accent)}
+.chatHeader{background:var(--panel);padding:12px 16px;border-bottom:1px solid var(--border);display:none;gap:12px;align-items:center}
+.chatHeader.show{display:flex}
+.backBtn{font-size:22px;cursor:pointer}
+
+/* === NEW CODE: FLOATING BOT BUTTON === */
+#botBtn{
+position:fixed;bottom:80px;left:20px;z-index:1000;
+width:60px;height:60px;border-radius:50%;
+background:linear-gradient(135deg,#f59e0b,#fbbf24);
+display:flex;align-items:center;justify-content:center;
+font-size:28px;box-shadow:0 4px 20px rgba(251,191,36,0.4);
+cursor:pointer;border:none;color:#000;font-weight:700;
+}
+#botBtn:active{transform:scale(0.9)}
 </style>
 </head>
 <body>
@@ -51,7 +69,10 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 <div id="app">
 <div class="header glass">
 <h1>KhamChat</h1>
+<div style="display:flex;gap:12px;align-items:center">
+<span style="font-size:24px;cursor:pointer" id="moneyBtn">💰</span> <!-- === NEW CODE: MONEY ICON === -->
 <div style="font-size:20px;cursor:pointer" id="setBtn">⚙️</div>
+</div>
 </div>
 
 <div class="tabs glass">
@@ -59,16 +80,23 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 <div class="tab" id="tabUsers">Users</div>
 </div>
 
-<div id="typing"></div>
-<div id="chatArea"><div style="text-align:center;color:var(--text2);margin-top:40px">Loading...</div></div>
+<div class="chatHeader glass" id="chatHeader">
+<span class="backBtn" id="backBtn">←</span>
+<h3 id="chatWithName">Chat</h3>
+</div>
 
-<div class="bottom glass">
+<div id="typing"></div>
+<div id="chatArea"><div style="text-align:center;color:var(--text2);margin-top:40px">Danna Users ka zabi mutum</div></div>
+
+<div class="bottom glass" id="bottomBar">
 <span class="iconBtn" id="imgBtn">📎</span>
 <input type="file" id="imageInput" accept="image/*" style="display:none">
 <input id="messageInput" placeholder="Type message...">
 <button id="sendBtn">➤</button>
 </div>
 </div>
+
+<button id="botBtn">🤖</button> <!-- === NEW CODE: BOT BUTTON === -->
 
 <div class="modal" id="setup">
 <div class="modalBox">
@@ -123,7 +151,18 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-let me = null, username = '', currentChatId = null, lang = 'en', isSetup = false;
+let me = null, username = '', currentChatId = null, lang = 'en', isSetup = false, currentChatName = '';
+
+// === NEW CODE: MONETAG KEY NAKA KA SAKA ANAN ===
+const MONETAG_KEY = "SAKA_KEY_NAKA_ANAN"; // Ex: 1234567890abcdef
+function showMonetagAd(){
+if(MONETAG_KEY === "SAKA_KEY_NAKA_ANAN"){toast("Saka Monetag Key da farko");return;}
+// Wannan shine script din Monetag. Ka canza shi da na ka daga dashboard
+const script = document.createElement('script');
+script.src = `https://www.monetag.com/script.js?key=${MONETAG_KEY}`;
+document.body.appendChild(script);
+toast(lang==='ha'?'Ad ya buɗe +$0.001':'Ad opened +$0.001');
+}
 
 signInAnonymously(auth).catch(e=>toast('Auth Error: '+e.message));
 
@@ -161,14 +200,20 @@ let html = '';
 snap.forEach(d=>{
 if(d.id === me.uid) return;
 const u = d.data();
-html += `<div class="message" style="align-self:stretch;cursor:pointer" onclick="openChat('${d.id}','${u.displayName}')">👤 ${u.displayName}</div>`;
+html += `<div class="userItem" onclick="openChat('${d.id}','${u.displayName}')">👤 <div><b>${u.displayName}</b><br><span style="font-size:12px;color:var(--text2)">Tap to chat</span></div></div>`;
 });
+// === NEW CODE: KARA KHAMIS BOT A JERIN ===
+html += `<div class="userItem" onclick="openBotChat()">🤖 <div><b>Khamis AI</b><br><span style="font-size:12px;color:var(--gold)">Ask me anything</span></div></div>`;
 document.getElementById("chatArea").innerHTML = html || '<div style="text-align:center;color:var(--text2)">No users yet</div>';
 }
 
 window.openChat = (uid, name) => {
 currentChatId = [me.uid, uid].sort().join('_');
+currentChatName = name;
+document.getElementById("chatWithName").innerText = name;
 document.getElementById("chatArea").innerHTML = '';
+document.getElementById("chatHeader").classList.add('show');
+document.getElementById("bottomBar").classList.add('show');
 document.getElementById("tabChats").classList.add('active');
 document.getElementById("tabUsers").classList.remove('active');
 const q = query(collection(db,'chats',currentChatId,'messages'), orderBy("time","asc"));
@@ -180,6 +225,7 @@ let data = docSnap.data();
 let div = document.createElement("div");
 div.className="message";
 if(data.sender===me.uid){div.classList.add("me");}
+if(data.sender==='bot'){div.classList.add("bot");} // === NEW CODE ===
 div.innerHTML=`<b>${data.username}</b><br>${data.text || ""}${data.image? `<img src="${data.image}">` : ""}
 <div class="small">${data.seen? "✓ Seen" : "✓ Sent"} ${data.edited? "(edited)" : ""}
 ${data.sender===me.uid?`<button class="msgBtn" onclick="editMessage('${docSnap.id}')">Edit</button><button class="msgBtn" onclick="deleteMessage('${docSnap.id}')">Del</button>`:''}
@@ -189,6 +235,39 @@ if(data.sender!==me.uid &&!data.seen){updateDoc(doc(db,"chats",currentChatId,"me
 });
 area.scrollTop=area.scrollHeight;
 });
+}
+
+// === NEW CODE: KHAMIS AI BOT LOGIC ===
+window.openBotChat = () => {
+currentChatId = "bot_chat_"+me.uid; // Chat na musamman da bot
+currentChatName = "Khamis AI";
+document.getElementById("chatWithName").innerText = "Khamis AI 🤖";
+document.getElementById("chatArea").innerHTML = '';
+document.getElementById("chatHeader").classList.add('show');
+document.getElementById("bottomBar").classList.add('show');
+document.getElementById("tabChats").classList.add('active');
+const q = query(collection(db,'chats',currentChatId,'messages'), orderBy("time","asc"));
+onSnapshot(q,(snapshot)=>{
+let area = document.getElementById("chatArea");
+area.innerHTML="";
+snapshot.forEach((docSnap)=>{
+let data = docSnap.data();
+let div = document.createElement("div");
+div.className="message "+(data.sender===me.uid?"me":"bot");
+div.innerHTML=`<b>${data.username}</b><br>${data.text}`;
+area.appendChild(div);
+});
+area.scrollTop=area.scrollHeight;
+});
+}
+
+document.getElementById("botBtn").onclick = () => openBotChat(); // === NEW CODE ===
+
+document.getElementById("backBtn").onclick = () => {
+currentChatId = null;
+document.getElementById("chatHeader").classList.remove('show');
+document.getElementById("bottomBar").classList.remove('show');
+document.getElementById("tabUsers").click();
 }
 
 document.getElementById("sendBtn").onclick = async () => {
@@ -203,13 +282,39 @@ await uploadBytes(storageRef,file);
 imageUrl = await getDownloadURL(storageRef);
 }
 if(!text &&!imageUrl) return;
+
+// === NEW CODE: IDAN CHAT DA BOT NE ===
+if(currentChatId.startsWith("bot_chat_")){
+await addDoc(collection(db,"chats",currentChatId,"messages"),{
+sender:me.uid, username:username, text:text, image:imageUrl, time:serverTimestamp()
+});
+// Bot zai amsa bayan 1s
+setTimeout(async()=>{
+let reply = getBotReply(text); // AI mai sauki
+await addDoc(collection(db,"chats",currentChatId,"messages"),{
+sender:'bot', username:'Khamis AI', text:reply, time:serverTimestamp(), seen:true
+});
+},1000);
+}else{
+// Normal user chat
 await addDoc(collection(db,"chats",currentChatId,"messages"),{
 sender:me.uid, username:username, text:text, image:imageUrl,
 time:serverTimestamp(), seen:false, edited:false
 });
+}
 document.getElementById("messageInput").value="";
 document.getElementById("imageInput").value="";
 }
+
+// === NEW CODE: MAI SAUKI AI NA KHAMIS ===
+function getBotReply(msg){
+msg = msg.toLowerCase();
+if(msg.includes("hello")||msg.includes("salam")) return lang==='ha'?'Sannu! Ni Khamis AI ne. Yaya zan taimaka?':'Hello! I am Khamis AI. How can I help?';
+if(msg.includes("kudi")||msg.includes("money")) return lang==='ha'?'Danna 💰 icon sama don kallo Ad ka samu kudi.':'Tap the 💰 icon up top to watch Ad and earn money.';
+if(msg.includes("code")||msg.includes("help")) return lang==='ha'?'Ina nan don code da Firebase. Ka tambaya kawai.':'I am here for code and Firebase help. Just ask.';
+return lang==='ha'?'Na fahimta aboki 😂 Ka fada ni karin bayani.':'Got it bro 😂 Tell me more.';
+}
+
 document.getElementById("imgBtn").onclick = () => document.getElementById("imageInput").click();
 document.getElementById("messageInput").onkeyup = e => {if(e.key==='Enter') document.getElementById("sendBtn").click();}
 
@@ -220,12 +325,15 @@ if(newText){await updateDoc(doc(db,"chats",currentChatId,"messages",id),{text:ne
 };
 
 document.getElementById("messageInput").addEventListener("input", () => {
+if(!currentChatId.startsWith("bot_chat_")){ // Bot baya typing
 document.getElementById("typing").innerText = username+" "+(lang==='ha'?'yana rubutu...':'is typing...');
 setTimeout(()=>{document.getElementById("typing").innerText="";},1500);
+}
 });
 
 document.getElementById("setBtn").onclick = () => document.getElementById("settingsModal").style.display="flex";
 document.getElementById("closeSetBtn").onclick = () => document.getElementById("settingsModal").style.display="none";
+document.getElementById("moneyBtn").onclick = () => showMonetagAd(); // === NEW CODE ===
 document.getElementById("lang").onchange = e => {
 lang = e.target.value;
 document.getElementById("messageInput").placeholder = lang==='ha'?'Rubuta sako...':'Type message...';
@@ -243,6 +351,8 @@ document.getElementById("tabUsers").onclick = () => {
 document.getElementById("tabUsers").classList.add('active');
 document.getElementById("tabChats").classList.remove('active');
 currentChatId = null;
+document.getElementById("chatHeader").classList.remove('show');
+document.getElementById("bottomBar").classList.remove('show');
 loadUsers();
 }
 function toast(msg){const t=document.getElementById('toast');t.innerText=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3000);}
