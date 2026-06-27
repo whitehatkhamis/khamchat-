@@ -1,405 +1,274 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Chat UI</title>
+<title>KhamChat</title>
 <style>
-/* ====== STYLE 3-COLUMN GLASS KAMAR HOTON ====== */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
-:root{
---bg1:#0a0a1f;--bg2:#1a0f2e;--bg3:#2d1b4e;
---panel:rgba(26,15,46,0.7);--panel2:rgba(45,27,78,0.5);
---accent:#8b5cf6;--accent2:#a855f7;--green:#10b981;
---text:#f3f4f6;--text2:#a1a1aa;--border:rgba(139,92,246,0.2);
+body{
+margin:0;
+font-family:Arial;
+background:#ece5dd;
 }
-body.light{
---bg1:#f5f3ff;--bg2:#ede9fe;--bg3:#ddd6fe;
---panel:rgba(255,255,255,0.8);--panel2:rgba(255,255,255,0.6);
---text:#1f2937;--text2:#6b7280;--border:rgba(139,92,246,0.3);
+.header{
+background:#25D366;
+color:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
-html,body{
-height:100dvh;width:100vw;overflow:hidden;
-background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
-color:var(--text);
+.tabs{
+display:flex;
+justify-content:space-around;
+background:white;
+padding:10px;
 }
-#app{
-height:100dvh;width:100vw;
-display:grid;grid-template-columns:280px 380px 1fr;gap:16px;
-padding:16px;
+.tab{
+cursor:pointer;
 }
-@media(max-width:1200px){#app{grid-template-columns:280px 1fr}}
-@media(max-width:800px){#app{grid-template-columns:1fr;padding:8px}}
-.glass{
-background:var(--panel);
-backdrop-filter:blur(20px);
-border:1px solid var(--border);
-border-radius:24px;
-overflow:hidden;
+#chatArea{
+height:70vh;
+overflow-y:auto;
+padding:10px;
 }
-
-/* ====== COLUMN 1: SIDEBAR ====== */
-.sidebar{display:flex;flex-direction:column;padding:20px;gap:16px}
-.botCard{text-align:center;padding:16px}
-.botAvatar{
-width:80px;height:80px;border-radius:50%;
-background:linear-gradient(135deg,var(--accent),var(--accent2));
-display:flex;align-items:center;justify-content:center;
-margin:0 auto 12px;font-size:40px;box-shadow:0 8px 24px rgba(139,92,246,0.4);
+.message{
+background:white;
+padding:10px;
+margin:10px;
+border-radius:10px;
+max-width:70%;
 }
-.botName{font-size:20px;font-weight:700;margin-bottom:4px}
-.botDesc{font-size:13px;color:var(--text2)}
-.nav{flex:1;display:flex;flex-direction:column;gap:8px}
-.navItem{
-display:flex;align-items:center;gap:12px;padding:12px 16px;
-border-radius:12px;color:var(--text2);cursor:pointer;
-transition:0.2s;font-size:15px;
+.me{
+background:#DCF8C6;
+margin-left:auto;
 }
-.navItem:hover,.navItem.active{
-background:var(--panel2);color:var(--text);
+.bottom{
+display:flex;
+padding:10px;
+background:white;
+position:fixed;
+bottom:0;
+width:100%;
 }
-.userCard{
-margin-top:auto;padding:12px;display:flex;align-items:center;gap:12px;
-background:var(--panel2);border-radius:16px;cursor:pointer;
+.bottom input{
+flex:1;
+padding:10px;
 }
-.userPic{
-width:44px;height:44px;border-radius:50%;
-background:linear-gradient(135deg,#f59e0b,#ef4444);
-display:flex;align-items:center;justify-content:center;font-weight:700;
-position:relative;
+.bottom button{
+padding:10px;
 }
-.onlineDot{
-position:absolute;bottom:0;right:0;width:12px;height:12px;
-background:var(--green);border:2px solid var(--panel);border-radius:50%;
+#setup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
-
-/* ====== COLUMN 2: CONTACTS ====== */
-.contacts{display:flex;flex-direction:column;padding:20px;gap:16px}
-.contactsHead{display:flex;align-items:center;justify-content:space-between}
-.contactsHead h2{font-size:20px}
-.searchBox{
-padding:12px 16px;background:var(--panel2);border-radius:12px;
-display:flex;align-items:center;gap:10px;
+img{
+max-width:200px;
+border-radius:10px;
+margin-top:5px;
 }
-.searchBox input{
-flex:1;background:transparent;border:none;color:var(--text);outline:none;
+.small{
+font-size:12px;
+color:gray;
 }
-.contactList{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-.contact{
-display:flex;align-items:center;gap:12px;padding:12px;
-border-radius:16px;cursor:pointer;transition:0.2s;
-}
-.contact:hover,.contact.active{background:var(--panel2)}
-.contactPic{
-width:48px;height:48px;border-radius:50%;
-background:linear-gradient(135deg,var(--accent),var(--accent2));
-display:flex;align-items:center;justify-content:center;font-size:22px;
-position:relative;flex-shrink:0;
-}
-.contactInfo{flex:1;overflow:hidden}
-.contactName{font-weight:600;font-size:15px;margin-bottom:4px}
-.contactMsg{font-size:13px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* ====== COLUMN 3: CHAT ====== */
-.chat{display:flex;flex-direction:column}
-.chatHead{
-padding:16px 20px;display:flex;align-items:center;gap:12px;
-border-bottom:1px solid var(--border);
-}
-.chatHead.contactPic{width:44px;height:44px;font-size:20px}
-.verified{color:var(--accent);font-size:16px;margin-left:4px}
-.messages{
-flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;
-}
-.msgRow{display:flex}
-.msgRow.me{justify-content:flex-end}
-.msgBubble{
-max-width:70%;padding:12px 16px;border-radius:18px;
-background:var(--panel2);font-size:14.5px;line-height:21px;
-}
-.msgRow.me.msgBubble{
-background:linear-gradient(135deg,var(--accent),var(--accent2));
-color:#fff;border-bottom-right-radius:6px;
-}
-.msgRow:not(.me).msgBubble{border-bottom-left-radius:6px}
-.inputArea{
-padding:16px 20px;display:flex;align-items:center;gap:12px;
-border-top:1px solid var(--border);
-}
-.inputArea input{
-flex:1;padding:14px 20px;background:var(--panel2);border:none;
-border-radius:24px;color:var(--text);outline:none;font-size:15px;
-}
-.inputIcon{
-width:44px;height:44px;border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-cursor:pointer;color:var(--text2);font-size:20px;
-}
-.sendBtn{
-width:48px;height:48px;border-radius:50%;
-background:linear-gradient(135deg,var(--accent),var(--accent2));
-border:none;color:#fff;font-size:20px;cursor:pointer;
-}
-
-/* ====== SETUP MODAL - BAYA TOSHE SITE ====== */
-#setupModal{
-position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);
-display:none;align-items:center;justify-content:center;z-index:2000;
-}
-#setupBox{
-background:var(--panel);width:90%;max-width:360px;border-radius:20px;
-padding:24px;border:1px solid var(--border);text-align:center;
-}
-#setupBox input{
-width:100%;padding:14px;margin-top:12px;background:var(--panel2);
-border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;
-}
-.btn{
-width:100%;padding:14px;margin-top:12px;background:var(--accent);
-border:none;border-radius:12px;color:#fff;font-weight:700;font-size:16px;cursor:pointer;
-}
-#settingsModal{
-position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);
-display:none;align-items:center;justify-content:center;z-index:2000;
-}
-#settingsBox{
-background:var(--panel);width:90%;max-width:400px;border-radius:20px;
-padding:24px;border:1px solid var(--border);
-}
-.setItem{
-display:flex;justify-content:space-between;align-items:center;
-padding:14px 0;border-bottom:1px solid var(--border);
-}
-.setItem select{
-background:var(--panel2);color:var(--text);border:1px solid var(--border);
-padding:8px 12px;border-radius:8px;outline:none;
-}
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:12px 20px;border-radius:24px;z-index:3000;display:none}
 </style>
 </head>
 <body>
 
-<!-- SITE YA BUDE DIRECT - BABU TOSHEWA -->
-<div id="app">
-<!-- COLUMN 1: SIDEBAR -->
-<div class="sidebar glass">
-<div class="botCard">
-<div class="botAvatar">🤖</div>
-<div class="botName">Chat AI</div>
-<div class="botDesc">AI Assistant</div>
-</div>
-<div class="nav">
-<div class="navItem active">💬 Chats</div>
-<div class="navItem" id="setBtn">⚙️ Settings</div>
-</div>
-<div class="userCard" id="profileBtn">
-<div class="userPic" id="myPic">?<span class="onlineDot"></span></div>
-<div><div style="font-weight:600;font-size:14px" id="myName">Guest</div><div style="font-size:12px;color:var(--text2)" id="myStatus">Click to set username</div></div>
-</div>
+<div id="setup">
+<h2>Setup Profile</h2>
+<input id="username" placeholder="Username">
+<input type="file" id="profilePic">
+<button onclick="saveProfile()">Start</button>
 </div>
 
-<!-- COLUMN 2: CONTACTS -->
-<div class="contacts glass">
-<div class="contactsHead">
-<h2>Contacts</h2>
-</div>
-<div class="searchBox">
-<span>🔍</span>
-<input type="text" placeholder="Search...">
-</div>
-<div class="contactList" id="contactList">
-<div style="text-align:center;color:var(--text2);margin-top:40px">Set username to see users</div>
-</div>
-</div>
-
-<!-- COLUMN 3: CHAT -->
-<div class="chat glass">
-<div class="chatHead">
-<div class="contactPic" id="chatPic">🤖</div>
+<div class="header">
+<h1>KhamChat</h1>
 <div>
-<div style="display:flex;align-items:center;font-weight:700">
-<span id="chatName">Select a chat</span>
-<span class="verified">✓</span>
-</div>
-<div style="font-size:12px;color:var(--green)" id="chatStatus">Online</div>
-</div>
-</div>
-<div class="messages" id="messages">
-<div style="text-align:center;color:var(--text2);margin-top:40px">Select a contact to start</div>
-</div>
-<div class="inputArea">
-<span class="inputIcon">📎</span>
-<input type="text" id="inp" placeholder="Type your message...">
-<span class="inputIcon" id="micBtn">🎤</span>
-<button class="sendBtn" id="sendBtn">➤</button>
-</div>
+📷 🔍 ⋮
 </div>
 </div>
 
-<!-- POPUP 1: SETUP USERNAME KAWAI -->
-<div id="setupModal">
-<div id="setupBox" class="glass">
-<h2>👋 Set Username</h2>
-<p style="color:var(--text2);font-size:13px;margin:8px 0 16px" id="setupNote">Choose a name to start chatting</p>
-<input type="text" id="username" placeholder="Musa_Kano" maxlength="15">
-<button class="btn" id="startBtn">Start</button>
-</div>
+<div class="tabs">
+<div class="tab">Chats</div>
+<div class="tab">Updates</div>
+<div class="tab">Calls</div>
 </div>
 
-<!-- POPUP 2: SETTINGS -->
-<div id="settingsModal">
-<div id="settingsBox" class="glass">
-<h3 style="margin-bottom:16px">Settings / Saituna</h3>
-<div class="setItem">
-<span>Language / Harshe</span>
-<select id="lang">
-<option value="en">English</option>
-<option value="ha">Hausa</option>
-</select>
-</div>
-<div class="setItem">
-<span>Mode / Yanayi</span>
-<select id="theme">
-<option value="dark">Dark</option>
-<option value="light">Light</option>
-<option value="auto">System / Na Asali</option>
-</select>
-</div>
-<button class="btn" id="closeSetBtn">Close / Rufe</button>
-</div>
-</div>
+<div id="typing"></div>
+<div id="chatArea"></div>
 
-<div class="toast" id="toast"></div>
+<div class="bottom">
+<input id="messageInput" placeholder="Type message...">
+<input type="file" id="imageInput">
+<button onclick="sendMessage()">Send</button>
+</div>
 
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+getFirestore,
+collection,
+addDoc,
+onSnapshot,
+serverTimestamp,
+query,
+orderBy,
+updateDoc,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+getStorage,
+ref,
+uploadBytes,
+getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAsFeKfeYTIGzP221hwPlFBHPiYyy-TLqE",
-  authDomain: "khamchat-1d5a4.firebaseapp.com",
-  projectId: "khamchat-1d5a4",
-  storageBucket: "khamchat-1d5a4.firebasestorage.app",
-  messagingSenderId: "515176934851",
-  appId: "1:515176934851:web:4ec261196d1ff497666176"
+apiKey: "AIzaSyAsFeKfeYTIGzP221hwPlFBHPiYyy-TLqE",
+authDomain: "khamchat-1d5a4.firebaseapp.com",
+projectId: "khamchat-1d5a4",
+storageBucket: "khamchat-1d5a4.firebasestorage.app",
+messagingSenderId: "515176934851",
+appId: "1:515176934851:web:4ec261196d1ff497666176"
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
-let me = null, myUsername = '', currentChatId = null, lang = 'en';
-let isSetup = false;
+let username = localStorage.getItem("username");
+let profile = localStorage.getItem("profile");
 
-// ====== 1. BUDE SITE DIRECT - ANONYMOUS A BAYA ======
-signInAnonymously(auth);
-onAuthStateChanged(auth, async (user) => {
-if(user){
-me = user;
-// DUBA IDAN YA RIGAYA YA SAKA SUNA
-const myDoc = await getDocs(query(collection(db,'users'), where('uid','==',user.uid)));
-if(!myDoc.empty){
-myUsername = myDoc.docs[0].data().displayName;
-isSetup = true;
-updateProfile();
-loadContacts();
+if(username){
+document.getElementById("setup").style.display="none";
 }
+
+window.saveProfile = function(){
+username = document.getElementById("username").value;
+localStorage.setItem("username", username);
+document.getElementById("setup").style.display="none";
+};
+
+const messagesRef = collection(db,"messages");
+const callsRef = collection(db,"calls");
+const statusRef = collection(db,"status");
+
+window.sendMessage = async function(){
+
+let text = document.getElementById("messageInput").value;
+let file = document.getElementById("imageInput").files[0];
+
+let imageUrl = "";
+
+if(file){
+const storageRef = ref(storage,"images/"+Date.now());
+await uploadBytes(storageRef,file);
+imageUrl = await getDownloadURL(storageRef);
+}
+
+await addDoc(messagesRef,{
+username:username,
+text:text,
+image:imageUrl,
+time:serverTimestamp(),
+seen:false,
+edited:false
 });
 
-// ====== 2. SETUP USERNAME KAWAI BAYA TOSHE SITE ======
-document.getElementById('profileBtn').onclick = () => {
-if(!isSetup) document.getElementById('setupModal').style.display='flex';
-}
-document.getElementById('startBtn').onclick = async () => {
-const name = document.getElementById('username').value.trim();
-if(name.length < 3) return showToast(lang==='ha'?'Suna 3+ harafi':'Username 3+ letters');
-const q = query(collection(db,'users'), where('username','==',name.toLowerCase()));
-const snap = await getDocs(q);
-if(!snap.empty) return showToast(lang==='ha'?'Suna ya cika':'Username taken');
-await setDoc(doc(db,'users',me.uid), {uid:me.uid, username: name.toLowerCase(), displayName: name, online:true});
-myUsername = name;
-isSetup = true;
-document.getElementById('setupModal').style.display='none';
-updateProfile();
-loadContacts();
+document.getElementById("messageInput").value="";
+};
+
+const q = query(messagesRef, orderBy("time"));
+
+onSnapshot(q,(snapshot)=>{
+let area = document.getElementById("chatArea");
+area.innerHTML="";
+
+snapshot.forEach((docSnap)=>{
+let data = docSnap.data();
+
+let div = document.createElement("div");
+div.className="message";
+
+if(data.username===username){
+div.classList.add("me");
 }
 
-function updateProfile(){
-document.getElementById('myName').innerText = myUsername;
-document.getElementById('myPic').innerText = myUsername.slice(0,1).toUpperCase();
-document.getElementById('myStatus').innerText = 'Online';
-}
-
-// ====== 3. CONTACTS + CHAT NA SIRRI REAL TIME ======
-async function loadContacts(){
-if(!isSetup) return;
-const snap = await getDocs(collection(db,'users'));
-let html = '';
-snap.forEach(d=>{
-if(d.id === me.uid) return;
-const u = d.data();
-html += `
-<div class="contact" onclick="openChat('${d.id}','${u.displayName}')">
-<div class="contactPic">${u.displayName.slice(0,1).toUpperCase()}<span class="onlineDot"></span></div>
-<div class="contactInfo">
-<div class="contactName">@${u.displayName}</div>
-<div class="contactMsg">Online</div>
+div.innerHTML=`
+<b>${data.username}</b><br>
+${data.text || ""}
+${data.image ? `<img src="${data.image}">` : ""}
+<div class="small">
+${data.seen ? "✓✓ Seen" : "✓ Sent"}
+${data.edited ? "(edited)" : ""}
 </div>
-</div>`;
+<button onclick="editMessage('${docSnap.id}')">Edit</button>
+<button onclick="deleteMessage('${docSnap.id}')">Delete</button>
+`;
+
+area.appendChild(div);
+
+if(data.username!==username && !data.seen){
+updateDoc(doc(db,"messages",docSnap.id),{
+seen:true
 });
-document.getElementById('contactList').innerHTML = html || '<div style="text-align:center;color:var(--text2)">No users yet</div>';
+}
+});
+
+area.scrollTop=area.scrollHeight;
+});
+
+window.deleteMessage = async function(id){
+await deleteDoc(doc(db,"messages",id));
+};
+
+window.editMessage = async function(id){
+let newText = prompt("Edit message:");
+if(newText){
+await updateDoc(doc(db,"messages",id),{
+text:newText,
+edited:true
+});
+}
+};
+
+document.getElementById("messageInput").addEventListener("input", async ()=>{
+document.getElementById("typing").innerText=username+" typing...";
+setTimeout(()=>{
+document.getElementById("typing").innerText="";
+},1000);
+});
+
+async function addStatus(text){
+await addDoc(statusRef,{
+username,
+text,
+time:serverTimestamp()
+});
 }
 
-window.openChat = (uid, name) => {
-if(!isSetup) return showToast(lang==='ha'?'Dole ka saka suna da farko':'Set username first');
-currentChatId = [me.uid, uid].sort().join('_');
-document.getElementById('chatName').innerText = name;
-document.getElementById('chatPic').innerText = name.slice(0,1).toUpperCase();
-const q = query(collection(db,'chats',currentChatId,'messages'), orderBy('timestamp'));
-onSnapshot(q, (snap) => {
-let html = '';
-snap.forEach(d=>{
-const m = d.data();
-const isMe = m.sender === me.uid;
-html += `<div class="msgRow ${isMe?'me':''}"><div class="msgBubble">${m.text}</div></div>`;
-});
-document.getElementById('messages').innerHTML = html;
-document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+async function addCall(type){
+await addDoc(callsRef,{
+username,
+type,
+time:serverTimestamp()
 });
 }
 
-document.getElementById('sendBtn').onclick = async () => {
-if(!isSetup) return document.getElementById('setupModal').style.display='flex';
-const inp = document.getElementById('inp');
-const text = inp.value.trim();
-if(!text ||!currentChatId) return;
-await addDoc(collection(db,'chats',currentChatId,'messages'), {
-text, sender: me.uid, timestamp: serverTimestamp()
-});
-inp.value = '';
-}
-document.getElementById('inp').onkeyup = e => {if(e.key==='Enter') document.getElementById('sendBtn').click();}
+window.addStatus = addStatus;
+window.addCall = addCall;
 
-// ====== 4. SETTINGS ENGLISH/HAUSA + DARK/LIGHT/AUTO ======
-document.getElementById('setBtn').onclick = () => document.getElementById('settingsModal').style.display='flex';
-document.getElementById('closeSetBtn').onclick = () => document.getElementById('settingsModal').style.display='none';
-document.getElementById('lang').onchange = e => {
-lang = e.target.value;
-document.getElementById('inp').placeholder = lang==='ha'?'Rubuta sakonka...':'Type your message...';
-document.getElementById('setupNote').innerText = lang==='ha'?'Zabi suna don fara chat':'Choose a name to start chatting';
-}
-document.getElementById('theme').onchange = e => {
-const m = e.target.value;
-if(m==='light') document.body.classList.add('light');
-else if(m==='dark') document.body.classList.remove('light');
-else document.body.classList.toggle('light', window.matchMedia('(prefers-color-scheme: light)').matches);
-}
-function showToast(msg){
-const t = document.getElementById('toast');
-t.innerText = msg; t.style.display = 'block';
-setTimeout(()=>t.style.display='none', 3000);
-}
 </script>
+
 </body>
 </html>
