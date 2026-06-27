@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KhamChat</title>
 <style>
-/* ====== DESIGN MAI KYAU KAMAR HOTONKA ====== */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
 :root{
 --bg1:#0a0a1f;--bg2:#1a0f2e;--bg3:#2d1b4e;
 --panel:rgba(26,15,46,0.7);--panel2:rgba(45,27,78,0.5);
@@ -21,47 +20,23 @@ body.light{
 html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));color:var(--text)}
 #app{height:100dvh;width:100vw;display:flex;flex-direction:column}
 .glass{background:var(--panel);backdrop-filter:blur(20px);border:1px solid var(--border)}
-
-.header{
-background:var(--panel);padding:16px 20px;display:flex;
-justify-content:space-between;align-items:center;
-border-bottom:1px solid var(--border);
-}
+.header{background:var(--panel);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
 .header h1{font-size:22px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.headerIcons{display:flex;gap:20px;font-size:20px;cursor:pointer}
-
 .tabs{display:flex;justify-content:space-around;background:var(--panel2);padding:12px;border-bottom:1px solid var(--border)}
 .tab{cursor:pointer;padding:8px 16px;border-radius:12px;font-weight:600;color:var(--text2)}
 .tab.active{background:var(--accent);color:#fff}
-
 #chatArea{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
-.message{
-background:var(--panel2);padding:10px 14px;
-border-radius:18px;max-width:75%;font-size:15px;
-border-bottom-left-radius:6px;align-self:flex-start;
-}
-.message.me{
-background:linear-gradient(135deg,var(--accent),var(--accent2));
-color:#fff;border-bottom-left-radius:18px;border-bottom-right-radius:6px;
-align-self:flex-end;
-}
+.message{background:var(--panel2);padding:10px 14px;border-radius:18px;max-width:75%;font-size:15px;border-bottom-left-radius:6px;align-self:flex-start;word-break:break-word}
+.message.me{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-bottom-left-radius:18px;border-bottom-right-radius:6px;align-self:flex-end}
 .message b{display:block;font-size:13px;margin-bottom:4px;opacity:0.8}
 .message img{max-width:200px;border-radius:12px;margin-top:8px;display:block}
 .small{font-size:11px;opacity:0.7;margin-top:4px;display:flex;gap:6px}
 .msgBtn{background:transparent;border:none;color:var(--text2);font-size:11px;cursor:pointer;padding:2px 4px}
-
-.bottom{
-display:flex;gap:10px;padding:12px 16px;
-background:var(--panel);border-top:1px solid var(--border);
-}
+.bottom{display:flex;gap:10px;padding:12px 16px;background:var(--panel);border-top:1px solid var(--border)}
 .bottom input{flex:1;padding:14px 18px;background:var(--panel2);border:none;border-radius:24px;color:var(--text);outline:none;font-size:15px}
 .bottom button{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;font-size:20px;cursor:pointer}
 .iconBtn{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--text2);cursor:pointer}
-
-#setup,#settingsModal{
-position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);
-display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:2000;
-}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:2000}
 .modalBox{background:var(--panel);width:90%;max-width:360px;border-radius:20px;padding:24px;border:1px solid var(--border);text-align:center}
 .modalBox input{width:100%;padding:14px;margin-top:12px;background:var(--panel2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px}
 .btn{width:100%;padding:14px;margin-top:12px;background:var(--accent);border:none;border-radius:12px;color:#fff;font-weight:700;font-size:16px;cursor:pointer}
@@ -76,9 +51,7 @@ display:flex;flex-direction:column;justify-content:center;align-items:center;z-i
 <div id="app">
 <div class="header glass">
 <h1>KhamChat</h1>
-<div class="headerIcons">
-<span id="setBtn">⚙️</span>
-</div>
+<div style="font-size:20px;cursor:pointer" id="setBtn">⚙️</div>
 </div>
 
 <div class="tabs glass">
@@ -87,7 +60,7 @@ display:flex;flex-direction:column;justify-content:center;align-items:center;z-i
 </div>
 
 <div id="typing"></div>
-<div id="chatArea"></div>
+<div id="chatArea"><div style="text-align:center;color:var(--text2);margin-top:40px">Loading...</div></div>
 
 <div class="bottom glass">
 <span class="iconBtn" id="imgBtn">📎</span>
@@ -97,18 +70,16 @@ display:flex;flex-direction:column;justify-content:center;align-items:center;z-i
 </div>
 </div>
 
-<!-- SETUP SUNA -->
-<div id="setup">
+<div class="modal" id="setup">
 <div class="modalBox">
 <h2>Setup Profile</h2>
-<p style="color:var(--text2);font-size:13px;margin:8px 0">Choose a username to start</p>
+<p style="color:var(--text2);font-size:13px;margin:8px 0" id="setupText">Choose a username to start</p>
 <input id="username" placeholder="Musa_Kano" maxlength="15">
 <button class="btn" id="startBtn">Start</button>
 </div>
 </div>
 
-<!-- SETTINGS -->
-<div id="settingsModal" style="display:none">
+<div class="modal" id="settingsModal" style="display:none">
 <div class="modalBox">
 <h3 style="margin-bottom:16px">Settings / Saituna</h3>
 <div class="setItem">
@@ -123,7 +94,7 @@ display:flex;flex-direction:column;justify-content:center;align-items:center;z-i
 <select id="theme">
 <option value="dark">Dark</option>
 <option value="light">Light</option>
-<option value="auto">System / Na Asali</option>
+<option value="auto">System</option>
 </select>
 </div>
 <button class="btn" id="closeSetBtn">Close / Rufe</button>
@@ -154,22 +125,24 @@ const storage = getStorage(app);
 
 let me = null, username = '', currentChatId = null, lang = 'en', isSetup = false;
 
-// ====== 1. SHIGA BOYE NAN TAKE ======
-signInAnonymously(auth);
+signInAnonymously(auth).catch(e=>toast('Auth Error: '+e.message));
+
 onAuthStateChanged(auth, async (user) => {
-if(user){
+if(!user) return toast('Auth failed');
 me = user;
-const q = query(collection(db,'users'), where('uid','==',user.uid));
-const snap = await getDocs(q);
+try{
+const snap = await getDocs(query(collection(db,'users'), where('uid','==',user.uid)));
 if(!snap.empty){
 username = snap.docs[0].data().displayName;
 isSetup = true;
 document.getElementById("setup").style.display="none";
 loadUsers();
+}else{
+document.getElementById("setup").style.display="flex";
 }
+}catch(e){toast('DB Error: '+e.message)}
 });
 
-// ====== 2. SAKA SUNA ======
 document.getElementById("startBtn").onclick = async () => {
 username = document.getElementById("username").value.trim();
 if(username.length < 3) return toast(lang==='ha'?'Suna 3+ harafi':'Username 3+ letters');
@@ -181,8 +154,8 @@ document.getElementById("setup").style.display="none";
 loadUsers();
 };
 
-// ====== 3. LOAD USERS NA GASKIYA ======
 async function loadUsers(){
+document.getElementById("chatArea").innerHTML = '<div style="text-align:center;color:var(--text2)">Loading users...</div>';
 const snap = await getDocs(collection(db,'users'));
 let html = '';
 snap.forEach(d=>{
@@ -190,10 +163,9 @@ if(d.id === me.uid) return;
 const u = d.data();
 html += `<div class="message" style="align-self:stretch;cursor:pointer" onclick="openChat('${d.id}','${u.displayName}')">👤 ${u.displayName}</div>`;
 });
-document.getElementById("chatArea").innerHTML = html || '<div style="text-align:center;color:var(--text2)">No users</div>';
+document.getElementById("chatArea").innerHTML = html || '<div style="text-align:center;color:var(--text2)">No users yet</div>';
 }
 
-// ====== 4. BUDA CHAT NA SIRRI ======
 window.openChat = (uid, name) => {
 currentChatId = [me.uid, uid].sort().join('_');
 document.getElementById("chatArea").innerHTML = '';
@@ -219,7 +191,6 @@ area.scrollTop=area.scrollHeight;
 });
 }
 
-// ====== 5. AIKO MESSAGE + PHOTO ======
 document.getElementById("sendBtn").onclick = async () => {
 if(!isSetup) return document.getElementById("setup").style.display="flex";
 if(!currentChatId) return toast(lang==='ha'?'Danna user da farko':'Tap a user first');
@@ -242,20 +213,17 @@ document.getElementById("imageInput").value="";
 document.getElementById("imgBtn").onclick = () => document.getElementById("imageInput").click();
 document.getElementById("messageInput").onkeyup = e => {if(e.key==='Enter') document.getElementById("sendBtn").click();}
 
-// ====== 6. EDIT / DELETE ======
 window.deleteMessage = async (id) => {await deleteDoc(doc(db,"chats",currentChatId,"messages",id));};
 window.editMessage = async (id) => {
 let newText = prompt(lang==='ha'?'Gyara sako:':'Edit message:');
 if(newText){await updateDoc(doc(db,"chats",currentChatId,"messages",id),{text:newText,edited:true});}
 };
 
-// ====== 7. TYPING ======
 document.getElementById("messageInput").addEventListener("input", () => {
 document.getElementById("typing").innerText = username+" "+(lang==='ha'?'yana rubutu...':'is typing...');
 setTimeout(()=>{document.getElementById("typing").innerText="";},1500);
 });
 
-// ====== 8. SETTINGS ENGLISH/HAUSA + DARK/LIGHT/AUTO ======
 document.getElementById("setBtn").onclick = () => document.getElementById("settingsModal").style.display="flex";
 document.getElementById("closeSetBtn").onclick = () => document.getElementById("settingsModal").style.display="none";
 document.getElementById("lang").onchange = e => {
@@ -263,6 +231,7 @@ lang = e.target.value;
 document.getElementById("messageInput").placeholder = lang==='ha'?'Rubuta sako...':'Type message...';
 document.getElementById("tabChats").innerText = lang==='ha'?'Chat':'Chats';
 document.getElementById("tabUsers").innerText = lang==='ha'?'Mutane':'Users';
+document.getElementById("setupText").innerText = lang==='ha'?'Zabi suna don fara':'Choose a username to start';
 }
 document.getElementById("theme").onchange = e => {
 const m = e.target.value;
@@ -276,8 +245,7 @@ document.getElementById("tabChats").classList.remove('active');
 currentChatId = null;
 loadUsers();
 }
-function toast(msg){const t=document.getElementById('toast');t.innerText=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2500);}
-});
+function toast(msg){const t=document.getElementById('toast');t.innerText=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3000);}
 </script>
 </body>
 </html>
