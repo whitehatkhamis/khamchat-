@@ -298,16 +298,23 @@ document.getElementById("botBtn").classList.remove('hide');
 document.getElementById("tabUsers").click();
 }
 
-async function callGemini(text){
-if(GEMINI_API_KEY === "PASTE_GEMINI_KEY_HERE") return "Add Gemini API Key first";
-const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,{
-method:"POST",headers:{"Content-Type":"application/json"},
-body:JSON.stringify({contents:[{parts:[{text:text}]}]})
-});
-const data = await res.json();
-return data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't respond";
-}
-
+    async function callGemini(text){
+    document.getElementById("typing").innerText = "Khamis AI is typing...";
+    try{
+    const res = await fetch("/api/gemini",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({text:text})
+    });
+    const data = await res.json();
+    return data.reply || "Sorry, I couldn't respond";
+    }catch(e){
+    return "Server Error";
+    }finally{
+    document.getElementById("typing").innerText = "";
+    }
+    }
+  
 document.getElementById("micBtn").onmousedown = startRecording;
 document.getElementById("micBtn").onmouseup = stopRecording;
 document.getElementById("micBtn").ontouchstart = startRecording;
