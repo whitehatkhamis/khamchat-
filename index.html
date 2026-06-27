@@ -3,119 +3,278 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Khamchat</title>
+<title>Chat UI</title>
 <style>
+/* ====== STYLE 3-COLUMN GLASS KAMAR HOTON ====== */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
-:root{--bg:#0b141a;--sidebar:#111b21;--panel:#202c33;--hover:#2a3942;--border:#233138;--green:#00a884;--text:#e9edef;--text2:#8696a0;--lock:#f59e0b;}
-body.light{--bg:#f0f2f5;--sidebar:#fff;--panel:#fff;--hover:#f5f6f6;--border:#e9edef;--text:#111b21;--text2:#667781;}
-html,body{background:var(--bg);color:var(--text);height:100dvh;width:100vw;overflow:hidden}
-#app{height:100dvh;width:100vw;display:grid;grid-template-columns:400px 1fr}
-@media(max-width:900px){#app{grid-template-columns:1fr}}
-.sidebar{background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100dvh}
-.sideHead{padding:10px 16px;background:var(--panel);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.profilePic{width:40px;height:40px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;overflow:hidden;position:relative}
-.profilePic img{width:100%;height:100%;object-fit:cover}
-.badge{position:absolute;bottom:-2px;right:-2px;background:var(--lock);color:#000;font-size:9px;padding:2px 4px;border-radius:4px;font-weight:900}
-.sideActions{display:flex;gap:18px;color:var(--text2);font-size:22px;cursor:pointer}
-.search{padding:8px 12px}
-.search input{width:100%;padding:10px 14px;background:var(--bg);border:none;border-radius:8px;color:var(--text);outline:none}
-.moneyBox{padding:12px;margin:8px 12px;background:var(--panel);border-radius:10px;text-align:center}
-.moneyBox h4{color:var(--green);font-size:13px;margin-bottom:4px}
-.contactsList{flex:1;overflow-y:auto}
-.contact{padding:12px 16px;display:flex;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);align-items:center}
-.contact:hover,.contact.active{background:var(--hover)}
-.contactPic{width:48px;height:48px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden;position:relative}
-.onlineDot{position:absolute;bottom:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--green);border:3px solid var(--sidebar)}
-.chat{display:flex;flex-direction:column;background:var(--bg);height:100dvh}
-.chatHead{padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.messages{flex:1;overflow-y:auto;padding:20px}
-.msgRow{display:flex;margin-bottom:10px}
+:root{
+--bg1:#0a0a1f;--bg2:#1a0f2e;--bg3:#2d1b4e;
+--panel:rgba(26,15,46,0.7);--panel2:rgba(45,27,78,0.5);
+--accent:#8b5cf6;--accent2:#a855f7;--green:#10b981;
+--text:#f3f4f6;--text2:#a1a1aa;--border:rgba(139,92,246,0.2);
+}
+body.light{
+--bg1:#f5f3ff;--bg2:#ede9fe;--bg3:#ddd6fe;
+--panel:rgba(255,255,255,0.8);--panel2:rgba(255,255,255,0.6);
+--text:#1f2937;--text2:#6b7280;--border:rgba(139,92,246,0.3);
+}
+html,body{
+height:100dvh;width:100vw;overflow:hidden;
+background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+color:var(--text);
+}
+#app{
+height:100dvh;width:100vw;
+display:grid;grid-template-columns:280px 380px 1fr;gap:16px;
+padding:16px;
+}
+@media(max-width:1200px){#app{grid-template-columns:280px 1fr}}
+@media(max-width:800px){#app{grid-template-columns:1fr;padding:8px}}
+.glass{
+background:var(--panel);
+backdrop-filter:blur(20px);
+border:1px solid var(--border);
+border-radius:24px;
+overflow:hidden;
+}
+
+/* ====== COLUMN 1: SIDEBAR ====== */
+.sidebar{display:flex;flex-direction:column;padding:20px;gap:16px}
+.botCard{text-align:center;padding:16px}
+.botAvatar{
+width:80px;height:80px;border-radius:50%;
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+display:flex;align-items:center;justify-content:center;
+margin:0 auto 12px;font-size:40px;box-shadow:0 8px 24px rgba(139,92,246,0.4);
+}
+.botName{font-size:20px;font-weight:700;margin-bottom:4px}
+.botDesc{font-size:13px;color:var(--text2)}
+.nav{flex:1;display:flex;flex-direction:column;gap:8px}
+.navItem{
+display:flex;align-items:center;gap:12px;padding:12px 16px;
+border-radius:12px;color:var(--text2);cursor:pointer;
+transition:0.2s;font-size:15px;
+}
+.navItem:hover,.navItem.active{
+background:var(--panel2);color:var(--text);
+}
+.userCard{
+margin-top:auto;padding:12px;display:flex;align-items:center;gap:12px;
+background:var(--panel2);border-radius:16px;cursor:pointer;
+}
+.userPic{
+width:44px;height:44px;border-radius:50%;
+background:linear-gradient(135deg,#f59e0b,#ef4444);
+display:flex;align-items:center;justify-content:center;font-weight:700;
+position:relative;
+}
+.onlineDot{
+position:absolute;bottom:0;right:0;width:12px;height:12px;
+background:var(--green);border:2px solid var(--panel);border-radius:50%;
+}
+
+/* ====== COLUMN 2: CONTACTS ====== */
+.contacts{display:flex;flex-direction:column;padding:20px;gap:16px}
+.contactsHead{display:flex;align-items:center;justify-content:space-between}
+.contactsHead h2{font-size:20px}
+.searchBox{
+padding:12px 16px;background:var(--panel2);border-radius:12px;
+display:flex;align-items:center;gap:10px;
+}
+.searchBox input{
+flex:1;background:transparent;border:none;color:var(--text);outline:none;
+}
+.contactList{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+.contact{
+display:flex;align-items:center;gap:12px;padding:12px;
+border-radius:16px;cursor:pointer;transition:0.2s;
+}
+.contact:hover,.contact.active{background:var(--panel2)}
+.contactPic{
+width:48px;height:48px;border-radius:50%;
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+display:flex;align-items:center;justify-content:center;font-size:22px;
+position:relative;flex-shrink:0;
+}
+.contactInfo{flex:1;overflow:hidden}
+.contactName{font-weight:600;font-size:15px;margin-bottom:4px}
+.contactMsg{font-size:13px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ====== COLUMN 3: CHAT ====== */
+.chat{display:flex;flex-direction:column}
+.chatHead{
+padding:16px 20px;display:flex;align-items:center;gap:12px;
+border-bottom:1px solid var(--border);
+}
+.chatHead.contactPic{width:44px;height:44px;font-size:20px}
+.verified{color:var(--accent);font-size:16px;margin-left:4px}
+.messages{
+flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;
+}
+.msgRow{display:flex}
 .msgRow.me{justify-content:flex-end}
-.msgBubble{max-width:75%;padding:8px 12px;border-radius:8px;background:var(--panel);font-size:14.5px}
-.msgRow.me.msgBubble{background:#005c4b;color:#fff}
-.inputArea{padding:10px 16px;background:var(--panel);display:flex;gap:8px;align-items:flex-end}
-.inputArea input{flex:1;padding:12px 16px;background:var(--bg);border:none;border-radius:24px;color:var(--text);outline:none}
-.iconBtn{width:44px;height:44px;border-radius:50%;background:transparent;border:none;color:var(--text2);font-size:22px;cursor:pointer}
-.sendBtn{width:48px;height:48px;border-radius:50%;background:var(--green);border:none;color:#fff;font-size:20px;cursor:pointer}
-#settingsModal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:2000}
-#settingsBox{background:var(--panel);width:95%;max-width:420px;border-radius:16px;padding:20px;max-height:90dvh;overflow-y:auto}
-.setItem{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:10px}
-.setItem input,.setItem select{background:var(--bg);color:var(--text);border:1px solid var(--border);padding:10px;border-radius:8px;width:100%}
-.btn{width:100%;padding:12px;margin-top:8px;background:var(--green);border:none;border-radius:10px;color:#fff;font-weight:700;cursor:pointer}
-.btn.red{background:#e74c3c}
-.btn.gray{background:var(--hover)}
-hr{margin:16px 0;border:none;border-top:1px solid var(--border)}
-.small{font-size:12px;color:var(--text2)}
+.msgBubble{
+max-width:70%;padding:12px 16px;border-radius:18px;
+background:var(--panel2);font-size:14.5px;line-height:21px;
+}
+.msgRow.me.msgBubble{
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+color:#fff;border-bottom-right-radius:6px;
+}
+.msgRow:not(.me).msgBubble{border-bottom-left-radius:6px}
+.inputArea{
+padding:16px 20px;display:flex;align-items:center;gap:12px;
+border-top:1px solid var(--border);
+}
+.inputArea input{
+flex:1;padding:14px 20px;background:var(--panel2);border:none;
+border-radius:24px;color:var(--text);outline:none;font-size:15px;
+}
+.inputIcon{
+width:44px;height:44px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;color:var(--text2);font-size:20px;
+}
+.sendBtn{
+width:48px;height:48px;border-radius:50%;
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+border:none;color:#fff;font-size:20px;cursor:pointer;
+}
+
+/* ====== SETUP MODAL - BAYA TOSHE SITE ====== */
+#setupModal{
+position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);
+display:none;align-items:center;justify-content:center;z-index:2000;
+}
+#setupBox{
+background:var(--panel);width:90%;max-width:360px;border-radius:20px;
+padding:24px;border:1px solid var(--border);text-align:center;
+}
+#setupBox input{
+width:100%;padding:14px;margin-top:12px;background:var(--panel2);
+border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;
+}
+.btn{
+width:100%;padding:14px;margin-top:12px;background:var(--accent);
+border:none;border-radius:12px;color:#fff;font-weight:700;font-size:16px;cursor:pointer;
+}
+#settingsModal{
+position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);
+display:none;align-items:center;justify-content:center;z-index:2000;
+}
+#settingsBox{
+background:var(--panel);width:90%;max-width:400px;border-radius:20px;
+padding:24px;border:1px solid var(--border);
+}
+.setItem{
+display:flex;justify-content:space-between;align-items:center;
+padding:14px 0;border-bottom:1px solid var(--border);
+}
+.setItem select{
+background:var(--panel2);color:var(--text);border:1px solid var(--border);
+padding:8px 12px;border-radius:8px;outline:none;
+}
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:12px 20px;border-radius:24px;z-index:3000;display:none}
 </style>
 </head>
 <body>
 
+<!-- SITE YA BUDE DIRECT - BABU TOSHEWA -->
 <div id="app">
-<div class="sidebar">
-<div class="sideHead">
-<div class="profilePic" id="picBtn">
-<img id="myPic" src="" style="display:none"><span id="myPicText">G</span>
-<span class="badge" id="guestBadge">!</span>
+<!-- COLUMN 1: SIDEBAR -->
+<div class="sidebar glass">
+<div class="botCard">
+<div class="botAvatar">🤖</div>
+<div class="botName">Chat AI</div>
+<div class="botDesc">AI Assistant</div>
 </div>
-<div class="sideActions"><span id="setBtn">⚙️</span></div>
+<div class="nav">
+<div class="navItem active">💬 Chats</div>
+<div class="navItem" id="setBtn">⚙️ Settings</div>
 </div>
-<div class="search"><input type="text" placeholder="Search"></div>
-<div class="moneyBox">
-<h4>💰 Earned Money</h4>
-<div id="balance">$0.00</div>
-<input type="text" id="monetagKey" placeholder="Monetag Key" style="width:100%;margin-top:8px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text)">
-<button onclick="saveKey()" class="btn" style="padding:8px;margin-top:6px">Save Key</button>
-</div>
-<div class="contactsList" id="contactsList">
-<div class="contact active"><div class="contactPic">K<span class="onlineDot"></span></div><div><div>Khamis AI</div><div style="font-size:12px;color:var(--text2)">AI Assistant</div></div></div>
+<div class="userCard" id="profileBtn">
+<div class="userPic" id="myPic">?<span class="onlineDot"></span></div>
+<div><div style="font-weight:600;font-size:14px" id="myName">Guest</div><div style="font-size:12px;color:var(--text2)" id="myStatus">Click to set username</div></div>
 </div>
 </div>
 
-<div class="chat">
+<!-- COLUMN 2: CONTACTS -->
+<div class="contacts glass">
+<div class="contactsHead">
+<h2>Contacts</h2>
+</div>
+<div class="searchBox">
+<span>🔍</span>
+<input type="text" placeholder="Search...">
+</div>
+<div class="contactList" id="contactList">
+<div style="text-align:center;color:var(--text2);margin-top:40px">Set username to see users</div>
+</div>
+</div>
+
+<!-- COLUMN 3: CHAT -->
+<div class="chat glass">
 <div class="chatHead">
-<div class="contactPic" id="chatPic">K</div>
-<div><div id="chatName">Khamis AI</div><div style="font-size:12px;color:var(--text2)">Online</div></div>
+<div class="contactPic" id="chatPic">🤖</div>
+<div>
+<div style="display:flex;align-items:center;font-weight:700">
+<span id="chatName">Select a chat</span>
+<span class="verified">✓</span>
+</div>
+<div style="font-size:12px;color:var(--green)" id="chatStatus">Online</div>
+</div>
 </div>
 <div class="messages" id="messages">
-<div style="text-align:center;color:var(--text2);margin-top:40px">Click Settings ⚙️ to create account and chat</div>
+<div style="text-align:center;color:var(--text2);margin-top:40px">Select a contact to start</div>
 </div>
 <div class="inputArea">
-<button class="iconBtn" id="camBtn">📷</button>
-<button class="iconBtn" id="micBtn">🎤</button>
-<input type="text" id="inp" placeholder="Message">
+<span class="inputIcon">📎</span>
+<input type="text" id="inp" placeholder="Type your message...">
+<span class="inputIcon" id="micBtn">🎤</span>
 <button class="sendBtn" id="sendBtn">➤</button>
 </div>
 </div>
 </div>
 
+<!-- POPUP 1: SETUP USERNAME KAWAI -->
+<div id="setupModal">
+<div id="setupBox" class="glass">
+<h2>👋 Set Username</h2>
+<p style="color:var(--text2);font-size:13px;margin:8px 0 16px" id="setupNote">Choose a name to start chatting</p>
+<input type="text" id="username" placeholder="Musa_Kano" maxlength="15">
+<button class="btn" id="startBtn">Start</button>
+</div>
+</div>
+
+<!-- POPUP 2: SETTINGS -->
 <div id="settingsModal">
-<div id="settingsBox">
-<h3>Settings / Saituna</h3>
-<div class="setItem"><span>Language / Harshe</span><select id="lang"><option value="en">English</option><option value="ha">Hausa</option></select></div>
-<div class="setItem"><span>Mode / Yanayi</span><select id="theme"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">System</option></select></div>
-<hr>
-<h4 id="accTitle">Account - REQUIRED to Chat</h4>
-<p class="small" id="accNote">Create Username + Email + Password</p>
-<div class="setItem"><input type="text" id="newUser" placeholder="Username"></div>
-<div class="setItem"><input type="email" id="newEmail" placeholder="Email"></div>
-<div class="setItem"><input type="password" id="newPass" placeholder="Password"></div>
-<button class="btn" id="createBtn">Create Account / Yi Account</button>
-<button class="btn gray" id="loginBtn">Login / Shiga</button>
-<button class="btn red" id="logoutBtn" style="display:none">Logout / Fita</button>
-<button class="btn gray" id="closeSetBtn">Close / Rufe</button>
+<div id="settingsBox" class="glass">
+<h3 style="margin-bottom:16px">Settings / Saituna</h3>
+<div class="setItem">
+<span>Language / Harshe</span>
+<select id="lang">
+<option value="en">English</option>
+<option value="ha">Hausa</option>
+</select>
+</div>
+<div class="setItem">
+<span>Mode / Yanayi</span>
+<select id="theme">
+<option value="dark">Dark</option>
+<option value="light">Light</option>
+<option value="auto">System / Na Asali</option>
+</select>
+</div>
+<button class="btn" id="closeSetBtn">Close / Rufe</button>
 </div>
 </div>
 
 <div class="toast" id="toast"></div>
-<input type="file" id="picInput" accept="image/*" style="display:none">
-<input type="file" id="camInput" accept="image/*,video/*" capture="environment" style="display:none">
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsFeKfeYTIGzP221hwPlFBHPiYyy-TLqE",
@@ -129,95 +288,80 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
 
-let currentUser = null, currentChatId = 'khamis_ai', myUsername = 'Guest', lang = 'en', balance = 0;
+let me = null, myUsername = '', currentChatId = null, lang = 'en';
+let isSetup = false;
 
-// ====== 1. BUDE SITE DIRECT BA LOCK BA ======
+// ====== 1. BUDE SITE DIRECT - ANONYMOUS A BAYA ======
+signInAnonymously(auth);
 onAuthStateChanged(auth, async (user) => {
 if(user){
-currentUser = user;
-const myDoc = await getDoc(doc(db,'users',user.uid));
-if(myDoc.exists()){
-myUsername = myDoc.data().username || user.email.split('@')[0];
-balance = myDoc.data().balance || 0;
-document.getElementById('balance').innerText = `$${balance.toFixed(2)}`;
-document.getElementById('myPicText').innerText = myUsername.charAt(0).toUpperCase();
-document.getElementById('guestBadge').style.display = 'none';
-document.getElementById('logoutBtn').style.display = 'block';
-if(myDoc.data().pic){
-document.getElementById('myPic').src = myDoc.data().pic;
-document.getElementById('myPic').style.display = 'block';
-document.getElementById('myPicText').style.display = 'none';
-}
-}else{
-document.getElementById('guestBadge').style.display = 'block'; // Nuna cewa Guest ne
-}
+me = user;
+// DUBA IDAN YA RIGAYA YA SAKA SUNA
+const myDoc = await getDocs(query(collection(db,'users'), where('uid','==',user.uid)));
+if(!myDoc.empty){
+myUsername = myDoc.docs[0].data().displayName;
+isSetup = true;
+updateProfile();
 loadContacts();
-openChat('Khamis AI', 'khamis_ai');
-
-// ====== BUTTONS ======
-document.getElementById('setBtn').onclick = () => document.getElementById('settingsModal').style.display='flex';
-document.getElementById('closeSetBtn').onclick = () => document.getElementById('settingsModal').style.display='none';
-document.getElementById('picBtn').onclick = () => currentUser ? document.getElementById('picInput').click() : showToast(lang==='ha'?'Dole ka yi account':'Create account first');
-document.getElementById('camBtn').onclick = () => currentUser ? document.getElementById('camInput').click() : showToast(lang==='ha'?'Dole ka yi account':'Create account first');
-document.getElementById('createBtn').onclick = createAccount;
-document.getElementById('loginBtn').onclick = loginAccount;
-document.getElementById('logoutBtn').onclick = logout;
-document.getElementById('sendBtn').onclick = sendMsg;
-document.getElementById('inp').onkeyup = e => {if(e.key==='Enter') sendMsg();}
-document.getElementById('lang').onchange = changeLang;
-document.getElementById('theme').onchange = changeTheme;
-
-// ====== ACCOUNT ======
-async function createAccount(){
-const u = document.getElementById('newUser').value.trim();
-const e = document.getElementById('newEmail').value.trim();
-const p = document.getElementById('newPass').value.trim();
-if(!u ||!e ||!p) return showToast('Fill all fields');
-if(u.length < 3) return showToast('Username 3+ letters');
-const userRef = doc(db, 'usernames', u.toLowerCase());
-if((await getDoc(userRef)).exists()) return showToast('Username taken');
-try{
-const cred = await createUserWithEmailAndPassword(auth, e, p);
-await setDoc(doc(db,'users',cred.user.uid), {username: u, email: e, balance: 0, pic: ''});
-await setDoc(userRef, {uid: cred.user.uid});
-showToast(lang==='ha'?'An yi account':'Account created');
-document.getElementById('settingsModal').style.display='none';
-}catch(e){showToast(e.message)}
 }
-async function loginAccount(){
-const e = document.getElementById('newEmail').value.trim();
-const p = document.getElementById('newPass').value.trim();
-if(!e ||!p) return showToast('Fill email + password');
-try{await signInWithEmailAndPassword(auth, e, p); showToast('Welcome'); document.getElementById('settingsModal').style.display='none';}catch(e){showToast('Wrong email or password')}
-}
-async function logout(){await signOut(auth); location.reload();}
+});
 
-// ====== CONTACTS + CHAT ======
+// ====== 2. SETUP USERNAME KAWAI BAYA TOSHE SITE ======
+document.getElementById('profileBtn').onclick = () => {
+if(!isSetup) document.getElementById('setupModal').style.display='flex';
+}
+document.getElementById('startBtn').onclick = async () => {
+const name = document.getElementById('username').value.trim();
+if(name.length < 3) return showToast(lang==='ha'?'Suna 3+ harafi':'Username 3+ letters');
+const q = query(collection(db,'users'), where('username','==',name.toLowerCase()));
+const snap = await getDocs(q);
+if(!snap.empty) return showToast(lang==='ha'?'Suna ya cika':'Username taken');
+await setDoc(doc(db,'users',me.uid), {uid:me.uid, username: name.toLowerCase(), displayName: name, online:true});
+myUsername = name;
+isSetup = true;
+document.getElementById('setupModal').style.display='none';
+updateProfile();
+loadContacts();
+}
+
+function updateProfile(){
+document.getElementById('myName').innerText = myUsername;
+document.getElementById('myPic').innerText = myUsername.slice(0,1).toUpperCase();
+document.getElementById('myStatus').innerText = 'Online';
+}
+
+// ====== 3. CONTACTS + CHAT NA SIRRI REAL TIME ======
 async function loadContacts(){
-const q = query(collection(db, 'users'));
-onSnapshot(q, (snap) => {
-let html = `<div class="contact active"><div class="contactPic">K<span class="onlineDot"></span></div><div><div>Khamis AI</div><div style="font-size:12px;color:var(--text2)">AI</div></div></div>`;
+if(!isSetup) return;
+const snap = await getDocs(collection(db,'users'));
+let html = '';
 snap.forEach(d=>{
-if(!currentUser || d.id === currentUser.uid) return;
-const u=d.data();
-html+=`<div class="contact"><div class="contactPic">${u.pic?`<img src="${u.pic}">`:`${u.username.charAt(0).toUpperCase()}`}<span class="onlineDot"></span></div><div><div>@${u.username}</div><div style="font-size:12px;color:var(--text2)">Online</div></div></div>`;
+if(d.id === me.uid) return;
+const u = d.data();
+html += `
+<div class="contact" onclick="openChat('${d.id}','${u.displayName}')">
+<div class="contactPic">${u.displayName.slice(0,1).toUpperCase()}<span class="onlineDot"></span></div>
+<div class="contactInfo">
+<div class="contactName">@${u.displayName}</div>
+<div class="contactMsg">Online</div>
+</div>
+</div>`;
 });
-document.getElementById('contactsList').innerHTML=html;
-});
+document.getElementById('contactList').innerHTML = html || '<div style="text-align:center;color:var(--text2)">No users yet</div>';
+}
 
-window.openChat = (name,uid,pic='') => {
-if(!currentUser){return showToast(lang==='ha'?'Dole ka yi account da Email + Password':'Create account with Email + Password first');}
-currentChatId = uid==='khamis_ai'? 'khamis_ai' : [currentUser.uid,uid].sort().join('_');
+window.openChat = (uid, name) => {
+if(!isSetup) return showToast(lang==='ha'?'Dole ka saka suna da farko':'Set username first');
+currentChatId = [me.uid, uid].sort().join('_');
 document.getElementById('chatName').innerText = name;
-document.getElementById('chatPic').innerHTML = pic? `<img src="${pic}">` : name.charAt(0).toUpperCase();
+document.getElementById('chatPic').innerText = name.slice(0,1).toUpperCase();
 const q = query(collection(db,'chats',currentChatId,'messages'), orderBy('timestamp'));
 onSnapshot(q, (snap) => {
 let html = '';
 snap.forEach(d=>{
 const m = d.data();
-const isMe = m.sender === currentUser.uid;
+const isMe = m.sender === me.uid;
 html += `<div class="msgRow ${isMe?'me':''}"><div class="msgBubble">${m.text}</div></div>`;
 });
 document.getElementById('messages').innerHTML = html;
@@ -225,41 +369,28 @@ document.getElementById('messages').scrollTop = document.getElementById('message
 });
 }
 
-async function sendMsg(){
-if(!currentUser){return showToast(lang==='ha'?'Dole ka yi account da Email + Password':'Create account with Email + Password first');}
+document.getElementById('sendBtn').onclick = async () => {
+if(!isSetup) return document.getElementById('setupModal').style.display='flex';
 const inp = document.getElementById('inp');
 const text = inp.value.trim();
-if(!text) return;
-if(currentChatId === 'khamis_ai'){
-await addDoc(collection(db,'chats',currentChatId,'messages'), {text, sender: currentUser.uid, timestamp: serverTimestamp()});
-setTimeout(async ()=>{
-let reply = lang==='ha'? `Ni ne Khamis AI. Na karba: ${text}` : `I am Khamis AI. Got: ${text}`;
-await addDoc(collection(db,'chats',currentChatId,'messages'), {text: reply, sender: 'khamis_ai', timestamp: serverTimestamp()});
-balance += 0.01;
-document.getElementById('balance').innerText = `$${balance.toFixed(2)}`;
-await setDoc(doc(db,'users',currentUser.uid), {balance}, {merge: true});
-},500);
-}else{
-await addDoc(collection(db,'chats',currentChatId,'messages'), {text, sender: currentUser.uid, timestamp: serverTimestamp()});
-}
+if(!text ||!currentChatId) return;
+await addDoc(collection(db,'chats',currentChatId,'messages'), {
+text, sender: me.uid, timestamp: serverTimestamp()
+});
 inp.value = '';
 }
+document.getElementById('inp').onkeyup = e => {if(e.key==='Enter') document.getElementById('sendBtn').click();}
 
-// ====== OTHER ======
-window.saveKey = async () => {
-if(!currentUser) return showToast('Login first');
-const key = document.getElementById('monetagKey').value.trim();
-if(!key) return showToast('Paste key first');
-await setDoc(doc(db,'users',currentUser.uid), {monetagKey: key}, {merge: true});
-showToast('Saved');
+// ====== 4. SETTINGS ENGLISH/HAUSA + DARK/LIGHT/AUTO ======
+document.getElementById('setBtn').onclick = () => document.getElementById('settingsModal').style.display='flex';
+document.getElementById('closeSetBtn').onclick = () => document.getElementById('settingsModal').style.display='none';
+document.getElementById('lang').onchange = e => {
+lang = e.target.value;
+document.getElementById('inp').placeholder = lang==='ha'?'Rubuta sakonka...':'Type your message...';
+document.getElementById('setupNote').innerText = lang==='ha'?'Zabi suna don fara chat':'Choose a name to start chatting';
 }
-function changeLang(){
-lang = document.getElementById('lang').value;
-document.getElementById('inp').placeholder = lang==='ha'?'Sako...':'Message';
-document.getElementById('accTitle').innerText = lang==='ha'?'Account - DOLE NE don Chat':'Account - REQUIRED to Chat';
-}
-function changeTheme(){
-const m = document.getElementById('theme').value;
+document.getElementById('theme').onchange = e => {
+const m = e.target.value;
 if(m==='light') document.body.classList.add('light');
 else if(m==='dark') document.body.classList.remove('light');
 else document.body.classList.toggle('light', window.matchMedia('(prefers-color-scheme: light)').matches);
