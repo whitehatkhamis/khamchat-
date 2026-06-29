@@ -5,10 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KhamChat</title>
 
-<!-- STEP 1: PASTE YOUR KEYS HERE -->
-
-
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}
 :root{
@@ -31,7 +27,7 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 .userItem b{font-size:16px}
 .userItem span{font-size:13px;color:var(--text2)}
 .userItem.gold{color:var(--gold)}
-.message{background:var(--card);padding:12px 16px;border-radius:18px;max-width:75%;font-size:15px;border-bottom-left-radius:6px;align-self:flex-start;word-break:break-word;position:relative}
+.message{background:var(--card);padding:12px 16px;border-radius:18px;max-width:75%;font-size:15px;border-bottom-left-radius:6px;align-self:flex-start;word-break:break-word;position:relative;white-space:pre-wrap}
 .message.me{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-bottom-left-radius:18px;border-bottom-right-radius:6px;align-self:flex-end}
 .message.bot{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000}
 .message b{display:block;font-size:13px;margin-bottom:4px;opacity:0.8}
@@ -81,6 +77,7 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 .msgMenu button{border:none;background:transparent;font-size:13px;font-weight:600;cursor:pointer;padding:8px 12px;border-radius:8px;color:var(--text)}
 .msgMenu button:hover{background:var(--bg2)}
 .msgMenu button.red{color:var(--red)}
+.earnBtnTop{background:linear-gradient(135deg,#FF5722,#FF9800);color:#fff;padding:10px 18px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;border:none;box-shadow:0 4px 12px rgba(255,87,34,0.4)}
 </style>
 </head>
 <body>
@@ -88,8 +85,8 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 <div id="app">
 <div class="header glass">
 <h1 id="appTitle">KhamChat</h1>
-<div style="display:flex;gap:16px;align-items:center">
-<span style="font-size:28px;cursor:pointer" id="moneyBtn">💰</span> <!-- EARN BUTTON -->
+<div style="display:flex;gap:12px;align-items:center">
+<button class="earnBtnTop" id="earnBtnTop">💰 EARN $</button>
 <span style="font-size:24px;cursor:pointer" id="setBtn">⚙️</span>
 </div>
 </div>
@@ -131,18 +128,6 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 </div>
 
 <button id="botBtn">✨</button>
-
-<!-- EARN HUB MODAL -->
-<div class="modal" id="earnModal">
-<div class="modalBox">
-<h3>💰 Earn Gold</h3>
-<p style="color:var(--gold);font-size:18px;font-weight:700;margin:8px 0">Your Gold: <span id="goldCount">0</span> 👑</p>
-<button class="btn gold" id="watchAdBtn">🎬 Watch Video +50 Gold</button>
-<button class="btn" id="offerwallBtn">📱 App Download +200 Gold</button>
-<button class="btn" id="surveyBtn">📝 Surveys +100 Gold</button>
-<button class="btn red" id="closeEarnBtn">Close</button>
-</div>
-</div>
 
 <div class="modal" id="setup">
 <div class="modalBox">
@@ -209,10 +194,8 @@ messagingSenderId: "515176934851",
 appId: "1:515176934851:web:4ec261196d1ff497666176"
 };
 
-// STEP 2: PASTE ALL YOUR KEYS HERE
-const GEMINI_API_KEY = "PASTE_GEMINI_KEY_HERE";
-const MONETAG_REWARDED_ZONE_ID = "PASTE_YOUR_MONETAG_REWARDED_ID"; // Example: 8787676
-const ADGATE_MEDIA_ID = "PASTE_YOUR_ADGATE_MEDIA_ID"; // Example: 123456
+// === YOUR MONETAG SMARTLINK ===
+const MONETAG_LINK = "https://omg10.com/4/11217324";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -222,7 +205,7 @@ const storage = getStorage(app);
 let me = null, username = '', currentChatId = null, isSetup = false;
 let mediaRecorder, audioChunks = [];
 let editingMsgId = null;
-let userGold = parseInt(localStorage.getItem('gold') || '0');
+let botWelcomeSent = false; // To prevent sending welcome twice
 
 const EMOJIS = ['🙏','💔','😀','👍','🥹','👌','💪','😭','😤','😂','❤️','🔥','✨','💯','🤣','😍'];
 
@@ -231,14 +214,14 @@ en: {
 appTitle:"KhamChat", setupTitle:"Setup Profile", setupText:"Choose a username to start", startBtn:"Start",
 settingsTitle:"Settings", langLabel:"Language", themeLabel:"Theme Mode", closeBtn:"Close",
 chats:"Chats", users:"Users", typeMessage:"Type message...", tapToChat:"Tap to chat", askAI:"Ask me anything",
-usernameShort:"Username 3+ letters", usernameTaken:"Username taken", loading:"Loading...", adOpen:"+$0.001 Earned",
+usernameShort:"Username 3+ letters", usernameTaken:"Username taken", loading:"Loading...",
 clearChat:"Clear Chat", editMsg:"Edit", deleteMsg:"Delete", msgDeleted:"Message deleted", chatCleared:"Chat cleared", confirmClear:"Clear all messages?"
 },
 ha: {
 appTitle:"KhamChat", setupTitle:"Saita Profile", setupText:"Zabi suna don fara", startBtn:"Fara",
 settingsTitle:"Saituna", langLabel:"Harshe", themeLabel:"Yanayi", closeBtn:"Rufe",
 chats:"Chat", users:"Mutane", typeMessage:"Rubuta sako...", tapToChat:"Danna don chat", askAI:"Ka tambayeni",
-usernameShort:"Suna 3+ harafi", usernameTaken:"Suna ya cika", loading:"Ana loading...", adOpen:"+$0.001 An samu",
+usernameShort:"Suna 3+ harafi", usernameTaken:"Suna ya cika", loading:"Ana loading...",
 clearChat:"Share Chat", editMsg:"Gyara", deleteMsg:"Share", msgDeleted:"An share sako", chatCleared:"An share chat", confirmClear:"Ka tabbata kana son share?"
 }
 };
@@ -252,33 +235,10 @@ function loadEmojis(){const grid = document.getElementById('emojiGrid');grid.inn
 window.insertEmoji = (e) => {const input = document.getElementById('messageInput');input.value += e; input.focus();document.getElementById('emojiModal').classList.remove('show');document.getElementById('attachMenu').classList.remove('show');}
 applyTheme(); applyLang();
 
-function updateGold(){document.getElementById('goldCount').innerText = userGold;localStorage.setItem('gold', userGold);}
-
-// === EARNINGS SYSTEM ===
-document.getElementById("moneyBtn").onclick = () => {updateGold();document.getElementById("earnModal").classList.add('show');}
-document.getElementById("closeEarnBtn").onclick = () => document.getElementById("earnModal").classList.remove('show');
-
-// 1. WATCH VIDEO - MONETAG
-document.getElementById("watchAdBtn").onclick = () => {
-    if(MONETAG_REWARDED_ZONE_ID === "PASTE_YOUR_MONETAG_REWARDED_ID"){toast("Add Monetag ID first");return;}
-    window[`show_${MONETAG_REWARDED_ZONE_ID}`]().then(() => {
-        userGold += 50;
-        updateGold();
-        toast("+50 Gold Earned!");
-        document.getElementById("earnModal").classList.remove('show');
-    }).catch(() => toast("Ad not ready, try again"));
-};
-
-// 2. APP DOWNLOAD + SURVEYS - ADGATE
-document.getElementById("offerwallBtn").onclick = () => {
-    if(ADGATE_MEDIA_ID === "PASTE_YOUR_ADGATE_MEDIA_ID"){toast("Add AdGate ID first");return;}
-    AdGateLoaderAPI.launch(ADGATE_MEDIA_ID);
-    document.getElementById("earnModal").classList.remove('show');
-}
-document.getElementById("surveyBtn").onclick = () => {
-    if(ADGATE_MEDIA_ID === "PASTE_YOUR_ADGATE_MEDIA_ID"){toast("Add AdGate ID first");return;}
-    AdGateLoaderAPI.launch(ADGATE_MEDIA_ID);
-    document.getElementById("earnModal").classList.remove('show');
+// === EARN $ BUTTON ===
+document.getElementById("earnBtnTop").onclick = () => {
+    window.open(MONETAG_LINK, "_blank");
+    toast("Go to Task and earn money 👑");
 }
 
 signInAnonymously(auth).catch(e=>toast('Auth Error'));
@@ -312,9 +272,43 @@ document.getElementById('cancelEditBtn').onclick = () => document.getElementById
 document.getElementById('moreBtn').onclick = (e) => {e.stopPropagation(); document.getElementById('chatDropdown').classList.toggle('show');}
 document.getElementById('clearChatBtn').onclick = async () => {if(!confirm(texts[lang].confirmClear)) return;const snap = await getDocs(collection(db,'chats',currentChatId,'messages'));const batch = writeBatch(db);snap.forEach(d=>batch.delete(d.ref));await batch.commit();document.getElementById('chatDropdown').classList.remove('show');toast(texts[lang].chatCleared);}
 document.addEventListener('click',()=>document.getElementById('chatDropdown').classList.remove('show'));
-window.openBotChat = () => {currentChatId = "bot_chat_"+me.uid;document.getElementById("chatWithName").innerText = "Khamis AI ✨";document.getElementById("chatArea").innerHTML = '';document.getElementById("chatHeader").classList.add('show');document.getElementById("bottomBar").classList.add('show');document.getElementById("botBtn").classList.add('hide');const q = query(collection(db,'chats',currentChatId,'messages'), orderBy("time","asc"));onSnapshot(q,(snapshot)=>{let area = document.getElementById("chatArea"); area.innerHTML="";snapshot.forEach((docSnap)=>{let data = docSnap.data();let div = document.createElement("div");div.className="message "+(data.sender===me.uid?"me":"bot");div.innerHTML=`<b>${data.username}</b><br>${data.text||""}${data.audio?`<br><audio controls src="${data.audio}"></audio>`:""}`;area.appendChild(div);});area.scrollTop=area.scrollHeight;});}
-document.getElementById("botBtn").onclick = () => openBotChat();document.getElementById("backBtn").onclick = () => {currentChatId = null;document.getElementById("chatHeader").classList.remove('show');document.getElementById("bottomBar").classList.remove('show');document.getElementById("botBtn").classList.remove('hide');document.getElementById("tabUsers").click();}
-async function callGemini(text){if(GEMINI_API_KEY === "PASTE_GEMINI_KEY_HERE") return "Add Gemini API Key first";const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:text}]}]})});const data = await res.json();return data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't respond";}
+
+window.openBotChat = () => {
+currentChatId = "bot_chat_"+me.uid;
+document.getElementById("chatWithName").innerText = "Khamis AI ✨";
+document.getElementById("chatArea").innerHTML = '';
+document.getElementById("chatHeader").classList.add('show');
+document.getElementById("bottomBar").classList.add('show');
+document.getElementById("botBtn").classList.add('hide');
+botWelcomeSent = false; // Reset when opening bot
+
+const q = query(collection(db,'chats',currentChatId,'messages'), orderBy("time","asc"));
+onSnapshot(q, async (snapshot)=>{
+  let area = document.getElementById("chatArea"); area.innerHTML="";
+
+  // 1. AUTO SEND WELCOME + LINK ONCE
+  if(snapshot.size === 0 &&!botWelcomeSent){
+    botWelcomeSent = true;
+    await addDoc(collection(db,"chats",currentChatId,"messages"),{
+      sender:'bot',
+      username:'Khamis AI',
+      text:`Sannu! I am Khamis AI from Kano 👊\n\nAsk me anything.\n\nWant to support me? Click here: \n${MONETAG_LINK}`,
+      time:serverTimestamp()
+    });
+  }
+
+  snapshot.forEach((docSnap)=>{
+    let data = docSnap.data();
+    let div = document.createElement("div");
+    div.className="message "+(data.sender===me.uid?"me":"bot");
+    div.innerHTML=`<b>${data.username}</b><br>${data.text||""}${data.audio?`<br><audio controls src="${data.audio}"></audio>`:""}`;
+    area.appendChild(div);
+  });
+  area.scrollTop=area.scrollHeight;
+});}
+
+document.getElementById("botBtn").onclick = () => openBotChat();
+document.getElementById("backBtn").onclick = () => {currentChatId = null;document.getElementById("chatHeader").classList.remove('show');document.getElementById("bottomBar").classList.remove('show');document.getElementById("botBtn").classList.remove('hide');document.getElementById("tabUsers").click();}
 document.getElementById('attachBtn').onclick = () => document.getElementById('attachMenu').classList.toggle('show');
 document.getElementById('emojiBtn').onclick = () => {document.getElementById('emojiModal').classList.add('show');}
 document.getElementById('closeEmojiBtn').onclick = () => document.getElementById('emojiModal').classList.remove('show');
@@ -326,16 +320,34 @@ function stopRecording(){if(mediaRecorder){mediaRecorder.stop();mediaRecorder.st
 document.getElementById("mediaInput").onchange = async e => {const file = e.target.files[0]; if(!file) return;const storageRef = ref(storage,"media/"+Date.now());await uploadBytes(storageRef,file);const url = await getDownloadURL(storageRef);const type = file.type.startsWith('video')?'video':'image';await sendMessage("", url, type);}
 document.getElementById("docInput").onchange = async e => {const file = e.target.files[0]; if(!file) return;const storageRef = ref(storage,"docs/"+Date.now()+"_"+file.name);await uploadBytes(storageRef,file);const url = await getDownloadURL(storageRef);await sendMessage(`📎 ${file.name}`, url, 'image');}
 document.addEventListener('click',(e)=>{if(!e.target.closest('.inputRow')) document.getElementById('attachMenu').classList.remove('show');});
-function speak(text){const utter = new SpeechSynthesisUtterance(text);utter.lang = lang==='ha'?'ha-NG':'en-US';speechSynthesis.speak(utter);}
 document.getElementById("sendBtn").onclick = () => sendMessage();
+
 async function sendMessage(text = null, mediaUrl = null, mediaType = ''){
 if(!isSetup) return document.getElementById("setup").classList.add('show');if(!currentChatId) return toast("Tap a user first");
 text = text?? document.getElementById("messageInput").value.trim();if(!text &&!mediaUrl) return;
 const payload = {sender:me.uid, username:username, text:text, time:serverTimestamp()};
-if(mediaType==='image') payload.image=mediaUrl;if(mediaType==='video') payload.video=mediaUrl;if(mediaType==='audio') payload.audio=mediaUrl;
-await addDoc(collection(db,"chats",currentChatId,"messages"),payload);document.getElementById("messageInput").value="";
-if(currentChatId.startsWith("bot_chat_")){document.getElementById("typing").innerText = "Khamis AI is typing...";const reply = await callGemini(text);await addDoc(collection(db,"chats",currentChatId,"messages"),{sender:'bot', username:'Khamis AI', text:reply, time:serverTimestamp(), seen:true});speak(reply);document.getElementById("typing").innerText = "";}
+await addDoc(collection(db,"chats",currentChatId,"messages"),payload);
+document.getElementById("messageInput").value="";
+
+  // 2. BOT AUTO REPLY WITH LINK IF ASKED
+  if(currentChatId.startsWith("bot_chat_")){
+    const userText = text.toLowerCase();
+    const keywords = ['link', 'kudi', 'earn', 'money', 'khamis ai', 'support'];
+    const askedForLink = keywords.some(word => userText.includes(word));
+
+    if(askedForLink){
+      setTimeout(async ()=>{
+        await addDoc(collection(db,"chats",currentChatId,"messages"),{
+          sender:'bot',
+          username:'Khamis AI',
+          text:`Here is my support link 👇\n${MONETAG_LINK}\n\nClick it to help me grow 🔥`,
+          time:serverTimestamp()
+        });
+      }, 800);
+    }
+  }
 }
+
 document.getElementById("setBtn").onclick = () => document.getElementById("settingsModal").classList.add('show');
 document.getElementById("closeSetBtn").onclick = () => document.getElementById("settingsModal").classList.remove('show');
 document.getElementById("lang").onchange = e => {lang = e.target.value;localStorage.setItem('lang', lang);applyLang();}
