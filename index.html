@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KhamChat</title>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}
 :root{
@@ -78,6 +77,9 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 .msgMenu button:hover{background:var(--bg2)}
 .msgMenu button.red{color:var(--red)}
 .earnBtnTop{background:linear-gradient(135deg,#FF5722,#FF9800);color:#fff;padding:10px 18px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;border:none;box-shadow:0 4px 12px rgba(255,87,34,0.4)}
+/* KHAMIS AI MODAL */
+#earnModalKhamis{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:3000;align-items:center;justify-content:center}
+#earnModalKhamis.show{display:flex}
 </style>
 </head>
 <body>
@@ -177,6 +179,17 @@ html,body{height:100dvh;width:100vw;overflow:hidden;background:linear-gradient(1
 </div>
 </div>
 
+<!-- KHAMIS AI EARN MODAL -->
+<div id="earnModalKhamis">
+<div class="modalBox">
+<h2>Earn Free Credits 💰</h2>
+<p style="color:var(--text2);font-size:13px;margin:8px 0">Complete 1 offer to get +5 Credits for AI</p>
+<button class="btn" onclick="earnAdKhamis()">📺 Complete Offer +5 Credits</button>
+<button class="btn gold" onclick="checkOfferStatusKhamis()">✅ I Completed It</button>
+<button class="btn red" onclick="document.getElementById('earnModalKhamis').classList.remove('show')">Close</button>
+</div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -194,8 +207,9 @@ messagingSenderId: "515176934851",
 appId: "1:515176934851:web:4ec261196d1ff497666176"
 };
 
-// === YOUR MONETAG SMARTLINK ===
-const MONETAG_LINK = "https://omg10.com/4/11217324";
+// === YOUR CPAGRIP SMARTLINK ===
+const CPAGRIP_LINK = "https://doctoredits.com/1902973";
+const MONETAG_LINK = "https://omg10.com/4/11217324"; // Na `EARN $` na `KhamChat`
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -205,41 +219,65 @@ const storage = getStorage(app);
 let me = null, username = '', currentChatId = null, isSetup = false;
 let mediaRecorder, audioChunks = [];
 let editingMsgId = null;
-let botWelcomeSent = false; // To prevent sending welcome twice
+
+// ===== KHAMIS AI CREDITS SYSTEM =====
+const FREE_START_CREDITS = 5;
+const EARN_OFFER_CREDITS = 5;
+let userDataKhamis = JSON.parse(localStorage.getItem('khamisAI_v11')) || { 
+  credits: FREE_START_CREDITS, 
+  date: new Date().toDateString(),
+  waitingForOffer: false
+};
+if(userDataKhamis.date!== new Date().toDateString()) {
+  userDataKhamis.credits = FREE_START_CREDITS;
+  userDataKhamis.date = new Date().toDateString();
+}
+function saveDataKhamis() { localStorage.setItem('khamisAI_v11', JSON.stringify(userDataKhamis)); }
+function spendCreditKhamis() {
+  if(userDataKhamis.credits <= 0) {
+    document.getElementById('earnModalKhamis').classList.add('show');
+    return false;
+  }
+  userDataKhamis.credits -= 1;
+  saveDataKhamis();
+  return true;
+}
+window.earnAdKhamis = () => {
+  document.getElementById('earnModalKhamis').classList.remove('show');
+  userDataKhamis.waitingForOffer = true;
+  saveDataKhamis();
+  window.open(CPAGRIP_LINK, "_blank");
+  toast("Complete 1 offer then click 'I Completed It'");
+}
+window.checkOfferStatusKhamis = () => {
+  if(userDataKhamis.waitingForOffer) {
+    userDataKhamis.credits += EARN_OFFER_CREDITS; 
+    userDataKhamis.waitingForOffer = false;
+    saveDataKhamis();
+    document.getElementById('earnModalKhamis').classList.remove('show');
+    toast(`+${EARN_OFFER_CREDITS} AI Credits Added! ✅`); 
+  } else {
+    toast('Click "Complete Offer" first.');
+  }
+}
+// ===================================
 
 const EMOJIS = ['🙏','💔','😀','👍','🥹','👌','💪','😭','😤','😂','❤️','🔥','✨','💯','🤣','😍'];
-
 const texts = {
-en: {
-appTitle:"KhamChat", setupTitle:"Setup Profile", setupText:"Choose a username to start", startBtn:"Start",
-settingsTitle:"Settings", langLabel:"Language", themeLabel:"Theme Mode", closeBtn:"Close",
-chats:"Chats", users:"Users", typeMessage:"Type message...", tapToChat:"Tap to chat", askAI:"Ask me anything",
-usernameShort:"Username 3+ letters", usernameTaken:"Username taken", loading:"Loading...",
-clearChat:"Clear Chat", editMsg:"Edit", deleteMsg:"Delete", msgDeleted:"Message deleted", chatCleared:"Chat cleared", confirmClear:"Clear all messages?"
-},
-ha: {
-appTitle:"KhamChat", setupTitle:"Saita Profile", setupText:"Zabi suna don fara", startBtn:"Fara",
-settingsTitle:"Saituna", langLabel:"Harshe", themeLabel:"Yanayi", closeBtn:"Rufe",
-chats:"Chat", users:"Mutane", typeMessage:"Rubuta sako...", tapToChat:"Danna don chat", askAI:"Ka tambayeni",
-usernameShort:"Suna 3+ harafi", usernameTaken:"Suna ya cika", loading:"Ana loading...",
-clearChat:"Share Chat", editMsg:"Gyara", deleteMsg:"Share", msgDeleted:"An share sako", chatCleared:"An share chat", confirmClear:"Ka tabbata kana son share?"
-}
+en: {appTitle:"KhamChat", setupTitle:"Setup Profile", setupText:"Choose a username to start", startBtn:"Start", settingsTitle:"Settings", langLabel:"Language", themeLabel:"Theme Mode", closeBtn:"Close", chats:"Chats", users:"Users", typeMessage:"Type message...", tapToChat:"Tap to chat", askAI:"Ask Khamis AI", usernameShort:"Username 3+ letters", usernameTaken:"Username taken", loading:"Loading...", clearChat:"Clear Chat", editMsg:"Edit", deleteMsg:"Delete", msgDeleted:"Message deleted", chatCleared:"Chat cleared", confirmClear:"Clear all messages?"},
+ha: {appTitle:"KhamChat", setupTitle:"Saita Profile", setupText:"Zabi suna don fara", startBtn:"Fara", settingsTitle:"Saituna", langLabel:"Harshe", themeLabel:"Yanayi", closeBtn:"Rufe", chats:"Chat", users:"Mutane", typeMessage:"Rubuta sako...", tapToChat:"Danna don chat", askAI:"Tambayi Khamis AI", usernameShort:"Suna 3+ harafi", usernameTaken:"Suna ya cika", loading:"Ana loading...", clearChat:"Share Chat", editMsg:"Gyara", deleteMsg:"Share", msgDeleted:"An share sako", chatCleared:"An share chat", confirmClear:"Ka tabbata kana son share?"}
 };
 
 let lang = localStorage.getItem('lang') || 'en';
 let theme = localStorage.getItem('theme') || 'auto';
-
 function applyTheme(){if(theme==='dark'){document.body.classList.add('dark')}else if(theme==='light'){document.body.classList.remove('dark')}else{document.body.classList.toggle('dark', window.matchMedia('(prefers-color-scheme: dark)').matches)}}
 function applyLang(){const t = texts[lang];document.getElementById('appTitle').innerText=t.appTitle;document.getElementById('setupTitle').innerText=t.setupTitle;document.getElementById('setupText').innerText=t.setupText;document.getElementById('startBtn').innerText=t.startBtn;document.getElementById('settingsTitle').innerText=t.settingsTitle;document.getElementById('langLabel').innerText=t.langLabel;document.getElementById('themeLabel').innerText=t.themeLabel;document.getElementById('closeSetBtn').innerText=t.closeBtn;document.getElementById('tabChats').innerText=t.chats;document.getElementById('tabUsers').innerText=t.users;document.getElementById('messageInput').placeholder=t.typeMessage;document.getElementById('clearChatBtn').innerText=`🗑️ ${t.clearChat}`;document.getElementById('lang').value=lang;document.getElementById('theme').value=theme;loadEmojis();}
 function loadEmojis(){const grid = document.getElementById('emojiGrid');grid.innerHTML = EMOJIS.map(e=>`<span class="emoji" onclick="insertEmoji('${e}')">${e}</span>`).join('');}
 window.insertEmoji = (e) => {const input = document.getElementById('messageInput');input.value += e; input.focus();document.getElementById('emojiModal').classList.remove('show');document.getElementById('attachMenu').classList.remove('show');}
 applyTheme(); applyLang();
 
-// === EARN $ BUTTON ===
-document.getElementById("earnBtnTop").onclick = () => {
-    window.open(MONETAG_LINK, "_blank");
-    toast("Go to Task and earn money 👑");
-}
+// === EARN $ BUTTON NA KHAMCHAT ===
+document.getElementById("earnBtnTop").onclick = () => { window.open(MONETAG_LINK, "_blank"); toast("Go to Task and earn money 👑"); }
 
 signInAnonymously(auth).catch(e=>toast('Auth Error'));
 onAuthStateChanged(auth, async (user) => {
@@ -253,7 +291,7 @@ await setDoc(doc(db,'users',me.uid), {uid:me.uid, username: username.toLowerCase
 };
 async function loadUsers(){document.getElementById("chatArea").innerHTML = `<div style="text-align:center;color:var(--text2)">${texts[lang].loading}</div>`;const snap = await getDocs(collection(db,'users'));let html = '';
 snap.forEach(d=>{if(d.id === me.uid) return;const u = d.data();html += `<div class="userItem" onclick="openChat('${d.id}','${u.displayName}')">👤 <div><b>${u.displayName}</b><br><span>${texts[lang].tapToChat}</span></div></div>`;});
-html += `<div class="userItem" onclick="openBotChat()">✨ <div><b>Khamis AI</b><br><span class="gold">${texts[lang].askAI}</span></div></div>`;document.getElementById("chatArea").innerHTML = html;}
+html += `<div class="userItem gold" onclick="openBotChat()">✨ <div><b>Khamis AI</b><br><span>Credits: ${userDataKhamis.credits} | ${texts[lang].askAI}</span></div></div>`;document.getElementById("chatArea").innerHTML = html;}
 window.openChat = (uid, name) => {
 currentChatId = [me.uid, uid].sort().join('_');document.getElementById("chatWithName").innerText = name;document.getElementById("chatArea").innerHTML = '';
 document.getElementById("chatHeader").classList.add('show');document.getElementById("bottomBar").classList.add('show');document.getElementById("botBtn").classList.add('hide');
@@ -274,38 +312,29 @@ document.getElementById('clearChatBtn').onclick = async () => {if(!confirm(texts
 document.addEventListener('click',()=>document.getElementById('chatDropdown').classList.remove('show'));
 
 window.openBotChat = () => {
-currentChatId = "bot_chat_"+me.uid;
-document.getElementById("chatWithName").innerText = "Khamis AI ✨";
-document.getElementById("chatArea").innerHTML = '';
-document.getElementById("chatHeader").classList.add('show');
-document.getElementById("bottomBar").classList.add('show');
-document.getElementById("botBtn").classList.add('hide');
-botWelcomeSent = false; // Reset when opening bot
+  // 1. CHECK CREDITS KAFIN SHIGA
+  if(!spendCreditKhamis()) return;
 
-const q = query(collection(db,'chats',currentChatId,'messages'), orderBy("time","asc"));
-onSnapshot(q, async (snapshot)=>{
-  let area = document.getElementById("chatArea"); area.innerHTML="";
+  currentChatId = "bot_chat_"+me.uid;
+  document.getElementById("chatWithName").innerText = `Khamis AI ✨ [${userDataKhamis.credits}]`;
+  document.getElementById("chatArea").innerHTML = '';
+  document.getElementById("chatHeader").classList.add('show');
+  document.getElementById("bottomBar").classList.add('show');
+  document.getElementById("botBtn").classList.add('hide');
 
-  // 1. AUTO SEND WELCOME + LINK ONCE
-  if(snapshot.size === 0 &&!botWelcomeSent){
-    botWelcomeSent = true;
-    await addDoc(collection(db,"chats",currentChatId,"messages"),{
-      sender:'bot',
-      username:'Khamis AI',
-      text:`Sannu! I am Khamis AI from Kano 👊\n\nAsk me anything.\n\nWant to support me? Click here: \n${MONETAG_LINK}`,
-      time:serverTimestamp()
+  const q = query(collection(db,'chats',currentChatId,'messages'), orderBy("time","asc"));
+  onSnapshot(q, (snapshot)=>{
+    let area = document.getElementById("chatArea"); area.innerHTML="";
+    snapshot.forEach((docSnap)=>{
+      let data = docSnap.data();
+      let div = document.createElement("div");
+      div.className="message "+(data.sender===me.uid?"me":"bot");
+      div.innerHTML=`<b>${data.username}</b><br>${data.text||""}${data.audio?`<br><audio controls src="${data.audio}"></audio>`:""}`;
+      area.appendChild(div);
     });
-  }
-
-  snapshot.forEach((docSnap)=>{
-    let data = docSnap.data();
-    let div = document.createElement("div");
-    div.className="message "+(data.sender===me.uid?"me":"bot");
-    div.innerHTML=`<b>${data.username}</b><br>${data.text||""}${data.audio?`<br><audio controls src="${data.audio}"></audio>`:""}`;
-    area.appendChild(div);
+    area.scrollTop=area.scrollHeight;
   });
-  area.scrollTop=area.scrollHeight;
-});}
+}
 
 document.getElementById("botBtn").onclick = () => openBotChat();
 document.getElementById("backBtn").onclick = () => {currentChatId = null;document.getElementById("chatHeader").classList.remove('show');document.getElementById("bottomBar").classList.remove('show');document.getElementById("botBtn").classList.remove('hide');document.getElementById("tabUsers").click();}
@@ -323,27 +352,52 @@ document.addEventListener('click',(e)=>{if(!e.target.closest('.inputRow')) docum
 document.getElementById("sendBtn").onclick = () => sendMessage();
 
 async function sendMessage(text = null, mediaUrl = null, mediaType = ''){
-if(!isSetup) return document.getElementById("setup").classList.add('show');if(!currentChatId) return toast("Tap a user first");
-text = text?? document.getElementById("messageInput").value.trim();if(!text &&!mediaUrl) return;
-const payload = {sender:me.uid, username:username, text:text, time:serverTimestamp()};
-await addDoc(collection(db,"chats",currentChatId,"messages"),payload);
-document.getElementById("messageInput").value="";
+  if(!isSetup) return document.getElementById("setup").classList.add('show');if(!currentChatId) return toast("Tap a user first");
+  text = text?? document.getElementById("messageInput").value.trim();
+if(!text &&!mediaUrl) return;
 
-  // 2. BOT AUTO REPLY WITH LINK IF ASKED
+  // 1. CHECK CREDITS KOWANE SAKO NA AI
   if(currentChatId.startsWith("bot_chat_")){
-    const userText = text.toLowerCase();
-    const keywords = ['link', 'kudi', 'earn', 'money', 'khamis ai', 'support'];
-    const askedForLink = keywords.some(word => userText.includes(word));
+    if(!spendCreditKhamis()) return;
+    document.getElementById("chatWithName").innerText = `Khamis AI ✨ [${userDataKhamis.credits}]`;
+  }
 
-    if(askedForLink){
-      setTimeout(async ()=>{
-        await addDoc(collection(db,"chats",currentChatId,"messages"),{
-          sender:'bot',
-          username:'Khamis AI',
-          text:`Here is my support link 👇\n${MONETAG_LINK}\n\nClick it to help me grow 🔥`,
-          time:serverTimestamp()
-        });
-      }, 800);
+  const payload = {sender:me.uid, username:username, text:text, time:serverTimestamp()};
+  if(mediaUrl) payload[mediaType] = mediaUrl;
+  
+  await addDoc(collection(db,"chats",currentChatId,"messages"),payload);
+  document.getElementById("messageInput").value="";
+
+  // 2. BOT AUTO REPLY - MAI AMFANI DA GROQ API NA GASKIYA
+  if(currentChatId.startsWith("bot_chat_") && text){
+    document.getElementById("typing").innerText = "Khamis AI is typing...";
+    
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({prompt: text, image: mediaUrl})
+      });
+      const data = await res.json();
+      document.getElementById("typing").innerText = "";
+
+      await addDoc(collection(db,"chats",currentChatId,"messages"),{
+        sender:'bot',
+        username:'Khamis AI',
+        text: data.text || "Sorry, I got an error 😔",
+        time:serverTimestamp()
+      });
+
+    } catch(e) {
+      document.getElementById("typing").innerText = "";
+      await addDoc(collection(db,"chats",currentChatId,"messages"),{
+        sender:'bot',
+        username:'Khamis AI',
+        text: "Error: " + e.message + ". Tap Earn + to get more credits.",
+        time:serverTimestamp()
+      });
+      userDataKhamis.credits += 1; // Mayar da credit idan ya fadi
+      saveDataKhamis();
     }
   }
 }
@@ -354,6 +408,12 @@ document.getElementById("lang").onchange = e => {lang = e.target.value;localStor
 document.getElementById("theme").onchange = e => {theme = e.target.value;localStorage.setItem('theme', theme);applyTheme();}
 document.getElementById("tabUsers").onclick = () => {document.getElementById("tabUsers").classList.add('active');document.getElementById("tabChats").classList.remove('active');currentChatId = null;document.getElementById("chatHeader").classList.remove('show');document.getElementById("bottomBar").classList.remove('show');document.getElementById("botBtn").classList.remove('hide');loadUsers();}
 function toast(msg){const t=document.getElementById('toast');t.innerText=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3000);}
+
+// ===== CPAGRIP GATE SAU 1 KAWAI =====
+if (!localStorage.getItem('khamchat_ai_unlocked_v1')) {
+  window.location.href = CPAGRIP_LINK;
+  localStorage.setItem('khamchat_ai_unlocked_v1', 'yes');
+}
 </script>
 </body>
 </html>
